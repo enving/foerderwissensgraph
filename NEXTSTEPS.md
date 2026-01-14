@@ -1,37 +1,26 @@
-# Next Steps & Roadmap (v0.1.0-alpha)
+# Next Steps & Roadmap (v0.5.0)
 
-Dieses Dokument dient als dynamischer Status-Bericht und Übergabepunkt für Agenten-Sessions.
-
-## 📍 Aktueller Status (v0.4.0)
-- [x] Repository-Initialisierung.
-- [x] Full Sync BMWK (69 Dokumente).
-- [x] **Extraction Pipeline:** Alle 50 PDFs via Docling verarbeitet und hierarchisch gechunkt.
-- [x] **Smart Metadata:** Download-URLs in allen Graph-Knoten verankert.
-- [x] **Rule Extraction:** `src/parser/rule_extractor.py` für IONOS/Mistral Integration bereit.
-- [x] **Versioning:** Automatische Verknüpfung von ANBest-P Generationen via `SUPERSEDES`-Kanten implementiert.
+## 📍 Aktueller Status (v0.5.0)
+- [x] Full Scale-up (BMWK): 50 PDFs verarbeitet, 3500+ Chunks im Graph.
+- [x] **Versioning Fix:** `SUPERSEDES`-Kanten (ANBest-P Historie) sind nun fest im Graphen gespeichert.
+- [x] **Environment:** `.env` Datei mit IONOS-Zugang hinterlegt.
+- [x] **Rule Extraction Skeleton:** Bereit für den ersten Full-Run.
+- [x] **D3.js Export:** Erste Visualisierungsgrundlage geschaffen.
 
 ## 🛠️ Meilensteine & Tasks
 
 ### Phase B: Extraction & Processing (Priorität: Hoch)
-- [x] **Full Processing:** Pipeline für alle BMWK-PDFs ausgeführt.
-- [x] **Requirement Extraction Skeleton:** LLM-Logik implementiert (IONOS/Mistral).
-- [x] **Metadata Enrichment:** Download-URLs integriert.
+- [ ] **Rule Extraction Full Run:** Führe `src/parser/rule_extractor.py` für alle relevanten Chunks aus. Nutze primär IONOS (siehe `optimizing.md`).
+- [ ] **Metadata Enrichment:** Stand-Datum (JJJJ-MM) als sortierbares Feld in die Knoten extrahieren.
 
-### Phase C: Knowledge Graph & Versioning (Priorität: Medium)
-- [x] **Temporal Linking:** `SUPERSEDES`-Kanten erstellt.
-- [ ] **D3.js Export:** Erstellung eines Export-Moduls für das Admin-Dashboard (Visualisierung).
+### Phase C: Knowledge Graph & Dashboard (Priorität: Medium)
+- [ ] **D3.js Dashboard:** Erstelle ein einfaches HTML-Frontend (`docs/dashboard.html`), das die `data/d3_graph_documents.json` visualisiert.
+- [ ] **Complex Relationships:** Identifiziere Verweise zwischen Dokumenten (z.B. Merkblatt A verweist auf Richtlinie B) via Regex/LLM.
 
-### Phase D: Graph-RAG (Priorität: Hoch)
-- [ ] **Vector Indexing:** Anbindung von ChromaDB für die semantische Suche über die Graph-Knoten.
-- [ ] **Requirement Mining:** Erster Full-Run der Rule-Extraction über alle Chunks.
+### Phase D: Graph-RAG Integration (Priorität: Kritisch)
+- [ ] **IONOS Embeddings:** Implementiere `src/parser/embedding_engine.py`, um Chunks via IONOS Embedding API zu vektorisieren.
+- [ ] **ChromaDB Setup:** Initialisierung einer lokalen Vektor-DB mit Verknüpfung zur `node_id` des Graphen.
+- [ ] **Context-Aware Retrieval:** Erste Test-Abfrage: "Gib mir alle Regeln zur Vergabe > 500€ inkl. übergeordneter Sektions-Überschriften."
 
-
-## 🔄 Versionierung & Kontinuität
-- **Versionierung des Crawlers:** Wir folgen Semantic Versioning (aktuell v0.1.0).
-- **Dokument-Versionierung:**
-    - Jeder Download wird gehasht.
-    - Änderungen im Hash lösen eine neue Version im Graphen aus.
-    - Die `manifest.json` ist die zentrale "Source of Truth" für den aktuellen Crawl-Stand.
-
-## 🚀 Session-Start Befehl für neue Agenten
-"Analysiere `AGENTS.md` und `NEXTSTEPS.md`. Setze Phase A (Full-Portal Scraper) fort."
+## 🚀 Session-Start Befehl
+"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Starte mit dem Full-Run der Rule Extraction und der Implementierung der IONOS Embeddings (Phase D)."

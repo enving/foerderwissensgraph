@@ -41,7 +41,8 @@ def apply_versioning(graph_path: Path):
         data = json.load(f)
 
     nodes = data.get("nodes", [])
-    edges = [e for e in data.get("links", []) if e.get("relation") != "SUPERSEDES"]
+    edge_key = "links" if "links" in data else "edges"
+    edges = [e for e in data.get(edge_key, []) if e.get("relation") != "SUPERSEDES"]
 
     groups = {"ANBest-P-Kosten": [], "ANBest-P": [], "ANBest-GK": [], "ANBest-I": []}
 
@@ -83,7 +84,7 @@ def apply_versioning(graph_path: Path):
                 logger.info(f"Added: {newer['id']} SUPERSEDES {older['id']}")
 
     if new_edges_count > 0:
-        data["links"] = edges
+        data[edge_key] = edges
         with open(graph_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         logger.info(f"Updated graph with {new_edges_count} SUPERSEDES edges.")
