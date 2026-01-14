@@ -144,7 +144,7 @@
             </div>
 
             <!-- Search Overlay -->
-            <div class="absolute top-6 right-8 z-10 w-96">
+            <div class="absolute top-6 right-8 z-10 w-96 flex flex-col gap-4">
                 <div class="relative group pointer-events-auto">
                     <input type="text" id="hybridSearchInput" placeholder="Hybrid Search (ChromaDB + Graph)..." 
                         class="w-full bg-white/90 backdrop-blur-md border border-gray-200 rounded-full px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-federal-500 focus:border-transparent shadow-sm transition-all group-hover:shadow-md"
@@ -153,7 +153,34 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                     </button>
                 </div>
-                <div id="searchResults" class="hidden mt-4 bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200 shadow-xl overflow-hidden pointer-events-auto max-h-[70vh] flex flex-col">
+
+                <!-- Filters -->
+                <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-sm pointer-events-auto flex flex-col gap-3">
+                    <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
+                            <option value="">Alle Ministerien</option>
+                            <option value="BMWK">BMWK</option>
+                            <option value="BMBF">BMBF</option>
+                            <option value="BMF">BMF</option>
+                        </select>
+                        <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
+                            <option value="">Alle Dokumenttypen</option>
+                            <option value="ANBest-P">ANBest-P</option>
+                            <option value="ANBest-GK">ANBest-GK</option>
+                            <option value="ANBest-I">ANBest-I</option>
+                            <option value="AZA">AZA</option>
+                            <option value="AZK">AZK</option>
+                            <option value="NKBF">NKBF</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-bold text-gray-400 uppercase px-1">Zeitraum (Stand ab)</label>
+                        <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
+                    </div>
+                </div>
+
+                <div id="searchResults" class="hidden bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200 shadow-xl overflow-hidden pointer-events-auto max-h-[60vh] flex flex-col">
                     <div class="p-3 bg-federal-50 border-b border-gray-100 flex justify-between items-center">
                         <span class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Suchergebnisse</span>
                         <button onclick="document.getElementById('searchResults').classList.add('hidden')" class="text-gray-400 hover:text-federal-900">
@@ -465,7 +492,10 @@
         }
 
         async function performHybridSearch(query) {
-            if (!query) return;
+            if (!query) {
+                applyFilters();
+                return;
+            }
             
             const resultsDiv = document.getElementById('searchResults');
             const list = document.getElementById('resultsList');
@@ -473,15 +503,40 @@
             list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Suche läuft...</div>';
             
             try {
-                const response = await fetch(`http://localhost:5001/api/search?q=${encodeURIComponent(query)}`);
-                const results = await response.json();
+                let url = `http://localhost:5001/api/search?q=${encodeURIComponent(query)}`;
+                const min = document.getElementById('filterMinistry').value;
+                const type = document.getElementById('filterType').value;
+                const date = document.getElementById('filterDateStart').value;
+                
+                if (min) url += `&ministerium=${min}`;
+                if (type) url += `&kuerzel=${type}`;
+                if (date) url += `&stand_after=${date}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const results = Array.isArray(data) ? data : (data.results || []);
+                const answer = data.answer || null;
                 
                 if (results.length === 0) {
                     list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Keine Ergebnisse gefunden.</div>';
                     return;
                 }
+
+                let html = '';
+                if (answer) {
+                    html += `
+                        <div class="p-4 bg-federal-900 text-white rounded-2xl mb-4 shadow-lg border-l-4 border-accent-gold">
+                            <div class="flex items-center gap-2 mb-2">
+                                <svg class="w-4 h-4 text-accent-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 10-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.536 13.536a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM6.464 16.464a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414l.707-.707z"></path></svg>
+                                <span class="text-[10px] font-bold uppercase tracking-widest">Answer Engine</span>
+                            </div>
+                            <p class="text-sm font-serif italic">${answer}</p>
+                        </div>
+                    `;
+                }
                 
-                list.innerHTML = results.map(res => `
+                html += results.map(res => `
                     <div class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-federal-300 transition-all cursor-pointer group shadow-sm hover:shadow-md"
                          onclick="highlightResult('${res.id}')">
                         <div class="flex justify-between items-start mb-2">
@@ -540,6 +595,24 @@
                 console.error("Hybrid search error:", error);
                 list.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Fehler bei der Suche. Ist die API gestartet?</div>';
             }
+        }
+
+        function applyFilters() {
+            const min = document.getElementById('filterMinistry').value.toLowerCase();
+            const type = document.getElementById('filterType').value.toLowerCase();
+            const date = document.getElementById('filterDateStart').value;
+            
+            d3.selectAll(".node").classed("dimmed", n => {
+                let match = true;
+                if (min && n.ministerium && n.ministerium.toLowerCase() !== min && n.herausgeber && n.herausgeber.toLowerCase() !== min) match = false;
+                if (type && n.kuerzel && !n.kuerzel.toLowerCase().includes(type)) match = false;
+                if (date && n.stand && n.stand < date) match = false;
+                return !match;
+            });
+            
+            // Re-run search if active
+            const query = document.getElementById('hybridSearchInput').value;
+            if (query) performHybridSearch(query);
         }
 
         function highlightResult(nodeId) {

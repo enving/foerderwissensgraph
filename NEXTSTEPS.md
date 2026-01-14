@@ -4,22 +4,25 @@
 - [x] **Full Spectrum Graph:** 50+ Dokumente, 3500+ Chunks, 990+ extrahierte Regeln.
 - [x] **Metadata Power:** Ministerium, Herausgeber, Stand (Datum) und Kürzel extrahiert und im Graph verankert.
 - [x] **Hybrid Search Engine:** Semantische Suche + Graphen-Breadcrumbs + Context Expansion aktiv.
-- [x] **Dashboard UI:** Professionelle Visualisierung mit Regel-Karten und Metadaten-Anzeige.
-- [x] **Deployment Guide:** `DEPLOYMENT.md` erstellt.
+- [x] **Dashboard UI:** Professionelle Visualisierung mit Regel-Karten, Metadaten-Anzeige und Filter-Sidebar.
+- [x] **Cross-Ministry Prep:** Equivalence Mapper (`EQUIVALENT_TO`) bereit.
 
 ## 🛠️ Meilensteine & Tasks
 
-### Phase B: Extraction & Mining (Validation)
-- [ ] **Data Audit:** Stichprobenartige Prüfung der extrahierten "Stand"-Daten und Regeln auf Richtigkeit.
-- [ ] **Cross-Ministry Mapping:** Identifikation von identischen Regelwerken über Ministeriumsgrenzen hinweg (`EQUIVALENT_TO`).
+### Phase A: Expansion (Priorität: Hoch)
+- [ ] **Multi-Cabinet Sync:** Crawle die Formularschränke von **BMBF** und **BMF** via `src/discovery/easy_crawler.py`.
+- [ ] **Cross-Graph Mining:** Führe die Pipeline für die neuen Ministerien aus und nutze den `EquivalenceMapper`, um identische ANBest-P Versionen zu verlinken.
 
-### Phase C: Dashboard & UI (Final Polish)
-- [ ] **Filter UI:** Möglichkeit, die Suche auf spezifische Ministerien oder Zeiträume (Stand) einzugrenzen.
-- [ ] **Export Feature:** Möglichkeit, Suchergebnisse (inkl. Regeln und Kontext) als PDF/JSON zu exportieren.
+### Phase B: Extraction & Mining (Finalizing)
+- [ ] **Rule Quality Audit:** Manuelle Prüfung der extrahierten Regeln (Vergabeschwellen) für BMBF vs. BMWK.
+- [ ] **Data Cleaning:** Entferne veraltete Test-Chunks ohne Graphen-Bezug.
 
-### Phase D: Graph-RAG Integration (Optimization)
-- [ ] **Context Weighting:** Feinjustierung der 70/30 Gewichtung zwischen Vektor-Score und Graph-Centrality.
-- [ ] **LLM Answer Engine:** Integration eines Moduls, das auf Basis der Hybrid-Search Ergebnisse eine finale Antwort formuliert (RAG-Completion).
+### Phase C: Dashboard & UI (Release Candidate)
+- [ ] **Visual Audit:** UI-Test mit Playwright durchführen, um die Filter-Sidebar bei wachsender Ministeriums-Anzahl zu prüfen.
+- [ ] **PDF Preview:** (Optional) Integration einer PDF-Vorschau direkt im Dashboard bei Klick auf ein Suchergebnis.
+
+### Phase D: Graph-RAG Integration (Production)
+- [ ] **Power Answer Engine:** Verbinde das Answer-Engine Backend (`search_api.py`) mit der IONOS API für echte RAG-Synthese.
 
 ## 🚀 Session-Start Befehl
-"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Starte das System mit `src/api/search_api.py` und führe einen Audit der extrahierten Metadaten durch."
+"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Starte Phase A: Crawle den BMBF-Formularschrank und integriere ihn in den existierenden Graphen."
