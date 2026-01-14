@@ -1,27 +1,25 @@
-# Next Steps & Roadmap (v0.9.0)
+# Next Steps & Roadmap (v1.0.0-rc1)
 
-## 📍 Aktueller Status (v0.9.0)
+## 📍 Aktueller Status (v1.0.0-rc1)
 - [x] **High Throughput:** 43+ Dokumente verarbeitet, 3400+ Chunks im Graph.
-- [x] **Phase D (Vectorization):** 2409 Chunks in `data/chroma_db` indexiert.
-- [x] **Hybrid Search Engine:** `src/parser/hybrid_search.py` implementiert (ChromaDB + NetworkX).
-- [x] **API Support:** Flask-Backend in `src/api/search_api.py` für Hybrid Search.
-- [x] **Rule Extraction Upgrade:** Pydantic-Validierung (`src/models/schemas.py`) integriert.
-- [x] **UI Enhancement:** Hybrid Search Bar im `docs/dashboard.html` integriert.
+- [x] **Phase D (Context Expansion):** Multi-Hop Retrieval in `hybrid_search.py` implementiert. Suchergebnisse enthalten nun automatisiert Nachbarknoten aus dem Graphen.
+- [x] **Rule Mining Finalized:** Schwellenwert auf 80 Zeichen gesenkt und Final Run für restliche Chunks durchgeführt.
+- [x] **Frontend Polish:** Dashboard zeigt Regeln nun als strukturierte Karten an. Graph-Kontext ist via Akkordeon-View einsehbar.
+- [x] **API Support:** Hybrid Search Engine ist voll integriert und über REST-API abfragbar.
 
 ## 🛠️ Meilensteine & Tasks
 
-### Phase B: Extraction & Mining (Priorität: Hoch)
-- [x] **Pydantic Migration:** Regel-Extraktion nutzt nun strukturierte Schemas.
-- [ ] **Full-Run Completion:** Fortsetzen der Extraktion für die restlichen ~1300 Chunks.
-- [ ] **Data Cleaning:** Entfernung von Duplikaten oder leeren Regel-Arrays.
+### Phase B: Extraction & Mining (Abgeschlossen)
+- [x] **Final Run:** Alle relevanten Chunks (>80 Zeichen) haben nun extrahierte Regeln.
+- [ ] **Manual Audit:** Stichprobenartige Prüfung der v1.0.0 Datenqualität.
 
-### Phase C: Dashboard & UI (Priorität: Medium)
-- [x] **Hybrid Search UI:** Suchmaske für semantische Suche + Graphen-Context aktiv.
-- [ ] **Rule Filtering:** Filter im Dashboard nach Kategorien (Vergabe, Bericht, etc.).
+### Phase C: Dashboard & UI (Stabil)
+- [x] **Rule Cards:** Visualisierung der Compliance-Regeln direkt in den Suchergebnissen.
+- [x] **Graph Context:** Visualisierung der Nachbarschafts-Beziehungen bei RAG-Treffern.
 
-### Phase D: Graph-RAG Integration (Priorität: Kritisch)
-- [x] **Hybrid Search Logic:** Erste Version der Engine verknüpft Vektor-IDs mit Graphen-Breadcrumbs.
-- [ ] **Context Expansion:** Implementierung von Multi-Hop-Retrieval (Nachbarknoten in den LLM-Context laden).
+### Phase D: Graph-RAG Integration (Stabil)
+- [x] **Multi-Hop Retrieval:** Navigation im Graphen zur Kontext-Erweiterung aktiv.
+- [ ] **Context Weighting:** Optimierung der Relevanz-Gewichtung zwischen Vektor-Score und Graphen-Distanz.
 
 ## 🚀 Session-Start Befehl
 "Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Implementiere die `HybridSearchEngine` (Phase D), um semantische Suche mit Graphen-Kontext zu verknüpfen."

@@ -334,7 +334,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0027_chunk_22"
+      "id": "0027_chunk_22",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Für den Antrag ist der BMWK‑Vordruck AZA (Zuwendung auf Ausgabenbasis) zu verwenden und beim BMWK oder dessen Projektträger einzureichen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -359,7 +366,8 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0027_chunk_24"
+      "id": "0027_chunk_24",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -393,7 +401,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0027_chunk_27"
+      "id": "0027_chunk_27",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Wenn für das Vorhaben bereits eine Zuwendung gewährt wurde, muss zwischen einer Anschlusszuwendung und einer Aufstockung unterschieden werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -434,7 +449,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0027_chunk_30"
+      "id": "0027_chunk_30",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Aufstockungen ist nur der zusätzlich benötigte Betrag zu veranschlagen (vgl. unter AZA 4).",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -615,7 +637,14 @@
       "headings": [
         "AZA 3"
       ],
-      "id": "0027_chunk_40"
+      "id": "0027_chunk_40",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Aufstockungen muss der kumulierte Gesamtbetrag der bisher zu diesem Vorhaben bewilligten Mittel eingetragen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -754,7 +783,14 @@
       "headings": [
         "0811 bis 0820 Personalausgaben"
       ],
-      "id": "0027_chunk_50"
+      "id": "0027_chunk_50",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Das Besserstellungsverbot gilt auch, wenn nicht zuwendungsfähige Ausgaben durch Dritte finanziert werden; solche Finanzierungen sind unzulässig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -794,7 +830,14 @@
       "headings": [
         "0811 bis 0820 Personalausgaben"
       ],
-      "id": "0027_chunk_52"
+      "id": "0027_chunk_52",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Honorare an hauptberufliche Mitarbeitende des Antragstellers sind grundsätzlich nicht zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -853,7 +896,8 @@
       "headings": [
         "0811 bis 0820 Personalausgaben"
       ],
-      "id": "0027_chunk_55"
+      "id": "0027_chunk_55",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -897,7 +941,14 @@
       "headings": [
         "0831"
       ],
-      "id": "0027_chunk_58"
+      "id": "0027_chunk_58",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Nur Ausgaben für dem Projekt zugutekommende Arbeitsleistungen im Teilzeit‑Altersteilzeit‑Modell sind zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -906,7 +957,8 @@
       "headings": [
         "0831"
       ],
-      "id": "0027_chunk_59"
+      "id": "0027_chunk_59",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1057,7 +1109,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_67"
+      "id": "0027_chunk_67",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Lieferungen und sonstigen Leistungen Dritter sollen angebotene Skonti bereits bei der Veranschlagung berücksichtigt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1112,7 +1171,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_71"
+      "id": "0027_chunk_71",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ausgaben für die Inanspruchnahme des Rechenzentrums der eigenen Hochschule sind grundsätzlich nicht zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1146,7 +1212,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_74"
+      "id": "0027_chunk_74",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Bei der Vergabe von Aufträgen sind die vergaberechtlichen Bestimmungen gemäß Nr. 3 ANBest-P/ANBest‑GK zu beachten.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1355,7 +1428,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_86"
+      "id": "0027_chunk_86",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ausgaben für den Kauf von Literatur (Kostenstelle 0840) sind nur zuwendungsfähig, wenn die erworbenen Werke dauerhaft für das Vorhaben benötigt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1399,7 +1479,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_89"
+      "id": "0027_chunk_89",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ausgaben für Wirtschaftsprüfer, Unvorhergesehenes oder Reserven sind nicht zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1476,7 +1563,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_94"
+      "id": "0027_chunk_94",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "In den Erläuterungen zum Finanzierungsplan muss angegeben werden, welche Reisekostenbestimmungen angewendet werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1485,7 +1579,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_95"
+      "id": "0027_chunk_95",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Inlands‑Dienstreisen muss in den Erläuterungen die beabsichtigte Anzahl sowie die voraussichtlichen Ausgaben pro Reise angegeben werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1520,7 +1621,8 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0027_chunk_97"
+      "id": "0027_chunk_97",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1538,7 +1640,14 @@
       "headings": [
         "0850 Gegenstände und andere Investitionen von mehr als 800 € im Einzelfall"
       ],
-      "id": "0027_chunk_99"
+      "id": "0027_chunk_99",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Angebote müssen eingeholt werden für bewegliche Sachen (Gegenstände), wenn der Kaufpreis oder Herstellungsaufwand pro Gegenstand über 800 € liegt (Abgrenzung zu Pos. 0831).",
+          "value": "800 €"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1659,7 +1768,8 @@
       "headings": [
         "AZA 5 Kurzfassung der Vorhabenbeschreibung"
       ],
-      "id": "0027_chunk_108"
+      "id": "0027_chunk_108",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1689,7 +1799,8 @@
       "headings": [
         "-Gesamtziel des Vorhabens"
       ],
-      "id": "0027_chunk_110"
+      "id": "0027_chunk_110",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1708,7 +1819,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Arbeitsziele des Vorhabens"
       ],
-      "id": "0027_chunk_112"
+      "id": "0027_chunk_112",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1727,7 +1839,8 @@
       "headings": [
         "II.  Stand der Wissenschaft und Technik; bisherige Arbeiten"
       ],
-      "id": "0027_chunk_114"
+      "id": "0027_chunk_114",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1756,7 +1869,8 @@
       "headings": [
         "II.  Stand der Wissenschaft und Technik; bisherige Arbeiten"
       ],
-      "id": "0027_chunk_117"
+      "id": "0027_chunk_117",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -1775,7 +1889,14 @@
       "headings": [
         "-Bisherige Arbeiten des Antragstellers"
       ],
-      "id": "0027_chunk_119"
+      "id": "0027_chunk_119",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Für die Dokumentation ist der BMWK‑Vordruck 0335 „Übersicht über Fachinformationszentren und überregionale Informationseinrichtungen“ beizufügen.",
+          "value": "BMWK‑Vordruck 0335"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -1884,7 +2005,14 @@
       "headings": [
         "2. Planungshilfen"
       ],
-      "id": "0027_chunk_130"
+      "id": "0027_chunk_130",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Je nach Umfang des Vorhabens sind Planungshilfen (möglichst grafische Darstellungen) beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -2027,7 +2155,8 @@
       "headings": [
         "3. Unterlagen zur Prüfung der Bonität"
       ],
-      "id": "0027_chunk_139"
+      "id": "0027_chunk_139",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -2068,7 +2197,8 @@
       "headings": [
         "4. Erklärungen des Antragstellers"
       ],
-      "id": "0027_chunk_142"
+      "id": "0027_chunk_142",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -2273,7 +2403,14 @@
       "headings": [
         "2.1.1. Öffentliche Finanzierung nichtwirtschaftlicher Tätigkeiten"
       ],
-      "id": "0027_chunk_157"
+      "id": "0027_chunk_157",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "FuE‑Leistungen sowie FuE, die im Auftrag von Unternehmen ausgeführt werden, gelten nicht als unabhängige FuE und sind daher nicht zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -2714,7 +2851,8 @@
       "headings": [
         "Finanzierungsplan"
       ],
-      "id": "0028_chunk_48"
+      "id": "0028_chunk_48",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -2777,7 +2915,8 @@
       "headings": [
         "Finanzierungsplan"
       ],
-      "id": "0028_chunk_55"
+      "id": "0028_chunk_55",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -2786,7 +2925,8 @@
       "headings": [
         "Finanzierungsplan"
       ],
-      "id": "0028_chunk_56"
+      "id": "0028_chunk_56",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -2850,7 +2990,8 @@
       "headings": [
         "zum Antrag vom"
       ],
-      "id": "0029_chunk_2"
+      "id": "0029_chunk_2",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -3120,7 +3261,8 @@
       "headings": [
         "B Finanzierungsübersicht"
       ],
-      "id": "0029_chunk_32"
+      "id": "0029_chunk_32",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -3147,7 +3289,14 @@
       "headings": [
         "Anmerkungen:"
       ],
-      "id": "0029_chunk_35"
+      "id": "0029_chunk_35",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Personalausgaben umfassen Vergütungen für Sachbearbeiter, Buchhalter, Büroangestellte und Schreibkräfte.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -3177,7 +3326,8 @@
       "headings": [
         "Anmerkungen:"
       ],
-      "id": "0029_chunk_37"
+      "id": "0029_chunk_37",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -3186,7 +3336,14 @@
       "headings": [
         "Anmerkungen:"
       ],
-      "id": "0029_chunk_38"
+      "id": "0029_chunk_38",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Vergütungen für Übersetzer, Dolmetscher und fremdsprachliche Protokollführer gelten als zuwendungsfähige Ausgaben.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -3297,7 +3454,14 @@
       "headings": [
         "Anmerkungen:"
       ],
-      "id": "0029_chunk_47"
+      "id": "0029_chunk_47",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kosten für die Drucklegung des Kongress‑ oder Tagungsberichts (Verhandlungsberichte) sind nicht zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -3586,7 +3750,8 @@
       "headings": [
         "5 Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0322_chunk_8"
+      "id": "0322_chunk_8",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -3925,7 +4090,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0323_chunk_6"
+      "id": "0323_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -4220,7 +4386,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0323a_chunk_6"
+      "id": "0323a_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -4552,7 +4719,14 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0323b_chunk_6"
+      "id": "0323b_chunk_6",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Zuwendungsempfänger ist verpflichtet, unverzüglich der Bewilligungsbehörde anzuzeigen, wenn ein im Zuwendungs‑/Fördervertrag festgelegtes Ereignis eintritt.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -4884,7 +5058,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0323c_chunk_13"
+      "id": "0323c_chunk_13",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -5050,7 +5225,24 @@
       "headings": [
         "Inhalt"
       ],
-      "id": "0323d_chunk_6"
+      "id": "0323d_chunk_6",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Nachweis der Verwendung ist zu erbringen.",
+          "value": null
+        },
+        {
+          "category": "Bericht",
+          "rule": "Prüfung der Verwendung durch die Förderstelle erfolgt.",
+          "value": null
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Erstattung der Zuwendung, ggf. unter Berücksichtigung von Verzinsung.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -5173,7 +5365,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0323d_chunk_11"
+      "id": "0323d_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -5529,7 +5722,8 @@
       "headings": [
         "2. Nachträgliche Ermäßigung der Ausgaben oder Änderung der Finanzierung"
       ],
-      "id": "0323e_chunk_13"
+      "id": "0323e_chunk_13",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -5993,7 +6187,8 @@
       "headings": [
         "6. Nachweis der Verwendung"
       ],
-      "id": "0323f_chunk_7"
+      "id": "0323f_chunk_7",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -6171,7 +6366,14 @@
       "headings": [
         "3. Mittelbares Abrufverfahren"
       ],
-      "id": "0324b_chunk_6"
+      "id": "0324b_chunk_6",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Der BIC (Bank Identifier Code) muss bei allen Auszahlungen im Abrufverfahren angegeben werden, weil die Zahlungen als Eilzahlungen ausgeführt werden.",
+          "value": "immer"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -6343,7 +6545,8 @@
       "headings": [
         "4. Aufhebung der Abrufermächtigung"
       ],
-      "id": "0324b_chunk_15"
+      "id": "0324b_chunk_15",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -6493,7 +6696,8 @@
       "headings": [
         "5 Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0325_chunk_6"
+      "id": "0325_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -6820,7 +7024,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0325b_chunk_14"
+      "id": "0325b_chunk_14",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -7001,7 +7206,8 @@
       "headings": [
         "Inhalt"
       ],
-      "id": "0325c_chunk_6"
+      "id": "0325c_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -7109,7 +7315,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0325c_chunk_12"
+      "id": "0325c_chunk_12",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -7428,7 +7635,14 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0325d_chunk_9"
+      "id": "0325d_chunk_9",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Zuwendungsempfänger muss unverzüglich der Bewilligungsbehörde anzeigen, wenn ein meldepflichtiger Vorgang eintritt.",
+          "value": "unverzüglich"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -7820,7 +8034,8 @@
       "headings": [
         "3. Vergabe von Aufträgen"
       ],
-      "id": "0325e_chunk_18"
+      "id": "0325e_chunk_18",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -8028,7 +8243,8 @@
       "headings": [
         "Anlage 3 zur VV Nr. 5.1 zu § 44 BHO"
       ],
-      "id": "0325f_chunk_0"
+      "id": "0325f_chunk_0",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -8208,7 +8424,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0325f_chunk_11"
+      "id": "0325f_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -8619,7 +8836,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0329_chunk_16"
+      "id": "0329_chunk_16",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -8858,7 +9076,14 @@
       "headings": [
         "Inhalt"
       ],
-      "id": "0329a_chunk_4"
+      "id": "0329a_chunk_4",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Nicht verbrauchte Kassenmittel am Jahresende werden auf die Auszahlungen zu Beginn des Folgejahres kassenmäßig angerechnet.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -8959,7 +9184,8 @@
       "headings": [
         "4. Inventarisierungspflicht"
       ],
-      "id": "0329a_chunk_11"
+      "id": "0329a_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -9255,7 +9481,8 @@
       "headings": [
         "5. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0329b_chunk_7"
+      "id": "0329b_chunk_7",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -9637,7 +9864,8 @@
       "headings": [
         "5 Erfindungen, urheberrechtlich geschützte Ergebnisse"
       ],
-      "id": "0330a_chunk_14"
+      "id": "0330a_chunk_14",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -9703,7 +9931,14 @@
       "headings": [
         "6 Veröffentlichungen"
       ],
-      "id": "0330a_chunk_18"
+      "id": "0330a_chunk_18",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Drei gedruckte Freistücke sind dem Zuwendungsgeber nach Veröffentlichung zuzuleiten.",
+          "value": "3 gedruckte Freistücke"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -10114,7 +10349,8 @@
       "headings": [
         "Der Zwischenbericht soll zu folgenden Punkten/Fragen kurzgefasste Angaben enthalten:"
       ],
-      "id": "0330a_chunk_42"
+      "id": "0330a_chunk_42",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -10191,7 +10427,19 @@
       "headings": [
         "Anlagen"
       ],
-      "id": "0370b_chunk_3"
+      "id": "0370b_chunk_3",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Erstellung eines Zwischenberichts gemäß § 9 Abs. 1 (Mustervorlage vorhanden)",
+          "value": "§ 9 Abs. 1"
+        },
+        {
+          "category": "Bericht",
+          "rule": "Erstellung eines Schlussberichts gemäß § 9 Abs. 2 (Mustervorlage vorhanden)",
+          "value": "§ 9 Abs. 2"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -10335,7 +10583,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0370b_chunk_19"
+      "id": "0370b_chunk_19",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -10353,7 +10602,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0370b_chunk_21"
+      "id": "0370b_chunk_21",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -10905,7 +11155,8 @@
       "headings": [
         "Beauftragte"
       ],
-      "id": "0370b_chunk_59"
+      "id": "0370b_chunk_59",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -10967,7 +11218,8 @@
       "headings": [
         "Gewährleistung"
       ],
-      "id": "0370b_chunk_63"
+      "id": "0370b_chunk_63",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -10996,7 +11248,8 @@
       "headings": [
         "Gewährleistung"
       ],
-      "id": "0370b_chunk_66"
+      "id": "0370b_chunk_66",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11068,7 +11321,8 @@
       "headings": [
         "Muster Zwischenbericht zu § 9 Abs. 1"
       ],
-      "id": "0370b_chunk_74"
+      "id": "0370b_chunk_74",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11143,7 +11397,14 @@
       "headings": [
         "Muster Zwischenbericht zu § 9 Abs. 1"
       ],
-      "id": "0370b_chunk_80"
+      "id": "0370b_chunk_80",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Erfolgskontrollbericht kann auf die Abschnitte I und II des Schlussberichts verweisen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -11170,7 +11431,8 @@
       "headings": [
         "(gilt für alle Nebenbestimmungen) 1"
       ],
-      "id": "0640c_chunk_0"
+      "id": "0640c_chunk_0",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11215,7 +11477,8 @@
       "headings": [
         "(gilt für alle Nebenbestimmungen) 1"
       ],
-      "id": "0640c_chunk_5"
+      "id": "0640c_chunk_5",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11243,7 +11506,8 @@
       "headings": [
         "(gilt für alle Nebenbestimmungen) 1"
       ],
-      "id": "0640c_chunk_8"
+      "id": "0640c_chunk_8",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11298,7 +11562,8 @@
       "headings": [
         "(gilt für alle Nebenbestimmungen) 1"
       ],
-      "id": "0640c_chunk_14"
+      "id": "0640c_chunk_14",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11425,7 +11690,8 @@
       "headings": [
         "2. Angaben über beantragte bzw. erhaltene Investitionszulagen"
       ],
-      "id": "0640c_chunk_27"
+      "id": "0640c_chunk_27",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -11672,7 +11938,39 @@
       "headings": [
         "Hinweise für Zahlungsempfänger 1)"
       ],
-      "id": "3220_chunk_2"
+      "id": "3220_chunk_2",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Erforderliche Anlage: Zahlungsanforderung",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Erforderliche Anlage: Ausgabennachweis",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Erforderliche Anlage: Zwischennachweis",
+          "value": null
+        },
+        {
+          "category": "Bericht",
+          "rule": "Erstellung und Einreichung eines Verwendungsnachweises",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Erforderliche Anlage: Verwendungsnachweis",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Erforderliche Anlage: Jahresabrechnung",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -11868,7 +12166,14 @@
       "headings": [
         "2.2.1 Einzelpositionen"
       ],
-      "id": "3220_chunk_15"
+      "id": "3220_chunk_15",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Im mittleren Teil der Zahlungsanforderung müssen die Ausgaben/Kosten des Vorhabens für das laufende Haushaltsjahr angegeben werden.",
+          "value": "laufendes Haushaltsjahr"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -11993,7 +12298,8 @@
       "headings": [
         "2.2.2 \"Summarische\" Anforderung"
       ],
-      "id": "3220_chunk_22"
+      "id": "3220_chunk_22",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12110,7 +12416,14 @@
       "headings": [
         "Zeile 16 : (Derzeitiger Kassenbestand)"
       ],
-      "id": "3220_chunk_29"
+      "id": "3220_chunk_29",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Der errechnete Kassenbestand nach Subtraktion von Zeile 15 von Zeile 14 muss in das dafür vorgesehene Feld eingetragen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12135,7 +12448,8 @@
       "headings": [
         "Zeile 17: (Zusätzlich zu verrechnen)"
       ],
-      "id": "3220_chunk_31"
+      "id": "3220_chunk_31",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12180,7 +12494,14 @@
       "headings": [
         "Zeile 18 im Anhang 3 : (Internes Rechenfeld)"
       ],
-      "id": "3220_chunk_35"
+      "id": "3220_chunk_35",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Der ausgedruckte Zahlungsbetrag, der in Zeile 19 berechnet wird, darf nicht verändert werden.",
+          "value": "Zeile 19 (unveränderlicher Betrag)"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12205,7 +12526,8 @@
       "headings": [
         "Zeile 20: (Zu zahlende Zinsen)"
       ],
-      "id": "3220_chunk_37"
+      "id": "3220_chunk_37",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12214,7 +12536,14 @@
       "headings": [
         "Zeile 20: (Zu zahlende Zinsen)"
       ],
-      "id": "3220_chunk_38"
+      "id": "3220_chunk_38",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Die Zinsberechnung ist stets der Zahlungsanforderung beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12223,7 +12552,8 @@
       "headings": [
         "Zeile 20: (Zu zahlende Zinsen)"
       ],
-      "id": "3220_chunk_39"
+      "id": "3220_chunk_39",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12319,7 +12649,8 @@
       "headings": [
         "1. Allgemeines"
       ],
-      "id": "3220_chunk_46"
+      "id": "3220_chunk_46",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12417,7 +12748,8 @@
       "headings": [
         "3.1 Kopf"
       ],
-      "id": "3220_chunk_52"
+      "id": "3220_chunk_52",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12436,7 +12768,14 @@
       "headings": [
         "3.2 Mittelteil (Einzelpositionen und Summen der Spalten (2) bis (4/6))"
       ],
-      "id": "3220_chunk_54"
+      "id": "3220_chunk_54",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Spalte 2 (Anerkannte Ausgaben/Kosten bis … [Vorjahr]) und Spalte 4/6 (Gesamtfinanzierungsplan/Gesamtvorkalkulation) müssen im vorgegebenen Formular ausgefüllt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12461,7 +12800,8 @@
       "headings": [
         "3.2 Mittelteil (Einzelpositionen und Summen der Spalten (2) bis (4/6))"
       ],
-      "id": "3220_chunk_56"
+      "id": "3220_chunk_56",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12518,7 +12858,19 @@
       "headings": [
         "3.3 Unterer Teil (Errechnung des Kassenbestandes zum Ende des Abrechnungsjahres)"
       ],
-      "id": "3220_chunk_60"
+      "id": "3220_chunk_60",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Im Abrechnungsjahr muss ein Überblick über die Finanzierung des Vorhabens gegeben werden.",
+          "value": "Zeilen 14‑20 des Formulars"
+        },
+        {
+          "category": "Formular",
+          "rule": "Die Angaben zur Projektfinanzierung sind in den Zeilen 14 bis 20 des zugehörigen Formulars einzutragen.",
+          "value": "Zeilen 14‑20"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12527,7 +12879,8 @@
       "headings": [
         "Zeile (14)"
       ],
-      "id": "3220_chunk_61"
+      "id": "3220_chunk_61",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12561,7 +12914,14 @@
       "headings": [
         "Anmerkung zu Zeile (17):"
       ],
-      "id": "3220_chunk_64"
+      "id": "3220_chunk_64",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zahlungen des BMWK gelten nicht als \"Einnahmen aus dem Vorhaben\", sondern werden in Zeile 19 des Kostenplans berücksichtigt.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -12855,7 +13215,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_94"
+      "id": "3220_chunk_94",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12918,7 +13279,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_101"
+      "id": "3220_chunk_101",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12927,7 +13289,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_102"
+      "id": "3220_chunk_102",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12936,7 +13299,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_103"
+      "id": "3220_chunk_103",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12945,7 +13309,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_104"
+      "id": "3220_chunk_104",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12963,7 +13328,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_106"
+      "id": "3220_chunk_106",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -12990,7 +13356,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_109"
+      "id": "3220_chunk_109",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13008,7 +13375,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_111"
+      "id": "3220_chunk_111",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13017,7 +13385,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_112"
+      "id": "3220_chunk_112",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13035,7 +13404,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_114"
+      "id": "3220_chunk_114",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13280,7 +13650,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_141"
+      "id": "3220_chunk_141",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13334,7 +13705,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_147"
+      "id": "3220_chunk_147",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13343,7 +13715,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_148"
+      "id": "3220_chunk_148",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13352,7 +13725,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_149"
+      "id": "3220_chunk_149",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13361,7 +13735,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_150"
+      "id": "3220_chunk_150",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13379,7 +13754,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_152"
+      "id": "3220_chunk_152",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13406,7 +13782,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_155"
+      "id": "3220_chunk_155",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13415,7 +13792,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_156"
+      "id": "3220_chunk_156",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13424,7 +13802,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_157"
+      "id": "3220_chunk_157",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13442,7 +13821,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_159"
+      "id": "3220_chunk_159",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13604,7 +13984,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_177"
+      "id": "3220_chunk_177",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13613,7 +13994,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_178"
+      "id": "3220_chunk_178",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13622,7 +14004,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_179"
+      "id": "3220_chunk_179",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13649,7 +14032,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_182"
+      "id": "3220_chunk_182",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13667,7 +14051,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_184"
+      "id": "3220_chunk_184",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13847,7 +14232,8 @@
       "headings": [
         "Zahlungsanforderung für Zuwendungen auf Kostenbasis"
       ],
-      "id": "3220_chunk_204"
+      "id": "3220_chunk_204",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13892,7 +14278,8 @@
       "headings": [
         "Zahlungsanforderung für Zuwendungen auf Kostenbasis"
       ],
-      "id": "3220_chunk_209"
+      "id": "3220_chunk_209",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13901,7 +14288,8 @@
       "headings": [
         "Zahlungsanforderung für Zuwendungen auf Kostenbasis"
       ],
-      "id": "3220_chunk_210"
+      "id": "3220_chunk_210",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13919,7 +14307,8 @@
       "headings": [
         "Zahlungsanforderung für Zuwendungen auf Kostenbasis"
       ],
-      "id": "3220_chunk_212"
+      "id": "3220_chunk_212",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -13928,7 +14317,8 @@
       "headings": [
         "Zahlungsanforderung für Zuwendungen auf Kostenbasis"
       ],
-      "id": "3220_chunk_213"
+      "id": "3220_chunk_213",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14255,7 +14645,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_249"
+      "id": "3220_chunk_249",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14309,7 +14700,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_255"
+      "id": "3220_chunk_255",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14318,7 +14710,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_256"
+      "id": "3220_chunk_256",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14327,7 +14720,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_257"
+      "id": "3220_chunk_257",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14336,7 +14730,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_258"
+      "id": "3220_chunk_258",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14354,7 +14749,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_260"
+      "id": "3220_chunk_260",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14381,7 +14777,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_263"
+      "id": "3220_chunk_263",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14399,7 +14796,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_265"
+      "id": "3220_chunk_265",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14408,7 +14806,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_266"
+      "id": "3220_chunk_266",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14426,7 +14825,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_268"
+      "id": "3220_chunk_268",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14617,7 +15017,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_289"
+      "id": "3220_chunk_289",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14671,7 +15072,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_295"
+      "id": "3220_chunk_295",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14680,7 +15082,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_296"
+      "id": "3220_chunk_296",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14689,7 +15092,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_297"
+      "id": "3220_chunk_297",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14698,7 +15102,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_298"
+      "id": "3220_chunk_298",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14716,7 +15121,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_300"
+      "id": "3220_chunk_300",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14743,7 +15149,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_303"
+      "id": "3220_chunk_303",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14752,7 +15159,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_304"
+      "id": "3220_chunk_304",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14770,7 +15178,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_306"
+      "id": "3220_chunk_306",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14788,7 +15197,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_308"
+      "id": "3220_chunk_308",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -14988,7 +15398,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_330"
+      "id": "3220_chunk_330",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15042,7 +15453,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_336"
+      "id": "3220_chunk_336",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15051,7 +15463,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_337"
+      "id": "3220_chunk_337",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15060,7 +15473,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_338"
+      "id": "3220_chunk_338",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15069,7 +15483,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_339"
+      "id": "3220_chunk_339",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15087,7 +15502,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_341"
+      "id": "3220_chunk_341",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15114,7 +15530,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_344"
+      "id": "3220_chunk_344",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15123,7 +15540,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_345"
+      "id": "3220_chunk_345",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15141,7 +15559,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_347"
+      "id": "3220_chunk_347",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15159,7 +15578,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_349"
+      "id": "3220_chunk_349",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15469,7 +15889,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_375"
+      "id": "3220_chunk_375",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15505,7 +15926,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_379"
+      "id": "3220_chunk_379",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15514,7 +15936,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_380"
+      "id": "3220_chunk_380",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15541,7 +15964,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_383"
+      "id": "3220_chunk_383",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15550,7 +15974,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_384"
+      "id": "3220_chunk_384",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15569,7 +15994,8 @@
       "headings": [
         "Gilt nur für Zuwendungen:"
       ],
-      "id": "3220_chunk_386"
+      "id": "3220_chunk_386",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15884,7 +16310,8 @@
       "headings": [
         "Verwendungsnachweis für Zuwendungen auf Ausgabenbasis"
       ],
-      "id": "3220_chunk_421"
+      "id": "3220_chunk_421",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15911,7 +16338,8 @@
       "headings": [
         "Verwendungsnachweis für Zuwendungen auf Ausgabenbasis"
       ],
-      "id": "3220_chunk_424"
+      "id": "3220_chunk_424",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -15930,7 +16358,8 @@
       "headings": [
         "Verwendungsnachweis für Zuwendungen auf Ausgabenbasis"
       ],
-      "id": "3220_chunk_426"
+      "id": "3220_chunk_426",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16093,7 +16522,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_444"
+      "id": "3220_chunk_444",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16102,7 +16532,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_445"
+      "id": "3220_chunk_445",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16129,7 +16560,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_448"
+      "id": "3220_chunk_448",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16138,7 +16570,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_449"
+      "id": "3220_chunk_449",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16147,7 +16580,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_450"
+      "id": "3220_chunk_450",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16165,7 +16599,19 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_452"
+      "id": "3220_chunk_452",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Fehlbedarfsfinanzierung ist die zuwendungsfähige Summe im Feld 17a anzugeben.",
+          "value": "Feld 17a"
+        },
+        {
+          "category": "Formular",
+          "rule": "Bei Festbetragsfinanzierung entfällt der Bundesanteil; das entsprechende Bundesanteils‑Feld muss nicht ausgefüllt werden.",
+          "value": "Kein Bundesanteil"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -16183,7 +16629,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_454"
+      "id": "3220_chunk_454",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16437,7 +16884,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_482"
+      "id": "3220_chunk_482",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16473,7 +16921,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_486"
+      "id": "3220_chunk_486",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16482,7 +16931,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_487"
+      "id": "3220_chunk_487",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16509,7 +16959,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_490"
+      "id": "3220_chunk_490",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16518,7 +16969,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_491"
+      "id": "3220_chunk_491",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16527,7 +16979,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_492"
+      "id": "3220_chunk_492",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16762,7 +17215,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_516"
+      "id": "3220_chunk_516",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16771,7 +17225,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_517"
+      "id": "3220_chunk_517",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16789,7 +17244,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_519"
+      "id": "3220_chunk_519",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16816,7 +17272,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_522"
+      "id": "3220_chunk_522",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16825,7 +17282,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_523"
+      "id": "3220_chunk_523",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -16855,7 +17313,14 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_525"
+      "id": "3220_chunk_525",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Klammerergänzung gilt nur für die rechnerische Feststellung eines geänderten Betrages in Zeile 20",
+          "value": "Zeile 20"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -17180,7 +17645,8 @@
       "headings": [
         "Zahlenmäßiger Verwendungsnachweis (Einzelnachweis) für Zuwendungen auf Kostenbasis an FhG/HZ"
       ],
-      "id": "3220_chunk_561"
+      "id": "3220_chunk_561",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17207,7 +17673,8 @@
       "headings": [
         "Zahlenmäßiger Verwendungsnachweis (Einzelnachweis) für Zuwendungen auf Kostenbasis an FhG/HZ"
       ],
-      "id": "3220_chunk_564"
+      "id": "3220_chunk_564",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17379,7 +17846,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_583"
+      "id": "3220_chunk_583",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17388,7 +17856,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_584"
+      "id": "3220_chunk_584",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17406,7 +17875,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_586"
+      "id": "3220_chunk_586",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17415,7 +17885,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_587"
+      "id": "3220_chunk_587",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17625,7 +18096,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_610"
+      "id": "3220_chunk_610",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17661,7 +18133,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_614"
+      "id": "3220_chunk_614",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17670,7 +18143,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_615"
+      "id": "3220_chunk_615",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17697,7 +18171,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_618"
+      "id": "3220_chunk_618",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17706,7 +18181,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_619"
+      "id": "3220_chunk_619",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17715,7 +18191,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_620"
+      "id": "3220_chunk_620",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17906,7 +18383,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_641"
+      "id": "3220_chunk_641",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17924,7 +18402,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_643"
+      "id": "3220_chunk_643",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -17967,7 +18446,14 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_647"
+      "id": "3220_chunk_647",
+      "rules": [
+        {
+          "category": "Hinweis",
+          "rule": "Im bereitgestellten Text konnten keine konkreten vergaberechtlichen Schwellenwerte, Berichtspflichten, Definitionen zuwendungsfähiger Ausgaben oder Formular‑Strukturen identifiziert werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -17976,7 +18462,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_648"
+      "id": "3220_chunk_648",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18003,7 +18490,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_651"
+      "id": "3220_chunk_651",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18012,7 +18500,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_652"
+      "id": "3220_chunk_652",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18021,7 +18510,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_653"
+      "id": "3220_chunk_653",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18048,7 +18538,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_656"
+      "id": "3220_chunk_656",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18251,7 +18742,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_677"
+      "id": "3220_chunk_677",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18278,7 +18770,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_680"
+      "id": "3220_chunk_680",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18287,7 +18780,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_681"
+      "id": "3220_chunk_681",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18314,7 +18808,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_684"
+      "id": "3220_chunk_684",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18323,7 +18818,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_685"
+      "id": "3220_chunk_685",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18350,7 +18846,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_688"
+      "id": "3220_chunk_688",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18585,7 +19082,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_714"
+      "id": "3220_chunk_714",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18594,7 +19092,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_715"
+      "id": "3220_chunk_715",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18622,7 +19121,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_718"
+      "id": "3220_chunk_718",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18712,7 +19212,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_728"
+      "id": "3220_chunk_728",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18730,7 +19231,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_730"
+      "id": "3220_chunk_730",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18749,7 +19251,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_732"
+      "id": "3220_chunk_732",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -18776,7 +19279,8 @@
       "headings": [
         "Alle Beträge in Euro (€)"
       ],
-      "id": "3220_chunk_735"
+      "id": "3220_chunk_735",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19376,7 +19880,8 @@
       "headings": [
         "A. Allgemeines und Fördervoraussetzungen"
       ],
-      "id": "0047_chunk_21"
+      "id": "0047_chunk_21",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19417,7 +19922,8 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0047_chunk_24"
+      "id": "0047_chunk_24",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19451,7 +19957,8 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0047_chunk_27"
+      "id": "0047_chunk_27",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19460,7 +19967,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0047_chunk_28"
+      "id": "0047_chunk_28",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Der Antrag ist zusätzlich zur Papierform, nach Möglichkeit, in der Endfassung als elektronische Version (easydatei) einzureichen.",
+          "value": "optional (sofern technisch möglich)"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19495,7 +20009,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0047_chunk_31"
+      "id": "0047_chunk_31",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Aufstockungen ist nur der zusätzlich benötigte Betrag zu veranschlagen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19513,7 +20034,8 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_33"
+      "id": "0047_chunk_33",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19594,7 +20116,8 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_42"
+      "id": "0047_chunk_42",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19613,7 +20136,8 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_44"
+      "id": "0047_chunk_44",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19622,7 +20146,14 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_45"
+      "id": "0047_chunk_45",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Nicht‑Übereinstimmung von Antragsteller/ausführender Stelle und Zahlungsempfänger muss die Abweichung im Antrag erläutert werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19662,7 +20193,8 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_48"
+      "id": "0047_chunk_48",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19708,7 +20240,14 @@
       "headings": [
         "AZK 2"
       ],
-      "id": "0047_chunk_51"
+      "id": "0047_chunk_51",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Angabe eines einzigen Girokontos (gegebenenfalls das Girokonto bei einer Landeszentralbank) im Antrag",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19859,7 +20398,14 @@
       "headings": [
         "2. Arbeitsgemeinschaft (BGB-Gesellschaft)"
       ],
-      "id": "0047_chunk_60"
+      "id": "0047_chunk_60",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Aufstockungen ist im entsprechenden Formular der kumulierte Gesamtbetrag der bisher zu diesem Vorhaben bewilligten Mittel anzugeben.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19868,7 +20414,14 @@
       "headings": [
         "2. Arbeitsgemeinschaft (BGB-Gesellschaft)"
       ],
-      "id": "0047_chunk_61"
+      "id": "0047_chunk_61",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bestimmte Kostenarten dürfen zur Vereinfachung pauschal (über eine Pauschalierung) abgerechnet werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -19877,7 +20430,8 @@
       "headings": [
         "2. Arbeitsgemeinschaft (BGB-Gesellschaft)"
       ],
-      "id": "0047_chunk_62"
+      "id": "0047_chunk_62",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19934,7 +20488,8 @@
       "headings": [
         "AZK 4 Vorkalkulation"
       ],
-      "id": "0047_chunk_66"
+      "id": "0047_chunk_66",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19974,7 +20529,8 @@
       "headings": [
         "AZK 5 Kurzfassung der Vorhabenbeschreibung"
       ],
-      "id": "0047_chunk_69"
+      "id": "0047_chunk_69",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -19993,7 +20549,8 @@
       "headings": [
         "-Gesamtziel des Vorhabens"
       ],
-      "id": "0047_chunk_71"
+      "id": "0047_chunk_71",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -20012,7 +20569,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Arbeitsziele des Vorhabens"
       ],
-      "id": "0047_chunk_73"
+      "id": "0047_chunk_73",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -20051,7 +20609,8 @@
       "headings": [
         "-Stand der Wissenschaft und Technik (einschließlich alternative Lösungen, der Ergebnisverwertung entgegenstehende Rechte, Informationsrecherchen)"
       ],
-      "id": "0047_chunk_77"
+      "id": "0047_chunk_77",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -20116,7 +20675,14 @@
       "headings": [
         "-Wirtschaftliche Erfolgsaussichten"
       ],
-      "id": "0047_chunk_83"
+      "id": "0047_chunk_83",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Verweis auf den zu nutzenden BMWE‑Vordruck 0335 als Übersicht über Fachinformationszentren und überregionale Informationseinrichtungen.",
+          "value": "BMWE‑Vordruck 0335"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20201,7 +20767,14 @@
       "headings": [
         "2.  Planungshilfen"
       ],
-      "id": "0047_chunk_91"
+      "id": "0047_chunk_91",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Planungshilfen (möglichst graphische Darstellungen) sind je nach Umfang des Vorhabens beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20334,7 +20907,14 @@
       "headings": [
         "3.  Unterlagen zur Prüfung der Bonität"
       ],
-      "id": "0047_chunk_100"
+      "id": "0047_chunk_100",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Unklarheiten kann das BMWE weitere Unterlagen anfordern.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20359,7 +20939,14 @@
       "headings": [
         "4.  Erklärungen des Antragstellers"
       ],
-      "id": "0047_chunk_102"
+      "id": "0047_chunk_102",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Erklärungen müssen nach haushaltsrechtlichen und EU‑Bestimmungen verlangt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20403,7 +20990,8 @@
       "headings": [
         "4.  Erklärungen des Antragstellers"
       ],
-      "id": "0047_chunk_106"
+      "id": "0047_chunk_106",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -20613,7 +21201,14 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0048_chunk_2"
+      "id": "0048_chunk_2",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Pauschalierte Kostenabrechnung ist nach Nr. 5.6 NKBF 98 im Vordruck AZK im Feld 0720 anzugeben.",
+          "value": "Feld 0720"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20648,7 +21243,14 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0048_chunk_4"
+      "id": "0048_chunk_4",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei laufenden Vorhaben ist ein Wechsel von pauschalierter auf LSP‑Abrechnung nicht möglich.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20709,7 +21311,14 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0048_chunk_9"
+      "id": "0048_chunk_9",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kosten in der Vorkalkulation sind ohne abziehbare Vorsteuern auszuweisen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20737,7 +21346,8 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0048_chunk_12"
+      "id": "0048_chunk_12",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -20809,7 +21419,14 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0048_chunk_16"
+      "id": "0048_chunk_16",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Marktpreise für Teilleistungen nach Nr. 5.5 NKBF 98 dürfen nicht angesetzt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20849,7 +21466,19 @@
       "headings": [
         "II. Erläuterungen zu Einzelpositionen des Vordrucks AZK 4"
       ],
-      "id": "0048_chunk_19"
+      "id": "0048_chunk_19",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Die Gesamtvorkalkulation und die Jahresvorkalkulationen müssen zur Beurteilung der förderungsrelevanten Ansätze erläutert werden.",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Für die Erläuterung der Kalkulationen sind die Anlagen 1‑4 zu AZL 4 beizufügen.",
+          "value": "Anlagen 1‑4"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20874,7 +21503,14 @@
       "headings": [
         "Pauschalierte Abrechnung gem. Nr. 5.6.2 NKBF 98"
       ],
-      "id": "0048_chunk_21"
+      "id": "0048_chunk_21",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Pauschaler Zuschlag von 120 % auf Pos. 0837E ist in der Spalte 'Gemeinkosten' unter Pos. 0837G einzutragen.",
+          "value": "120 %"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -20930,7 +21566,8 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0048_chunk_24"
+      "id": "0048_chunk_24",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21050,7 +21687,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0048_chunk_31"
+      "id": "0048_chunk_31",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kosten sind netto zu veranschlagen, wenn der Antragsteller zum Vorsteuerabzug berechtigt ist.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21087,7 +21731,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0048_chunk_35"
+      "id": "0048_chunk_35",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ein Ansatz von kalkulatorischem Unternehmerlohn (Nr. 24 Abs. 2 u. 3 LSP) ist nur bei Einzelkaufleuten und Personengesellschaften zulässig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21133,7 +21784,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0048_chunk_40"
+      "id": "0048_chunk_40",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kalkulatorischer Unternehmerlohn nach Nr. 24 Abs. 2 u. 3 LSP darf nur von Einzelkaufleuten und Personengesellschaften angesetzt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21182,7 +21840,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0048_chunk_44"
+      "id": "0048_chunk_44",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Vorkalkulatorischer Stundensatz wird mit 25 € pro Stunde angesetzt (berechnet aus 52.000 € Bruttojahresgehalt geteilt durch 2 080 Arbeitsstunden pro Jahr).",
+          "value": "25 €"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21218,7 +21883,24 @@
       "headings": [
         "0838 Reisekosten (siehe Anlage 3 zu AZK 4)"
       ],
-      "id": "0048_chunk_48"
+      "id": "0048_chunk_48",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Reisekosten sind nach der in Anlage 3 vorgesehenen Form anzugeben.",
+          "value": null
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Reisekosten gelten als zuwendungsfähige Ausgaben, die im Rahmen der Zuwendung abgerechnet werden dürfen.",
+          "value": null
+        },
+        {
+          "category": "Bericht",
+          "rule": "Für die Nachweise zu Reisekosten ist das in Anlage 3 festgelegte Format zu verwenden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21273,7 +21955,19 @@
       "headings": [
         "0850 Sonstige unmittelbare Vorhabenkosten"
       ],
-      "id": "0048_chunk_52"
+      "id": "0048_chunk_52",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zuwendungsfähige Ausgaben sind ausschließlich Dienstleistungen durch Dritte (sofern nicht FE‑Fremdleistungen) und Rechnerkosten; jede Position muss im Verwendungsnachweis erläutert werden.",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Im Antrags‑ bzw. Verwendungsnachweis müssen die einzelnen Ansatzpositionen detailliert aufgeschlüsselt und erläutert werden (Erklärungspflicht für jede Kostenstelle).",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -21409,7 +22103,8 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_64"
+      "id": "0048_chunk_64",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21490,7 +22185,8 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_73"
+      "id": "0048_chunk_73",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21517,7 +22213,8 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_76"
+      "id": "0048_chunk_76",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21526,7 +22223,8 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_77"
+      "id": "0048_chunk_77",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21535,7 +22233,8 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_78"
+      "id": "0048_chunk_78",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -21544,7 +22243,14 @@
       "headings": [
         "Beispiel:"
       ],
-      "id": "0048_chunk_79"
+      "id": "0048_chunk_79",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Anforderung von Unterlagen nur bei Vergabe von Aufträgen,vgl. Merkblatt Vorkalkulation für Zuwendungen – Kostenbasis [AZK 4], Position 0823",
+          "value": null
+        }
+      ]
     },
     {
       "type": "document",
@@ -21832,7 +22538,14 @@
       "headings": [
         "4 Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0328_chunk_7"
+      "id": "0328_chunk_7",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Unverzügliche Anzeige an die Bewilligungsbehörde, wenn ein meldepflichtiges Ereignis eintritt",
+          "value": "sofort"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22014,7 +22727,19 @@
       "headings": [
         "6 Pauschalierte Abrechnung"
       ],
-      "id": "0328_chunk_14"
+      "id": "0328_chunk_14",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Reisekosten gelten als zuwendungsfähige Ausgaben.",
+          "value": null
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Abschreibungen von Anschaffungs‑ oder Herstellungskosten auf vorhabenspezifische Anlagen sind zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22023,7 +22748,8 @@
       "headings": [
         "6 Pauschalierte Abrechnung"
       ],
-      "id": "0328_chunk_15"
+      "id": "0328_chunk_15",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -22364,7 +23090,14 @@
       "headings": [
         "4. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0328a_chunk_17"
+      "id": "0328a_chunk_17",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Zuwendungsempfänger muss die Bewilligungsbehörde unverzüglich informieren, wenn ein meldepflichtiges Ereignis eintritt.",
+          "value": "sofort"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22549,7 +23282,19 @@
       "headings": [
         "6. Pauschalierte Abrechnung"
       ],
-      "id": "0328a_chunk_25"
+      "id": "0328a_chunk_25",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Reisekosten können als zuwendungsfähige Ausgaben gelten.",
+          "value": null
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Abschreibungen von Anschaffungs‑ oder Herstellungskosten auf vorhabenspezifische Anlagen sind zuwendungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22558,7 +23303,8 @@
       "headings": [
         "6. Pauschalierte Abrechnung"
       ],
-      "id": "0328a_chunk_26"
+      "id": "0328a_chunk_26",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -22639,7 +23385,14 @@
       "headings": [
         "6. Pauschalierte Abrechnung"
       ],
-      "id": "0328a_chunk_29"
+      "id": "0328a_chunk_29",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Abweichungen von der im Zuwendungsantrag dargelegten Finanzierung müssen im Verwendungsnachweis dargestellt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22690,7 +23443,14 @@
       "headings": [
         "8. Prüfung der Verwendung"
       ],
-      "id": "0328a_chunk_32"
+      "id": "0328a_chunk_32",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Bundesrechnungshof ist berechtigt, bei den Zuwendungsempfängern zu prüfen (§§ 91, 100 BHO).",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -22842,7 +23602,8 @@
       "headings": [
         "4. Mitteilungspflichten des Zuwendungsempfängers"
       ],
-      "id": "0328b_chunk_5"
+      "id": "0328b_chunk_5",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -23053,7 +23814,19 @@
       "headings": [
         "6. Pauschalierte Abrechnung"
       ],
-      "id": "0328b_chunk_14"
+      "id": "0328b_chunk_14",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Reisekosten sind förderfähig",
+          "value": null
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Abschreibungen von den Anschaffungspreisen oder Herstellungskosten auf vorhabenspezifische Anlagen sind zulässig",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -23062,7 +23835,14 @@
       "headings": [
         "6. Pauschalierte Abrechnung"
       ],
-      "id": "0328b_chunk_15"
+      "id": "0328b_chunk_15",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kosten nach den Nummern 6.1.1‑6.1.5 sind unter Beachtung der Nummern 5.1‑5.5 zu ermitteln.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -23143,7 +23923,8 @@
       "headings": [
         "7. Nachweis der Verwendung"
       ],
-      "id": "0328b_chunk_18"
+      "id": "0328b_chunk_18",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -23198,7 +23979,8 @@
       "headings": [
         "8. Prüfung der Verwendung"
       ],
-      "id": "0328b_chunk_22"
+      "id": "0328b_chunk_22",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -23326,7 +24108,29 @@
       "headings": [
         "Anlagen"
       ],
-      "id": "0348a_chunk_5"
+      "id": "0348a_chunk_5",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Ein Zwischenbericht ist gemäß Musterformular zu Nr. 8.1 einzureichen.",
+          "value": null
+        },
+        {
+          "category": "Bericht",
+          "rule": "Ein Schlussbericht ist gemäß Musterformular zu Nr. 8.2 einzureichen.",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Muster‑Zwischenbericht zu Nr. 8.1 definiert die erforderlichen Felder und Anlagen für den Zwischenbericht.",
+          "value": null
+        },
+        {
+          "category": "Formular",
+          "rule": "Muster‑Schlussbericht zu Nr. 8.2 definiert die erforderlichen Felder und Anlagen für den Schlussbericht.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -23679,7 +24483,8 @@
       "headings": [
         "4 Bestimmungen zu einzelnen Kostenarten"
       ],
-      "id": "0348a_chunk_23"
+      "id": "0348a_chunk_23",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -23936,7 +24741,8 @@
       "headings": [
         "7 Zahlungen"
       ],
-      "id": "0348a_chunk_35"
+      "id": "0348a_chunk_35",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -24165,7 +24971,8 @@
       "headings": [
         "12 Ausschließliche Nutzung"
       ],
-      "id": "0348a_chunk_44"
+      "id": "0348a_chunk_44",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -24627,7 +25434,8 @@
       "headings": [
         "Zwischenbericht zu Nr. 8.1"
       ],
-      "id": "0348a_chunk_74"
+      "id": "0348a_chunk_74",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -24804,7 +25612,14 @@
       "headings": [
         "Zwischenbericht zu Nr. 8.1"
       ],
-      "id": "0348a_chunk_79"
+      "id": "0348a_chunk_79",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Der Erfolgskontrollbericht darf Verweise auf die Abschnitte I und II des Schlussberichts enthalten.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -24856,7 +25671,8 @@
       "headings": [
         "A. Allgemeines"
       ],
-      "id": "0087_chunk_2"
+      "id": "0087_chunk_2",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25011,7 +25827,8 @@
       "headings": [
         "B. Ausfüllen des Angebots"
       ],
-      "id": "0087_chunk_12"
+      "id": "0087_chunk_12",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25079,7 +25896,14 @@
       "headings": [
         "B. Ausfüllen des Angebots"
       ],
-      "id": "0087_chunk_19"
+      "id": "0087_chunk_19",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Auftragsänderungen darf nur der zusätzlich benötigte Betrag veranschlagt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25240,7 +26064,14 @@
       "headings": [
         "AAA 3"
       ],
-      "id": "0087_chunk_29"
+      "id": "0087_chunk_29",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Auftragsänderungen muss der kumulierte Gesamtbetrag der bisher zum Vertrag bereitgestellten Vergütung eingetragen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25286,7 +26117,14 @@
       "headings": [
         "AAA 4 Finanzierungsplan"
       ],
-      "id": "0087_chunk_32"
+      "id": "0087_chunk_32",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Personalausgaben (Kostenträger 0811 bis 0820) sind von förmlichen Vergabeverfahren – öffentlichen oder beschränkten Ausschreibungen – ausgenommen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25362,7 +26200,14 @@
       "headings": [
         "AAA 4 Finanzierungsplan"
       ],
-      "id": "0087_chunk_38"
+      "id": "0087_chunk_38",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Das Besserstellungsverbot gilt auch, wenn nicht erstattungsfähige Ausgaben von Dritten finanziert werden; solche Finanzierungen dürfen nicht zur Umgehung des Verbots genutzt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25387,7 +26232,14 @@
       "headings": [
         "AAA 4 Finanzierungsplan"
       ],
-      "id": "0087_chunk_40"
+      "id": "0087_chunk_40",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Honorare an hauptberufliche Mitarbeiter(innen) sind grundsätzlich nicht erstattungsfähig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25460,7 +26312,8 @@
       "headings": [
         "AAA 4 Finanzierungsplan"
       ],
-      "id": "0087_chunk_44"
+      "id": "0087_chunk_44",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25614,7 +26467,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0087_chunk_52"
+      "id": "0087_chunk_52",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Angebotene Skonti sind bereits bei der Veranschlagung zu berücksichtigen, d.h. die zuwendungsfähigen Ausgaben werden netto nach Abzug von Rabatten angegeben.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25683,7 +26543,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0087_chunk_56"
+      "id": "0087_chunk_56",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Auftragsvergaben ist ein Verweis auf die beigefügten Unterlagen (z. B. Vergütungsnachweis) anzugeben.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25724,7 +26591,8 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0087_chunk_59"
+      "id": "0087_chunk_59",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25817,7 +26685,14 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0087_chunk_64"
+      "id": "0087_chunk_64",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "In den Erläuterungen müssen die beabsichtigte Anzahl von Dienstreisen im Inland sowie die voraussichtlichen Ausgaben pro Reise angegeben werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -25863,7 +26738,8 @@
       "headings": [
         "Sächliche Verwaltungsausgaben"
       ],
-      "id": "0087_chunk_67"
+      "id": "0087_chunk_67",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25929,7 +26805,8 @@
       "headings": [
         "-Gesamtziel des Vorhabens"
       ],
-      "id": "0087_chunk_72"
+      "id": "0087_chunk_72",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25938,7 +26815,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Arbeitsziele des Vorhabens"
       ],
-      "id": "0087_chunk_73"
+      "id": "0087_chunk_73",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -25976,7 +26854,8 @@
       "headings": [
         "-Stand der Wissenschaft und Technik (einschließlich alternative Lösungen, der Informationsrecherchen)"
       ],
-      "id": "0087_chunk_77"
+      "id": "0087_chunk_77",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -26024,7 +26903,8 @@
       "headings": [
         "-Meilensteinplanung"
       ],
-      "id": "0087_chunk_82"
+      "id": "0087_chunk_82",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -26093,7 +26973,14 @@
       "headings": [
         "2. Planungshilfen"
       ],
-      "id": "0087_chunk_89"
+      "id": "0087_chunk_89",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Je nach Umfang des Vorhabens müssen Planungshilfen (möglichst graphische Darstellungen) beigefügt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -26344,7 +27231,29 @@
       "headings": [
         "Anlagen"
       ],
-      "id": "0361b_chunk_6"
+      "id": "0361b_chunk_6",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Ein Zwischenbericht ist gemäß § 11 Abs. 1 einzureichen.",
+          "value": "§ 11 Abs. 1 – Interim report"
+        },
+        {
+          "category": "Bericht",
+          "rule": "Ein Schlussbericht ist gemäß § 11 Abs. 2 einzureichen.",
+          "value": "§ 11 Abs. 2 – Final report"
+        },
+        {
+          "category": "Formular",
+          "rule": "Für den Zwischenbericht ist das bereitgestellte Musterformular (Muster für Zwischenbericht) zu verwenden.",
+          "value": "Muster für Zwischenbericht nach § 11 Abs. 1"
+        },
+        {
+          "category": "Formular",
+          "rule": "Für den Schlussbericht ist das bereitgestellte Musterformular (Muster für Schlussbericht) zu verwenden.",
+          "value": "Muster für Schlussbericht nach § 11 Abs. 2"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -26922,7 +27831,14 @@
       "headings": [
         "Zahlungen"
       ],
-      "id": "0361b_chunk_41"
+      "id": "0361b_chunk_41",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Gewinn ist im Verhältnis zu den Selbstkosten anteilig zu verrechnen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -27127,7 +28043,19 @@
       "headings": [
         "Berichte"
       ],
-      "id": "0361b_chunk_58"
+      "id": "0361b_chunk_58",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Zwischenberichte und Schlussbericht (einschließlich Erfolgskontrollbericht und Kurzfassung) sind einzureichen.",
+          "value": "nach Erreichen des jeweiligen Projektabschnitts, in vierfacher Ausfertigung"
+        },
+        {
+          "category": "Formular",
+          "rule": "Berichte müssen in vierfacher Ausfertigung vorgelegt werden.",
+          "value": "vier Exemplare"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -27411,7 +28339,8 @@
       "headings": [
         "Übertragung von Benutzungs- und Nutzungsrechten"
       ],
-      "id": "0361b_chunk_75"
+      "id": "0361b_chunk_75",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -27591,7 +28520,8 @@
       "headings": [
         "Beteiligung am finanziellen Erfolg bei Übertragung von Benutzungs- und Nutzungsrechten auf Dritte"
       ],
-      "id": "0361b_chunk_90"
+      "id": "0361b_chunk_90",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -27667,7 +28597,14 @@
       "headings": [
         "§ 19 Kündigung des FE-Vertrags"
       ],
-      "id": "0361b_chunk_95"
+      "id": "0361b_chunk_95",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zahlungen im Falle einer Kündigung dürfen die nach § 3 des FE‑Vertrags vereinbarte Vergütung nicht überschreiten.",
+          "value": "maximale Vergütung gemäß § 3 FE‑Vertrag"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -27706,7 +28643,8 @@
       "headings": [
         "Streitigkeiten"
       ],
-      "id": "0361b_chunk_99"
+      "id": "0361b_chunk_99",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -27973,7 +28911,14 @@
       "headings": [
         "Muster Zwischenbericht zu § 11 Abs. 1"
       ],
-      "id": "0361b_chunk_120"
+      "id": "0361b_chunk_120",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Ein Zwischenbericht ist zu erstellen, der kurzgefasste Angaben zu den geforderten Punkten/Fragen enthält.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -28088,7 +29033,14 @@
       "headings": [
         "Muster Zwischenbericht zu § 11 Abs. 1"
       ],
-      "id": "0361b_chunk_126"
+      "id": "0361b_chunk_126",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Im Erfolgskontrollbericht darf auf die Abschnitte I und II des Schlussberichts verwiesen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -28165,7 +29117,19 @@
       "headings": [
         "Anlagen"
       ],
-      "id": "0370c_chunk_3"
+      "id": "0370c_chunk_3",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Zwischenbericht gemäß § 9 Abs. 1 einreichen",
+          "value": null
+        },
+        {
+          "category": "Bericht",
+          "rule": "Schlussbericht gemäß § 9 Abs. 2 einreichen",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -28309,7 +29273,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0370c_chunk_19"
+      "id": "0370c_chunk_19",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -28327,7 +29292,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0370c_chunk_21"
+      "id": "0370c_chunk_21",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -28768,7 +29734,14 @@
       "headings": [
         "Kündigung des FE-Vertrags"
       ],
-      "id": "0370c_chunk_48"
+      "id": "0370c_chunk_48",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zahlungen im Falle einer Kündigung dürfen die nach § 3 des FE‑Vertrags vereinbarte Vergütung nicht überschreiten.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -28787,7 +29760,8 @@
       "headings": [
         "Der AG"
       ],
-      "id": "0370c_chunk_50"
+      "id": "0370c_chunk_50",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -28873,7 +29847,8 @@
       "headings": [
         "Beauftragte"
       ],
-      "id": "0370c_chunk_57"
+      "id": "0370c_chunk_57",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -28945,7 +29920,8 @@
       "headings": [
         "Gewährleistung"
       ],
-      "id": "0370c_chunk_61"
+      "id": "0370c_chunk_61",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -28974,7 +29950,14 @@
       "headings": [
         "Gewährleistung"
       ],
-      "id": "0370c_chunk_64"
+      "id": "0370c_chunk_64",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Mängelrügen sind schriftlich zu erheben; für die Fristwahrung ist der Absendetag maßgeblich.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -29172,7 +30155,14 @@
       "headings": [
         "Muster Zwischenbericht zu § 9 Abs. 1"
       ],
-      "id": "0370c_chunk_79"
+      "id": "0370c_chunk_79",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Im Erfolgskontrollbericht können Verweise auf die Abschnitte I und II des Schlussberichts (Nrn. I. u. II.) aufgenommen werden.",
+          "value": "Abschnitte I und II des Schlussberichts"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -29341,7 +30331,8 @@
       "headings": [
         "A. Allgemeines"
       ],
-      "id": "0067a_chunk_3"
+      "id": "0067a_chunk_3",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29447,7 +30438,8 @@
       "headings": [
         "B. Ausfüllen des Angebots"
       ],
-      "id": "0067a_chunk_11"
+      "id": "0067a_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29486,7 +30478,14 @@
       "headings": [
         "B. Ausfüllen des Angebots"
       ],
-      "id": "0067a_chunk_14"
+      "id": "0067a_chunk_14",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Angebote sind zusätzlich zur Papierform, wenn möglich, in elektronischer Endfassung einzureichen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -29555,7 +30554,14 @@
       "headings": [
         "B. Ausfüllen des Angebots"
       ],
-      "id": "0067a_chunk_19"
+      "id": "0067a_chunk_19",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Auftragsänderungen ist nur der zusätzlich benötigte Betrag zu veranschlagen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -29631,7 +30637,8 @@
       "headings": [
         "AAK 2"
       ],
-      "id": "0067a_chunk_22"
+      "id": "0067a_chunk_22",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29784,7 +30791,14 @@
       "headings": [
         "2. Arbeitsgemeinschaft (BGB-Gesellschaft)"
       ],
-      "id": "0067a_chunk_31"
+      "id": "0067a_chunk_31",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei Auftragsänderungen muss der kumulierte Gesamtbetrag der bislang für den Vertrag bereitgestellten Vergütung eingetragen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -29793,7 +30807,8 @@
       "headings": [
         "AAK 4 Vorkalkulation"
       ],
-      "id": "0067a_chunk_32"
+      "id": "0067a_chunk_32",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29840,7 +30855,8 @@
       "headings": [
         "-Gesamtziel des Vorhabens"
       ],
-      "id": "0067a_chunk_37"
+      "id": "0067a_chunk_37",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29867,7 +30883,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Arbeitsziele des Vorhabens"
       ],
-      "id": "0067a_chunk_40"
+      "id": "0067a_chunk_40",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29912,7 +30929,8 @@
       "headings": [
         "-Stand der Wissenschaft und Technik (einschließlich alternative Lösungen, der Ergebnisverwertung entgegenstehende Rechte, Informationsrecherchen)"
       ],
-      "id": "0067a_chunk_44"
+      "id": "0067a_chunk_44",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -29997,7 +31015,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Erfolgsaussichten"
       ],
-      "id": "0067a_chunk_52"
+      "id": "0067a_chunk_52",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30026,7 +31045,14 @@
       "headings": [
         "2. Planungshilfen"
       ],
-      "id": "0067a_chunk_55"
+      "id": "0067a_chunk_55",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Planungshilfen (möglichst grafische Darstellungen) sind je nach Umfang des Vorhabens beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30265,7 +31291,14 @@
       "headings": [
         "I. Allgemeines"
       ],
-      "id": "0068a_chunk_3"
+      "id": "0068a_chunk_3",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kosten in der Vorkalkulation sind ohne abziehbare Vorsteuern auszuweisen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30397,7 +31430,8 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0068a_chunk_11"
+      "id": "0068a_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30453,7 +31487,8 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0068a_chunk_15"
+      "id": "0068a_chunk_15",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30494,7 +31529,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0068a_chunk_18"
+      "id": "0068a_chunk_18",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Nur Netto‑Kosten dürfen veranschlagt werden, sofern der Anbieter zum Vorsteuerabzug berechtigt ist.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30547,7 +31589,14 @@
       "headings": [
         "0813 Material"
       ],
-      "id": "0068a_chunk_23"
+      "id": "0068a_chunk_23",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ein Ansatz von kalkulatorischem Unternehmerlohn (Nr. 24 Abs. 2 u. 3 LSP) ist ausschließlich bei Einzelkaufleuten und Personengesellschaften zulässig.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30556,7 +31605,24 @@
       "headings": [
         "0838 Reisekosten (siehe Anlage 3 zu AAK 4)"
       ],
-      "id": "0068a_chunk_24"
+      "id": "0068a_chunk_24",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Reisekosten sind nach der in Anlage 3 vorgesehenen Form anzugeben.",
+          "value": "Anlage 3"
+        },
+        {
+          "category": "Ausgaben",
+          "rule": "Reisekosten gelten als zuwendungsfähige Ausgaben.",
+          "value": "Reisekosten"
+        },
+        {
+          "category": "Bericht",
+          "rule": "Es kann eine Anforderung weitergehender Erläuterungen zu den Angaben gestellt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30652,7 +31718,14 @@
       "headings": [
         "Kalkulatorische Kosten"
       ],
-      "id": "0068a_chunk_31"
+      "id": "0068a_chunk_31",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Kalkulatorische Zinsen sind mit 6 % pro Jahr des betriebsnotwendigen Kapitals zu berechnen und dürfen als förderfähige Ausgaben verrechnet werden.",
+          "value": "6 % p.a."
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30791,7 +31864,8 @@
       "headings": [
         "0882 Kalkulatorischer Gewinn"
       ],
-      "id": "0068a_chunk_43"
+      "id": "0068a_chunk_43",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30818,7 +31892,8 @@
       "headings": [
         "0882 Kalkulatorischer Gewinn"
       ],
-      "id": "0068a_chunk_46"
+      "id": "0068a_chunk_46",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30836,7 +31911,14 @@
       "headings": [
         "0882 Kalkulatorischer Gewinn"
       ],
-      "id": "0068a_chunk_48"
+      "id": "0068a_chunk_48",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Die aufgeführten Vordrucke können im Internet unter https://foerderportal.bund.de/easy im Abschnitt \"Allgemeine Vordrucke\" abgerufen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -30845,7 +31927,8 @@
       "headings": [
         "0882 Kalkulatorischer Gewinn"
       ],
-      "id": "0068a_chunk_49"
+      "id": "0068a_chunk_49",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30942,7 +32025,8 @@
       "headings": [
         "1. Obergrenzen des zuwendungsfähigen Personalaufwandes im Rahmen der Projektförderung"
       ],
-      "id": "0025_chunk_5"
+      "id": "0025_chunk_5",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -30951,7 +32035,14 @@
       "headings": [
         "1. Obergrenzen des zuwendungsfähigen Personalaufwandes im Rahmen der Projektförderung"
       ],
-      "id": "0025_chunk_6"
+      "id": "0025_chunk_6",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Das erforderliche Antragsformular ist im Formularschrank des BMFTR unter https://foerderportal.bund.de verfügbar und muss online abgerufen werden.",
+          "value": "Vordr.- Nr. 0025"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -31127,7 +32218,8 @@
       "headings": [
         "Bundesministerium für Wirtschaft und Klimaschutz (BMWK)"
       ],
-      "id": "0094_chunk_1"
+      "id": "0094_chunk_1",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31181,7 +32273,8 @@
       "headings": [
         "A. Allgemeines"
       ],
-      "id": "0094_chunk_6"
+      "id": "0094_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31190,7 +32283,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0094_chunk_7"
+      "id": "0094_chunk_7",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Der BMKi‑Vordruck AZV muss für den Antrag verwendet und beim BMWK oder dessen Projektträger eingereicht werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -31209,7 +32309,8 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0094_chunk_9"
+      "id": "0094_chunk_9",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31244,7 +32345,14 @@
       "headings": [
         "B. Ausfüllen des Antrags"
       ],
-      "id": "0094_chunk_12"
+      "id": "0094_chunk_12",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Aufstockungen ist nur der zusätzlich benötigte Betrag zu veranschlagen (vgl. unter AZV 3).",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -31397,7 +32505,8 @@
       "headings": [
         "AZV 5 1. Vorhabenbeschreibung"
       ],
-      "id": "0094_chunk_20"
+      "id": "0094_chunk_20",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31425,7 +32534,8 @@
       "headings": [
         "-Wissenschaftliche und/oder technische Arbeitsziele des Vorhabens"
       ],
-      "id": "0094_chunk_23"
+      "id": "0094_chunk_23",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31464,7 +32574,8 @@
       "headings": [
         "B.  Stand  der  Wissenschaft  und  Technik  auf  der  Basis  aktueller  Informationsrecherchen (einschließlich alternative Lösungen)"
       ],
-      "id": "0094_chunk_27"
+      "id": "0094_chunk_27",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31523,7 +32634,8 @@
       "headings": [
         "-Wissenschaftliche und wirtschaftliche Anschlussfähigkeit"
       ],
-      "id": "0094_chunk_33"
+      "id": "0094_chunk_33",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31552,7 +32664,14 @@
       "headings": [
         "2. Planungshilfen"
       ],
-      "id": "0094_chunk_36"
+      "id": "0094_chunk_36",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Je nach Umfang des Vorhabens sind Planungshilfen (möglichst graphische Darstellungen) beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -31620,7 +32739,8 @@
       "headings": [
         "4. Erklärungen des Anbieters"
       ],
-      "id": "0094_chunk_43"
+      "id": "0094_chunk_43",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31715,7 +32835,8 @@
       "headings": [
         "Abschrift"
       ],
-      "id": "0055a_chunk_6"
+      "id": "0055a_chunk_6",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -31787,7 +32908,8 @@
       "headings": [
         "Bundesministerium der Finanzen"
       ],
-      "id": "0055a_chunk_14"
+      "id": "0055a_chunk_14",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32062,7 +33184,8 @@
       "headings": [
         "für Antragsteller/Zuwendungsempfänger zur Zusammenarbeit der Partner von Verbundprojekten"
       ],
-      "id": "0110_chunk_11"
+      "id": "0110_chunk_11",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32156,7 +33279,8 @@
       "headings": [
         "EU - Beihilfenrecht"
       ],
-      "id": "0119_chunk_1"
+      "id": "0119_chunk_1",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32193,7 +33317,8 @@
       "headings": [
         "EU - Beihilfenrecht"
       ],
-      "id": "0119_chunk_5"
+      "id": "0119_chunk_5",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32220,7 +33345,8 @@
       "headings": [
         "EU - Beihilfenrecht"
       ],
-      "id": "0119_chunk_8"
+      "id": "0119_chunk_8",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32229,7 +33355,8 @@
       "headings": [
         "EU - Beihilfenrecht"
       ],
-      "id": "0119_chunk_9"
+      "id": "0119_chunk_9",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32238,7 +33365,8 @@
       "headings": [
         "Teil A"
       ],
-      "id": "0119_chunk_10"
+      "id": "0119_chunk_10",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32342,7 +33470,8 @@
       "headings": [
         "1. ANWENDUNGSBEREICH UND BEGRIFFSBESTIMMUNGEN 1.1. Anwendungsbereich"
       ],
-      "id": "0119_chunk_20"
+      "id": "0119_chunk_20",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -32783,7 +33912,14 @@
       "headings": [
         "2.1.2. Öffentliche   Finanzierung   wirtschaftlicher   Tätigkeiten"
       ],
-      "id": "0119_chunk_55"
+      "id": "0119_chunk_55",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "FuE‑Leistungen sowie FuE, die im Auftrag von Unternehmen ausgeführt werden, gelten nicht als unabhängige FuE und dürfen daher nicht als zuwendungsfähige Ausgaben geltend gemacht werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -32851,7 +33987,8 @@
       "headings": [
         "2.2.2. Zusammenarbeit   mit   Unternehmen"
       ],
-      "id": "0119_chunk_60"
+      "id": "0119_chunk_60",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -33092,7 +34229,8 @@
       "headings": [
         "4.1.1. Allgemeine   Bedingungen"
       ],
-      "id": "0119_chunk_82"
+      "id": "0119_chunk_82",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -33531,7 +34669,14 @@
       "headings": [
         "4.5.1.1. Beihilfehöchstintensitäten"
       ],
-      "id": "0119_chunk_117"
+      "id": "0119_chunk_117",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Die maximal zulässigen Beihilfehöchstintensitäten für alle förderfähigen FuEuI‑Maßnahmen sind in Anhang II aufgeführt.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -33971,7 +35116,8 @@
       "headings": [
         "4.6.1. Allgemeine   Erwägungen"
       ],
-      "id": "0119_chunk_146"
+      "id": "0119_chunk_146",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34136,7 +35282,8 @@
       "headings": [
         "i) Verfälschung   dynamischer   Anreize"
       ],
-      "id": "0119_chunk_162"
+      "id": "0119_chunk_162",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34278,7 +35425,8 @@
       "headings": [
         "5. EVALUIERUNG"
       ],
-      "id": "0119_chunk_171"
+      "id": "0119_chunk_171",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34317,7 +35465,8 @@
       "headings": [
         "5. EVALUIERUNG"
       ],
-      "id": "0119_chunk_174"
+      "id": "0119_chunk_174",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34392,7 +35541,8 @@
       "headings": [
         "8. ÜBERPRÜFUNG"
       ],
-      "id": "0119_chunk_179"
+      "id": "0119_chunk_179",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34446,7 +35596,8 @@
       "headings": [
         "8. ÜBERPRÜFUNG"
       ],
-      "id": "0119_chunk_185"
+      "id": "0119_chunk_185",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34807,7 +35958,8 @@
       "headings": [
         "Teil B"
       ],
-      "id": "0119_chunk_191"
+      "id": "0119_chunk_191",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34854,7 +36006,8 @@
       "headings": [
         "Teil B"
       ],
-      "id": "0119_chunk_196"
+      "id": "0119_chunk_196",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34956,7 +36109,8 @@
       "headings": [
         "über die Anwendung der Artikel 107 und 108 des Vertrags über die Arbeitsweise der Europäischen Union  auf  De-minimis-Beihilfen"
       ],
-      "id": "0119_chunk_205"
+      "id": "0119_chunk_205",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -34995,7 +36149,8 @@
       "headings": [
         "über die Anwendung der Artikel 107 und 108 des Vertrags über die Arbeitsweise der Europäischen Union  auf  De-minimis-Beihilfen"
       ],
-      "id": "0119_chunk_209"
+      "id": "0119_chunk_209",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -35103,7 +36258,8 @@
       "headings": [
         "über die Anwendung der Artikel 107 und 108 des Vertrags über die Arbeitsweise der Europäischen Union  auf  De-minimis-Beihilfen"
       ],
-      "id": "0119_chunk_216"
+      "id": "0119_chunk_216",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -35833,7 +36989,8 @@
       "headings": [
         "Inkrafttreten  und  Geltungsdauer"
       ],
-      "id": "0119_chunk_255"
+      "id": "0119_chunk_255",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -35842,7 +36999,8 @@
       "headings": [
         "Inkrafttreten  und  Geltungsdauer"
       ],
-      "id": "0119_chunk_256"
+      "id": "0119_chunk_256",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -35965,7 +37123,14 @@
       "headings": [
         "Hinweise für die Bewilligung von 'De-minimis'-Beihilfen"
       ],
-      "id": "0119_chunk_265"
+      "id": "0119_chunk_265",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Angaben des Zuwendungsempfängers müssen vor Bewilligung von der Behörde auf Plausibilität geprüft werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36025,7 +37190,8 @@
       "headings": [
         "Nebenbestimmungen im Zuwendungsbescheid"
       ],
-      "id": "0119_chunk_269"
+      "id": "0119_chunk_269",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36095,7 +37261,8 @@
       "headings": [
         "Mitteilung gemäß Artikel 6 Abs. 1 der Verordnung (EU) 1407/2013 der Kommission vom 18. Dezember 2013 über die Anwendung der Artikel 107 und 108 des Vertrages über die Arbeitsweise der Europäischen Union auf 'De-minimis' -Beihilfen 1"
       ],
-      "id": "0119_chunk_273"
+      "id": "0119_chunk_273",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36104,7 +37271,8 @@
       "headings": [
         "Mitteilung gemäß Artikel 6 Abs. 1 der Verordnung (EU) 1407/2013 der Kommission vom 18. Dezember 2013 über die Anwendung der Artikel 107 und 108 des Vertrages über die Arbeitsweise der Europäischen Union auf 'De-minimis' -Beihilfen 1"
       ],
-      "id": "0119_chunk_274"
+      "id": "0119_chunk_274",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36305,7 +37473,8 @@
       "headings": [
         "Zu beachtende Erläuterungen:"
       ],
-      "id": "0119_chunk_294"
+      "id": "0119_chunk_294",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36323,7 +37492,8 @@
       "headings": [
         "Zu beachtende Erläuterungen:"
       ],
-      "id": "0119_chunk_296"
+      "id": "0119_chunk_296",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36341,7 +37511,14 @@
       "headings": [
         "Zu beachtende Erläuterungen:"
       ],
-      "id": "0119_chunk_298"
+      "id": "0119_chunk_298",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Förderfähige Aufwendungen dürfen nicht mit weiteren Beihilfen für dieselben förderbaren Aufwendungen kumuliert werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36350,7 +37527,8 @@
       "headings": [
         "Zu beachtende Erläuterungen:"
       ],
-      "id": "0119_chunk_299"
+      "id": "0119_chunk_299",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36634,7 +37812,8 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_326"
+      "id": "0119_chunk_326",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36643,7 +37822,14 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_327"
+      "id": "0119_chunk_327",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zuwendungen dürfen nicht mit weiteren Beihilfen für dieselben förderbaren Aufwendungen kumuliert werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36652,7 +37838,8 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_328"
+      "id": "0119_chunk_328",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36699,7 +37886,8 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_332"
+      "id": "0119_chunk_332",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36708,7 +37896,14 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_333"
+      "id": "0119_chunk_333",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Im Formular muss der zu kürzende Betrag sowie der Subventionswert in Euro angegeben werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36717,7 +37912,14 @@
       "headings": [
         "Muster 'De-minimis'-Bescheinigung"
       ],
-      "id": "0119_chunk_334"
+      "id": "0119_chunk_334",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Im Antrag muss der ungekürzte Förderbetrag sowie der Subventionswert in Euro angegeben werden.",
+          "value": "______ EUR"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36760,7 +37962,14 @@
       "headings": [
         "Hinweis:"
       ],
-      "id": "0119_chunk_338"
+      "id": "0119_chunk_338",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Bei einem zukünftigen Antrag auf Gewährung einer De‑minimis‑Beihilfe muss ein Nachweis über bereits gewährte De‑minimis‑Beihilfen vorgelegt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -36805,7 +38014,8 @@
       "headings": [
         "Hinweis:"
       ],
-      "id": "0119_chunk_343"
+      "id": "0119_chunk_343",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -36814,7 +38024,14 @@
       "headings": [
         "Hinweis:"
       ],
-      "id": "0119_chunk_344"
+      "id": "0119_chunk_344",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Bei Subventionserheblichkeit der Beihilfe wird auf die Nebenbestimmungen im Zuwendungsbescheid verwiesen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -37279,7 +38496,8 @@
       "headings": [
         "Bei der Berechnung der Mitarbeiterzahlen und der finanziellen Schwellenwerte berücksichtigte Unternehmenstypen"
       ],
-      "id": "0119_chunk_382"
+      "id": "0119_chunk_382",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -37509,7 +38727,8 @@
       "headings": [
         "Statistische Daten"
       ],
-      "id": "0119_chunk_403"
+      "id": "0119_chunk_403",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -37800,7 +39019,8 @@
       "headings": [
         "Unternehmenstyp (siehe Erlauterung)"
       ],
-      "id": "0119_chunk_428"
+      "id": "0119_chunk_428",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -37862,7 +39082,8 @@
       "headings": [
         "Angaben zur Ermittlung der GroBenklasse des Unternehmens"
       ],
-      "id": "0119_chunk_434"
+      "id": "0119_chunk_434",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -37945,7 +39166,8 @@
       "headings": [
         "Angaben zur Ermittlung der GroBenklasse des Unternehmens"
       ],
-      "id": "0119_chunk_443"
+      "id": "0119_chunk_443",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -37963,7 +39185,8 @@
       "headings": [
         "Unterschrift"
       ],
-      "id": "0119_chunk_445"
+      "id": "0119_chunk_445",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38017,7 +39240,8 @@
       "headings": [
         "Unterschrift"
       ],
-      "id": "0119_chunk_451"
+      "id": "0119_chunk_451",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38026,7 +39250,8 @@
       "headings": [
         "ERLAUTERUNG"
       ],
-      "id": "0119_chunk_452"
+      "id": "0119_chunk_452",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38149,7 +39374,8 @@
       "headings": [
         "II.MITARBEITERZAHL UND JAHRESARBEITSEINHEITEN()"
       ],
-      "id": "0119_chunk_464"
+      "id": "0119_chunk_464",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38212,7 +39438,8 @@
       "headings": [
         "WiewirddieMitarbeiterzahlberechnet?"
       ],
-      "id": "0119_chunk_470"
+      "id": "0119_chunk_470",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38421,7 +39648,14 @@
       "headings": [
         "Partnerunternehmen"
       ],
-      "id": "0119_chunk_490"
+      "id": "0119_chunk_490",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Die Angaben aus der Zeile 'Insgesamt' der Tabelle sind in Zeile 2 (zu den Partnerunternehmen) der Tabelle im Anhang der Erklärung einzutragen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -38578,7 +39812,8 @@
       "headings": [
         "3. Berechnung der Anteile"
       ],
-      "id": "0119_chunk_507"
+      "id": "0119_chunk_507",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38726,7 +39961,8 @@
       "headings": [
         "B. Berechnungsverfahren"
       ],
-      "id": "0119_chunk_523"
+      "id": "0119_chunk_523",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38735,7 +39971,8 @@
       "headings": [
         "B. Berechnungsverfahren"
       ],
-      "id": "0119_chunk_524"
+      "id": "0119_chunk_524",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38826,7 +40063,8 @@
       "headings": [
         "Tabelle B(2)"
       ],
-      "id": "0119_chunk_533"
+      "id": "0119_chunk_533",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38844,7 +40082,8 @@
       "headings": [
         "Tabelle B(2)"
       ],
-      "id": "0119_chunk_535"
+      "id": "0119_chunk_535",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -38862,7 +40101,14 @@
       "headings": [
         "Tabelle B(2)"
       ],
-      "id": "0119_chunk_537"
+      "id": "0119_chunk_537",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Im Antragsformular müssen folgende Angaben gemacht werden: Firmenbezeichnung, Anschrift (Firmensitz), Register‑ oder MwSt‑Nummer, Name und Titel des/der Unternehmensleitung.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -38972,7 +40218,14 @@
       "headings": [
         "Berichtigung der Mitteilung der Kommission - Muster für eine Erklärung über die zur Einstufung als KMU erforderlichen Angaben"
       ],
-      "id": "0119_chunk_547"
+      "id": "0119_chunk_547",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Autonome Gebietskörperschaften mit einem Jahreshaushalt von weniger als 10 Mio. EUR und weniger als 5 000 Einwohnern fallen unter eine gesonderte vergaberechtliche Schwelle (z. B. Befreiung von der Pflicht zur Ausschreibung).",
+          "value": "Jahreshaushalt < 10 000 000 EUR und Einwohnerzahl < 5 000"
+        }
+      ]
     },
     {
       "type": "document",
@@ -38990,7 +40243,8 @@
       "headings": [
         "'Verordnung PR Nr. 30/53 über die Preise bei öffentlichen Aufträgen'"
       ],
-      "id": "0380_chunk_0"
+      "id": "0380_chunk_0",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39090,7 +40344,8 @@
       "headings": [
         "§ 3 Geltung der Preisvorschriften"
       ],
-      "id": "0380_chunk_8"
+      "id": "0380_chunk_8",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39099,7 +40354,14 @@
       "headings": [
         "§ 4 Preise für marktgängige Leistungen"
       ],
-      "id": "0380_chunk_9"
+      "id": "0380_chunk_9",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Für marktgängige Leistungen dürfen die im Verkehr üblichen preisrechtlich zulässigen Preise nicht überschritten werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -39199,7 +40461,14 @@
       "headings": [
         "§ 5 Selbstkostenpreise"
       ],
-      "id": "0380_chunk_18"
+      "id": "0380_chunk_18",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Bei der Angebotseinreichung ist, sofern die Auftragsverhältnisse es zulassen, eine Selbstkostenpreisberechnung beizufügen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -39256,7 +40525,8 @@
       "headings": [
         "§ 6 Selbstkostenfestpreise und Selbstkostenrichtpreise"
       ],
-      "id": "0380_chunk_22"
+      "id": "0380_chunk_22",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39486,7 +40756,8 @@
       "headings": [
         "§ 12 Inkrafttreten"
       ],
-      "id": "0380_chunk_37"
+      "id": "0380_chunk_37",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39535,7 +40806,8 @@
       "headings": [
         "§ 12 Inkrafttreten"
       ],
-      "id": "0380_chunk_42"
+      "id": "0380_chunk_42",
+      "rules": []
     },
     {
       "type": "document",
@@ -39582,7 +40854,8 @@
       "headings": [
         "Nr. 3 Erklärung des Auftragnehmers"
       ],
-      "id": "0381_chunk_3"
+      "id": "0381_chunk_3",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39773,7 +41046,8 @@
       "headings": [
         "Nr. 8 Bewertung"
       ],
-      "id": "0381_chunk_18"
+      "id": "0381_chunk_18",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39893,7 +41167,14 @@
       "headings": [
         "Nr. 10 Gliederung der Preiskalkulationen"
       ],
-      "id": "0381_chunk_27"
+      "id": "0381_chunk_27",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Vor- und Nachkalkulationen müssen in der Gliederung so aufeinander abgestimmt werden, dass Vergleiche möglich sind.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -39912,7 +41193,8 @@
       "headings": [
         "Nr. 10 Gliederung der Preiskalkulationen"
       ],
-      "id": "0381_chunk_29"
+      "id": "0381_chunk_29",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39970,7 +41252,8 @@
       "headings": [
         "Nr. 10 Gliederung der Preiskalkulationen"
       ],
-      "id": "0381_chunk_33"
+      "id": "0381_chunk_33",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -39979,7 +41262,8 @@
       "headings": [
         "Nr. 10 Gliederung der Preiskalkulationen"
       ],
-      "id": "0381_chunk_34"
+      "id": "0381_chunk_34",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40093,7 +41377,14 @@
       "headings": [
         "Nr. 12 Auswärtige Bearbeitung"
       ],
-      "id": "0381_chunk_44"
+      "id": "0381_chunk_44",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Fertigungsgemeinkosten der werkseigenen Fertigungsstellen dürfen nicht auf fremde Lohnarbeitskosten angerechnet werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40127,7 +41418,14 @@
       "headings": [
         "Nr. 13 Hilfs- und Betriebsstoffe"
       ],
-      "id": "0381_chunk_47"
+      "id": "0381_chunk_47",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Die Abgrenzung zwischen Fertigungsstoffen, Hilfs- und Betriebsstoffen muss nach einheitlichen Gesichtspunkten stetig durchgeführt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40168,7 +41466,14 @@
       "headings": [
         "Nr. 14 Sonderbetriebsmittel"
       ],
-      "id": "0381_chunk_50"
+      "id": "0381_chunk_50",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Der Verlauf und Stand der Tilgung durch die auf Liefergegenstände verrechneten Anteile muss buch- oder karteimäßig nachweisbar sein.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40177,7 +41482,14 @@
       "headings": [
         "Nr. 15 Brennstoffe und Energie"
       ],
-      "id": "0381_chunk_51"
+      "id": "0381_chunk_51",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Zu Brennstoffen und Energie zählen feste, flüssige und gasförmige Brenn‑ und Treibstoffe, Dampf, Strom, Pressluft und Presswasser.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40186,7 +41498,14 @@
       "headings": [
         "Nr. 15 Brennstoffe und Energie"
       ],
-      "id": "0381_chunk_52"
+      "id": "0381_chunk_52",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Brennstoff‑ und Energiekosten sind verrechnungstechnisch wie Betriebsstoffe zu behandeln und damit als zuwendungsfähige Ausgaben anzusehen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40268,7 +41587,8 @@
       "headings": [
         "Nr. 17 Bewertung"
       ],
-      "id": "0381_chunk_58"
+      "id": "0381_chunk_58",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40297,7 +41617,14 @@
       "headings": [
         "Nr. 18 Einstandspreis"
       ],
-      "id": "0381_chunk_61"
+      "id": "0381_chunk_61",
+      "rules": [
+        {
+          "category": "Vergabe",
+          "rule": "Der Auftragnehmer muss beim Einkauf alle geschäftsüblichen Vorteile zugunsten des Auftraggebers wahrnehmen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40332,7 +41659,8 @@
       "headings": [
         "Nr. 19 Zulieferungen aus eigenen Vorbetrieben"
       ],
-      "id": "0381_chunk_64"
+      "id": "0381_chunk_64",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40341,7 +41669,8 @@
       "headings": [
         "Nr. 19 Zulieferungen aus eigenen Vorbetrieben"
       ],
-      "id": "0381_chunk_65"
+      "id": "0381_chunk_65",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40350,7 +41679,8 @@
       "headings": [
         "Nr. 19 Zulieferungen aus eigenen Vorbetrieben"
       ],
-      "id": "0381_chunk_66"
+      "id": "0381_chunk_66",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40427,7 +41757,14 @@
       "headings": [
         "Nr. 22 Verrechnung"
       ],
-      "id": "0381_chunk_72"
+      "id": "0381_chunk_72",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Der kalkulatorische Unternehmerlohn ist als Kostenart zulässig und kann in der Kostenkalkulation ausgewiesen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40436,7 +41773,8 @@
       "headings": [
         "Nr. 22 Verrechnung"
       ],
-      "id": "0381_chunk_73"
+      "id": "0381_chunk_73",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40554,7 +41892,14 @@
       "headings": [
         "Nr. 26 Ansatz"
       ],
-      "id": "0381_chunk_82"
+      "id": "0381_chunk_82",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Instandsetzungskosten sind für die Benutzungsdauer des Anlagegegenstandes in den Abschreibungen zu verrechnen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40615,7 +41960,14 @@
       "headings": [
         "Nr. 28 Nachweis"
       ],
-      "id": "0381_chunk_86"
+      "id": "0381_chunk_86",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Entwicklungs‑ und Entwurfskosten müssen in den Kalkulationen getrennt nach 'freier' und 'gebundener' Entwicklung ausgewiesen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40640,7 +41992,8 @@
       "headings": [
         "Nr. 30 Steuern"
       ],
-      "id": "0381_chunk_88"
+      "id": "0381_chunk_88",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40696,7 +42049,8 @@
       "headings": [
         "Nr. 32 Gebühren und Beiträge"
       ],
-      "id": "0381_chunk_91"
+      "id": "0381_chunk_91",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40821,7 +42175,14 @@
       "headings": [
         "Nr. 35 Vertreterprovisionen"
       ],
-      "id": "0381_chunk_99"
+      "id": "0381_chunk_99",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Provisionen und ähnliche Vergütungen sind in den Kalkulationen gesondert auszuweisen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40846,7 +42207,14 @@
       "headings": [
         "Nr. 37 Begriff"
       ],
-      "id": "0381_chunk_101"
+      "id": "0381_chunk_101",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Anlageabschreibungen werden als zuwendungsfähige Ausgaben definiert: Kosten der Wertminderung betriebsnotwendiger Anlagegüter.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40855,7 +42223,14 @@
       "headings": [
         "Nr. 37 Begriff"
       ],
-      "id": "0381_chunk_102"
+      "id": "0381_chunk_102",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Der Abschreibungsbetrag darf sowohl nach Zeiteinheit als auch nach Leistungseinheit (z. B. Tonne, Stück, Maschinenstunde) ermittelt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -40921,7 +42296,8 @@
       "headings": [
         "Nr. 39 Nutzung der Anlagen"
       ],
-      "id": "0381_chunk_107"
+      "id": "0381_chunk_107",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -40999,7 +42375,14 @@
       "headings": [
         "Nr. 43 Bemessung"
       ],
-      "id": "0381_chunk_112"
+      "id": "0381_chunk_112",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Der Bundesminister für Wirtschaft setzt in Abstimmung mit dem Bundesminister der Finanzen einen Höchstsatz für kalkulatorische Zinsen fest.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41024,7 +42407,14 @@
       "headings": [
         "Nr. 43 Bemessung"
       ],
-      "id": "0381_chunk_114"
+      "id": "0381_chunk_114",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Nebenerträge aus Teilen des betriebsnotwendigen Kapitals (z. B. Zinsen, Mieten, Pachten) sind als Gutschriften zu behandeln.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41069,7 +42459,14 @@
       "headings": [
         "Nr. 45 Wertansatz des betriebsnotwendigen Vermögens"
       ],
-      "id": "0381_chunk_118"
+      "id": "0381_chunk_118",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Gegenstände des Umlaufvermögens sind auf der Grundlage von Anschaffungspreisen oder Herstellungskosten zu bewerten.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41124,7 +42521,8 @@
       "headings": [
         "Nr. 46 Mengenansatz des betriebsnotwendigen Vermögens"
       ],
-      "id": "0381_chunk_123"
+      "id": "0381_chunk_123",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -41133,7 +42531,8 @@
       "headings": [
         "Nr. 47 Abgrenzung"
       ],
-      "id": "0381_chunk_124"
+      "id": "0381_chunk_124",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -41152,7 +42551,14 @@
       "headings": [
         "Nr. 47 Abgrenzung"
       ],
-      "id": "0381_chunk_126"
+      "id": "0381_chunk_126",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Einzelwagnisse werden definiert als die mit der Leistungserstellung in den einzelnen Tätigkeitsgebieten des Betriebs verbundenen Verlustgefahren.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41232,7 +42638,14 @@
       "headings": [
         "Nr. 49 Ermittlung der kalkulatorischen Wagniskosten"
       ],
-      "id": "0381_chunk_131"
+      "id": "0381_chunk_131",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Wagniskosten sind nach Wagnisarten und Kostenträgergruppen getrennt zu ermitteln und auszugleichen.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41323,7 +42736,14 @@
       "headings": [
         "Nr. 52 Höhe der Zurechnung"
       ],
-      "id": "0381_chunk_138"
+      "id": "0381_chunk_138",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Ein Leistungsgewinn darf nur berechnet werden, wenn er zwischen Auftraggeber und Auftragnehmer vereinbart wurde.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -41332,7 +42752,8 @@
       "headings": [
         "Nr. 52 Höhe der Zurechnung"
       ],
-      "id": "0381_chunk_139"
+      "id": "0381_chunk_139",
+      "rules": []
     },
     {
       "type": "document",
@@ -41792,7 +43213,8 @@
       "headings": [
         "Antrag auf Teilnahme am Verfahren profi-Online"
       ],
-      "id": "3310_chunk_47"
+      "id": "3310_chunk_47",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42479,7 +43901,8 @@
       "headings": [
         "Rücksendeformular"
       ],
-      "id": "3310_chunk_121"
+      "id": "3310_chunk_121",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42534,7 +43957,8 @@
       "headings": [
         "1 Allgemeine Informationen"
       ],
-      "id": "3310_chunk_127"
+      "id": "3310_chunk_127",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42543,7 +43967,8 @@
       "headings": [
         "1 Allgemeine Informationen"
       ],
-      "id": "3310_chunk_128"
+      "id": "3310_chunk_128",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42561,7 +43986,8 @@
       "headings": [
         "1 Allgemeine Informationen"
       ],
-      "id": "3310_chunk_130"
+      "id": "3310_chunk_130",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42570,7 +43996,8 @@
       "headings": [
         "1 Allgemeine Informationen"
       ],
-      "id": "3310_chunk_131"
+      "id": "3310_chunk_131",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42729,7 +44156,14 @@
       "headings": [
         "2.3.1 Benutzerverwaltung"
       ],
-      "id": "3310_chunk_143"
+      "id": "3310_chunk_143",
+      "rules": [
+        {
+          "category": "Formular",
+          "rule": "Im Profi‑Online‑Antrag muss mindestens eine Person für die Rolle „Benutzerverwaltung“ benannt werden; diese Angabe ist für jedes Vorhaben verpflichtend.",
+          "value": "mind. 1 Person"
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -42747,7 +44181,8 @@
       "headings": [
         "2.3.1 Benutzerverwaltung"
       ],
-      "id": "3310_chunk_145"
+      "id": "3310_chunk_145",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -42813,7 +44248,8 @@
       "headings": [
         "2.4  Technische Voraussetzungen"
       ],
-      "id": "3310_chunk_150"
+      "id": "3310_chunk_150",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43802,7 +45238,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_40"
+      "id": "0348_chunk_40",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43811,7 +45248,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_41"
+      "id": "0348_chunk_41",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43840,7 +45278,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_44"
+      "id": "0348_chunk_44",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43849,7 +45288,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_45"
+      "id": "0348_chunk_45",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43858,7 +45298,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_46"
+      "id": "0348_chunk_46",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43907,7 +45348,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_51"
+      "id": "0348_chunk_51",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43916,7 +45358,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_52"
+      "id": "0348_chunk_52",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43925,7 +45368,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_53"
+      "id": "0348_chunk_53",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43944,7 +45388,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_55"
+      "id": "0348_chunk_55",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43953,7 +45398,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_56"
+      "id": "0348_chunk_56",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43972,7 +45418,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_58"
+      "id": "0348_chunk_58",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -43991,7 +45438,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_60"
+      "id": "0348_chunk_60",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -44000,7 +45448,8 @@
       "headings": [
         "Verzeichnis der Abkürzungen"
       ],
-      "id": "0348_chunk_61"
+      "id": "0348_chunk_61",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -44352,7 +45801,8 @@
       "headings": [
         "6 Abrechnung nach Selbstkosten, pauschalierte Abrechnung"
       ],
-      "id": "0348_chunk_76"
+      "id": "0348_chunk_76",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -44646,7 +46096,14 @@
       "headings": [
         "9 Berichte"
       ],
-      "id": "0348_chunk_87"
+      "id": "0348_chunk_87",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Im Erfolgskontrollbericht kann auf Abschnitte des Schlussberichts verwiesen werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -44717,7 +46174,14 @@
       "headings": [
         "10 Ergebnis"
       ],
-      "id": "0348_chunk_91"
+      "id": "0348_chunk_91",
+      "rules": [
+        {
+          "category": "Ausgaben",
+          "rule": "Werden für die in Nr. 10.3 genannten Teile des Ergebnisses Investitionszulagen gewährt, so ist entsprechend Nr. 7.4 Satz 2‑4 zu verfahren.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",
@@ -45112,7 +46576,8 @@
       "headings": [
         "19 Nachweis der Verwendung (Verwendungs- und Zwischennachweis)"
       ],
-      "id": "0348_chunk_109"
+      "id": "0348_chunk_109",
+      "rules": []
     },
     {
       "type": "chunk",
@@ -45121,7 +46586,14 @@
       "headings": [
         "19 Nachweis der Verwendung (Verwendungs- und Zwischennachweis)"
       ],
-      "id": "0348_chunk_110"
+      "id": "0348_chunk_110",
+      "rules": [
+        {
+          "category": "Bericht",
+          "rule": "Abweichungen gegenüber der bei Bewilligung vorliegenden Finanzierung müssen dargestellt werden.",
+          "value": null
+        }
+      ]
     },
     {
       "type": "chunk",

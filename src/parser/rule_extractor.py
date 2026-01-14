@@ -126,7 +126,7 @@ def process_graph_rules(graph_path: Path):
             if "rules" in node and isinstance(node["rules"], list):
                 continue
             text = node.get("text", "")
-            if len(text) > 150:
+            if len(text) > 80:
                 chunks_to_process.append(node)
 
     if not chunks_to_process:

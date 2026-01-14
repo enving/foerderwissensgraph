@@ -31,12 +31,17 @@ class HybridSearchEngine:
             return nx.node_link_graph(data)
 
     def search(
-        self, query: str, limit: int = 5, filter_dict: Optional[Dict[str, Any]] = None
+        self,
+        query: str,
+        limit: int = 5,
+        filter_dict: Optional[Dict[str, Any]] = None,
+        multi_hop: bool = True,
     ) -> List[Dict[str, Any]]:
         """
         Performs a hybrid search:
         1. Semantic search in ChromaDB.
         2. Graph traversal to fetch 'Breadcrumbs' and 'Source URL'.
+        3. Context expansion (Multi-Hop) if requested.
         """
         logger.info(f"Hybrid search for: '{query}'")
 
@@ -49,12 +54,18 @@ class HybridSearchEngine:
         if not results or not results.get("ids"):
             return []
 
-        ids = results["ids"][0] if results.get("ids") else []
+        ids = results.get("ids", [[]])[0]
         distances = (
-            results["distances"][0] if results.get("distances") else [0] * len(ids)
+            results.get("distances", [[]])[0]
+            if results.get("distances")
+            else [0] * len(ids)
         )
-        metadatas = results["metadatas"][0] if results.get("metadatas") else []
-        documents = results["documents"][0] if results.get("documents") else []
+        metadatas = (
+            results.get("metadatas", [[]])[0] if results.get("metadatas") else []
+        )
+        documents = (
+            results.get("documents", [[]])[0] if results.get("documents") else []
+        )
 
         for i in range(len(ids)):
             chunk_id = ids[i]
@@ -68,6 +79,7 @@ class HybridSearchEngine:
                 "source_url": "",
                 "doc_title": "",
                 "rules": [],
+                "neighbor_context": [],
             }
 
             if chunk_id in self.graph:
@@ -75,13 +87,33 @@ class HybridSearchEngine:
                 entry["breadcrumbs"] = node_data.get("context", "")
                 entry["rules"] = node_data.get("rules", [])
 
-                parents = list(self.graph.predecessors(chunk_id))
-                for p in parents:
-                    p_data = self.graph.nodes[p]
-                    if p_data.get("type") == "document":
-                        entry["source_url"] = p_data.get("url", "")
-                        entry["doc_title"] = p_data.get("title", "")
-                        break
+                # 3. Context Expansion (Multi-Hop)
+                if multi_hop:
+                    # Get sibling chunks (chunks belonging to the same document)
+                    parents = list(self.graph.predecessors(chunk_id))
+                    for p in parents:
+                        p_data = self.graph.nodes[p]
+                        if p_data.get("type") == "document":
+                            entry["source_url"] = p_data.get("url", "")
+                            entry["doc_title"] = p_data.get("title", "")
+
+                            # Fetch siblings
+                            siblings = list(self.graph.successors(p))
+                            for sib_id in siblings:
+                                if sib_id != chunk_id:
+                                    sib_data = self.graph.nodes[sib_id]
+                                    if sib_data.get("type") == "chunk":
+                                        entry["neighbor_context"].append(
+                                            {
+                                                "id": sib_id,
+                                                "text": sib_data.get("text", "")[:200]
+                                                + "...",
+                                                "breadcrumbs": sib_data.get(
+                                                    "context", ""
+                                                ),
+                                            }
+                                        )
+                            break
 
             hybrid_results.append(entry)
 
