@@ -109,6 +109,9 @@ class RuleExtractor:
         return []
 
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
 def process_graph_rules(graph_path: Path):
     if not graph_path.exists():
         logger.error(f"Graph file not found: {graph_path}")
@@ -120,31 +123,45 @@ def process_graph_rules(graph_path: Path):
     extractor = RuleExtractor()
     nodes = data.get("nodes", [])
 
-    chunk_count = 0
-    save_interval = 20
-
-    logger.info(f"Starting rule extraction for all chunks in {graph_path}")
-
+    chunks_to_process = []
     for i, node in enumerate(nodes):
         if node.get("type") == "chunk":
-            # Skip if already processed (marked as list, even if empty)
             if "rules" in node and isinstance(node["rules"], list):
                 continue
-
             text = node.get("text", "")
             if len(text) > 150:
-                logger.info(
-                    f"[{i}/{len(nodes)}] Extracting rules from chunk {node['id']}"
-                )
-                rules = extractor.extract_rules(text)
-                node["rules"] = rules  # Will be empty list if extraction failed
+                chunks_to_process.append(node)
+
+    if not chunks_to_process:
+        logger.info("No new chunks to process.")
+        return
+
+    logger.info(
+        f"Starting rule extraction for {len(chunks_to_process)} chunks in {graph_path}"
+    )
+
+    save_interval = 20
+    chunk_count = 0
+
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        future_to_node = {
+            executor.submit(extractor.extract_rules, node.get("text", "")): node
+            for node in chunks_to_process
+        }
+
+        for future in as_completed(future_to_node):
+            node = future_to_node[future]
+            try:
+                rules = future.result()
+                node["rules"] = rules
                 chunk_count += 1
 
-                # Periodic save
-                if chunk_count > 0 and chunk_count % save_interval == 0:
+                if chunk_count % save_interval == 0:
                     with open(graph_path, "w", encoding="utf-8") as f:
                         json.dump(data, f, indent=2, ensure_ascii=False)
                     logger.info(f"Intermediate save: {chunk_count} chunks processed.")
+            except Exception as e:
+                logger.error(f"Rule extraction for chunk {node['id']} failed: {e}")
 
     with open(graph_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)

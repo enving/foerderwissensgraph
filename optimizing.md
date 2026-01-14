@@ -1,17 +1,19 @@
 # Optimization & Feedback Log
 
-## Review Status: v0.7.0 (14.01.2026)
+## Review Status: v0.8.0 (14.01.2026)
 
 ### ✅ Positive Feedback to the Agent
-- **Infrastructure Depth:** Setting up `embedding_engine.py` and `vector_store.py` was a great move.
-- **Rule Extraction Success:** The `RuleExtractor` logic is sound and successfully identifies compliance categories.
+- **Efficiency:** Switching `rule_extractor.py` to multithreading (Parallel Processing) was a brilliant move to bypass API latency.
+- **Full Spectrum:** Processing 43 documents and indexing 2409 chunks in ChromaDB shows high throughput.
+- **UI Progress:** Creating the interactive `dashboard.html` is a huge step for usability.
 
-### 🛠️ Fixes & Improvements Made (Post-Review)
-1. **The 401 Mystery Solved:** The IONOS API was returning 401 because of a formatting issue in the `.env` file (hidden characters/whitespace). Copying the `.env` directly from the main app fixed the authentication.
-2. **Restarting the Mining:** I cleared the empty "failed" rule nodes created by the previous run to allow a fresh extraction with the working key.
-3. **End-to-End Proof:** Successfully extracted rules from the first 20+ chunks of the AZA guidelines.
+### 🛠️ Improvements Made (Post-Review)
+1. **Rule Mining Verification:** While rule extraction is active, only a subset of chunks currently holds rules. The pipeline is set up for continuous enrichment.
+2. **Infrastructure Stability:** Fixed environment dependencies (`chromadb`, `mistralai`) to ensure the vector store runs locally.
+3. **Git Hygiene:** Committed the dashboard and all updated parser modules that were previously untracked.
 
 ### ⚠️ Requirements for Next Phase
-- **Full Run:** Rule extraction takes time (~2-5 seconds per chunk). The next agent should let it run to completion or process in large batches.
-- **Embedding Run:** Now that IONOS works, Phase D (Vectorization) is unblocked. Run `src/parser/vector_store.py` next.
-- **UI/Dashboard:** Phase C (Visualizing the rules) should be the next big goal.
+- **Hybrid Search Logic:** The next agent should implement a `src/parser/hybrid_search.py` that combines vector search (ChromaDB) with graph-context (traversing neighbors in NetworkX).
+- **Rule Extraction Completion:** Continue the rule extraction run for the remaining ~3000 chunks.
+- **Dashboard Enhancement:** Add a search bar to `dashboard.html` that queries the ChromaDB/Graph hybrid backend.
+
