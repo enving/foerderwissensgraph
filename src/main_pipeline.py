@@ -25,17 +25,35 @@ def main():
     builder = GraphBuilder()
 
     # Load existing graph if available
+    existing_hashes = set()
     if output_graph_path.exists():
         builder.load_graph(output_graph_path)
+        for node_id, data in builder.graph.nodes(data=True):
+            if data.get("type") == "document" and "hash" in data:
+                existing_hashes.add(data["hash"])
 
     processed_count = 0
-    # Process only a few documents for the first version/test
-    # We can scale this up later
-    limit = 5
+    limit = None
 
     for nr, file_info in manifest.get("files", {}).items():
-        if processed_count >= limit:
+        if limit is not None and processed_count >= limit:
             break
+
+        file_hash = file_info["hash"]
+        filename = file_info["filename"]
+        if file_hash in existing_hashes:
+            logger.info(f"Updating metadata for {nr}")
+            builder.add_document(
+                nr,
+                {
+                    "title": file_info["title"],
+                    "category": file_info["category"],
+                    "hash": file_info["hash"],
+                    "filename": filename,
+                    "url": file_info.get("url"),
+                },
+            )
+            continue
 
         filename = file_info["filename"]
         if not filename.endswith(".pdf"):
@@ -82,6 +100,7 @@ def main():
                 )
 
             processed_count += 1
+            builder.save_graph(output_graph_path)
 
         except Exception as e:
             logger.error(f"Error processing {nr}: {e}")

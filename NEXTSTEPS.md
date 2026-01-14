@@ -2,26 +2,28 @@
 
 Dieses Dokument dient als dynamischer Status-Bericht und Übergabepunkt für Agenten-Sessions.
 
-## 📍 Aktueller Status (v0.3.0)
+## 📍 Aktueller Status (v0.4.0)
 - [x] Repository-Initialisierung.
-- [x] Playwright Discovery-Test & Full Sync BMWK (69 Dokumente).
-- [x] **Docling Integration:** `src/parser/docling_engine.py` für hierarchisches Markdown-Parsing fertiggestellt.
-- [x] **Graph-Architektur:** `src/graph/graph_builder.py` mit NetworkX implementiert.
-- [x] **Initialer Graph:** Erste 5 Dokumente via `src/main_pipeline.py` verarbeitet.
+- [x] Full Sync BMWK (69 Dokumente).
+- [x] **Extraction Pipeline:** Alle 50 PDFs via Docling verarbeitet und hierarchisch gechunkt.
+- [x] **Smart Metadata:** Download-URLs in allen Graph-Knoten verankert.
+- [x] **Rule Extraction:** `src/parser/rule_extractor.py` für IONOS/Mistral Integration bereit.
+- [x] **Versioning:** Automatische Verknüpfung von ANBest-P Generationen via `SUPERSEDES`-Kanten implementiert.
 
 ## 🛠️ Meilensteine & Tasks
 
 ### Phase B: Extraction & Processing (Priorität: Hoch)
-- [ ] **Full Processing:** Pipeline für alle 69 BMWK-Dokumente ausführen (Scale-up).
-- [ ] **Requirement Extraction:** Implementierung der LLM-Logik (IONOS/Mistral), um aus den MD-Chunks konkrete Regeln zu extrahieren. Fokus: **Vergaberechtliche Schwellenwerte** (z.B. >500€), **Berichtspflichten**, **Einstufungskriterien** und **Formularstrukturen**. 
-- [ ] **Metadata Enrichment:** Stand-Datum, Ministerium-Metadaten und **Download-URLs** (Traceability) tiefer in die Knoten integrieren.
+- [x] **Full Processing:** Pipeline für alle BMWK-PDFs ausgeführt.
+- [x] **Requirement Extraction Skeleton:** LLM-Logik implementiert (IONOS/Mistral).
+- [x] **Metadata Enrichment:** Download-URLs integriert.
 
 ### Phase C: Knowledge Graph & Versioning (Priorität: Medium)
-- [ ] **Temporal Linking:** Automatische Erstellung von `SUPERSEDES`-Kanten zwischen Dokumentversionen basierend auf Titeln und Daten (wichtig für ANBest-P Historie).
+- [x] **Temporal Linking:** `SUPERSEDES`-Kanten erstellt.
 - [ ] **D3.js Export:** Erstellung eines Export-Moduls für das Admin-Dashboard (Visualisierung).
 
 ### Phase D: Graph-RAG (Priorität: Hoch)
 - [ ] **Vector Indexing:** Anbindung von ChromaDB für die semantische Suche über die Graph-Knoten.
+- [ ] **Requirement Mining:** Erster Full-Run der Rule-Extraction über alle Chunks.
 
 
 ## 🔄 Versionierung & Kontinuität
