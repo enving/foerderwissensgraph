@@ -23,8 +23,51 @@ def search():
         return jsonify([])
 
     limit = int(request.args.get("limit", 5))
+
+    # Filter parameters
+    filters = {
+        "ministerium": request.args.get("ministerium"),
+        "kuerzel": request.args.get("kuerzel"),
+        "stand_after": request.args.get("stand_after"),
+    }
+
     results = engine.search(query, limit=limit)
-    return jsonify(results)
+
+    # Apply filters to results
+    filtered_results = []
+    for res in results:
+        match = True
+        if (
+            filters["ministerium"]
+            and res.get("ministerium") != filters["ministerium"]
+            and res.get("herausgeber") != filters["ministerium"]
+        ):
+            match = False
+        if filters["kuerzel"] and filters["kuerzel"] not in res.get("kuerzel", ""):
+            match = False
+        if filters["stand_after"] and res.get("stand"):
+            res_stand = res.get("stand")
+            if res_stand and res_stand < filters["stand_after"]:
+                match = False
+
+        if match:
+            filtered_results.append(res)
+
+    # If no Answer Engine result, just return filtered results
+    # Task 5: Implement Answer Engine
+    if filtered_results and len(query.split()) > 3:
+        top_context = "\n---\n".join(
+            [
+                f"Source: {r.get('doc_title')}\nText: {r.get('text')}"
+                for r in filtered_results[:3]
+            ]
+        )
+        # Placeholder for Answer Engine logic
+        # In a real scenario, we would call an LLM here
+        answer = f"Basierend auf den Dokumenten: {filtered_results[0].get('doc_title')} etc.\n\nAntwort: [LLM Answer Engine placeholder. Top-3 Context used.]"
+        return jsonify({"answer": answer, "results": filtered_results})
+
+    return jsonify(filtered_results)
 
 
 if __name__ == "__main__":

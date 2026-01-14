@@ -32095,7 +32095,7 @@
       "id": "0025",
       "ministerium": "BMWK",
       "herausgeber": "BMWK",
-      "stand": null,
+      "stand": "2018-08",
       "kuerzel": "Obergrenzen"
     },
     {
@@ -67847,6 +67847,36 @@
       "source": "0348",
       "target": "0348_chunk_122",
       "key": 0
+    },
+    {
+      "source": "0323d",
+      "target": "0328",
+      "relation": "EQUIVALENT_TO"
+    },
+    {
+      "source": "0328",
+      "target": "0323d",
+      "relation": "EQUIVALENT_TO"
+    },
+    {
+      "source": "0323e",
+      "target": "0328a",
+      "relation": "EQUIVALENT_TO"
+    },
+    {
+      "source": "0328a",
+      "target": "0323e",
+      "relation": "EQUIVALENT_TO"
+    },
+    {
+      "source": "0323f",
+      "target": "0328b",
+      "relation": "EQUIVALENT_TO"
+    },
+    {
+      "source": "0328b",
+      "target": "0323f",
+      "relation": "EQUIVALENT_TO"
     }
   ]
 }

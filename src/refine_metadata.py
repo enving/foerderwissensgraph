@@ -63,13 +63,24 @@ def refine_metadata():
             # Pattern: (Month Year) or (Month; Year) or (DD.MM.YY)
             stand = None
 
-            # Try "Month Year"
+            # Try "Month Year" or "(Month Year)"
             date_match = re.search(r"([a-zA-Zä]+)\s+(\d{4})", title, re.IGNORECASE)
             if date_match:
                 m = date_match.group(1).lower()
                 y = date_match.group(2)
                 if m in MONTHS:
                     stand = f"{y}-{MONTHS[m]}"
+
+            # Try "(August 2018)" or "August 2018"
+            if not stand:
+                month_year_paren = re.search(
+                    r"\((?:Stand[:\s]+)?([a-zA-Zä]+)\s+(\d{4})\)", title, re.IGNORECASE
+                )
+                if month_year_paren:
+                    m = month_year_paren.group(1).lower()
+                    y = month_year_paren.group(2)
+                    if m in MONTHS:
+                        stand = f"{y}-{MONTHS[m]}"
 
             # Try "98" style (common in old BMBF docs)
             if not stand:
