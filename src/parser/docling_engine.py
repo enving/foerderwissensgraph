@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from typing import List, Dict, Any, Iterator
 from docling.document_converter import DocumentConverter
-from docling.chunking import HierarchicalChunker
+from docling_core.transforms.chunker.hierarchical_chunker import HierarchicalChunker
 
 
 class DoclingEngine:

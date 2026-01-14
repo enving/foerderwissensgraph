@@ -5,6 +5,7 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
+from src.models.schemas import RequirementRuleResult, RequirementRule
 
 load_dotenv()
 
@@ -78,10 +79,8 @@ class RuleExtractor:
                     response.raise_for_status()
                     result = response.json()
                     content = result["choices"][0]["message"]["content"]
-                    data = json.loads(content)
-                    if isinstance(data, list):
-                        return data
-                    return data.get("rules", [])
+                    validated = RequirementRuleResult.model_validate_json(content)
+                    return [rule.model_dump() for rule in validated.rules]
             except Exception as e:
                 logger.error(f"IONOS Extraction failed: {e}")
 
@@ -99,10 +98,8 @@ class RuleExtractor:
                 )
                 content = response.choices[0].message.content
                 if content:
-                    data = json.loads(content)
-                    if isinstance(data, list):
-                        return data
-                    return data.get("rules", [])
+                    validated = RequirementRuleResult.model_validate_json(content)
+                    return [rule.model_dump() for rule in validated.rules]
             except Exception as e:
                 logger.error(f"Mistral Fallback Extraction failed: {e}")
 

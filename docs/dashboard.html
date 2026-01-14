@@ -144,13 +144,24 @@
             </div>
 
             <!-- Search Overlay -->
-            <div class="absolute top-6 right-8 z-10 w-80">
+            <div class="absolute top-6 right-8 z-10 w-96">
                 <div class="relative group pointer-events-auto">
-                    <input type="text" id="searchInput" placeholder="Suche nach Titeln oder Regeln..." 
+                    <input type="text" id="hybridSearchInput" placeholder="Hybrid Search (ChromaDB + Graph)..." 
                         class="w-full bg-white/90 backdrop-blur-md border border-gray-200 rounded-full px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-federal-500 focus:border-transparent shadow-sm transition-all group-hover:shadow-md"
-                        oninput="handleSearch(this.value)">
-                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                        onkeydown="if(event.key === 'Enter') performHybridSearch(this.value)">
+                    <button onclick="performHybridSearch(document.getElementById('hybridSearchInput').value)" class="absolute right-4 top-1/2 -translate-y-1/2 text-federal-600 hover:text-federal-800">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </button>
+                </div>
+                <div id="searchResults" class="hidden mt-4 bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200 shadow-xl overflow-hidden pointer-events-auto max-h-[70vh] flex flex-col">
+                    <div class="p-3 bg-federal-50 border-b border-gray-100 flex justify-between items-center">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Suchergebnisse</span>
+                        <button onclick="document.getElementById('searchResults').classList.add('hidden')" class="text-gray-400 hover:text-federal-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                    <div id="resultsList" class="overflow-y-auto sidebar-scroll p-4 space-y-4">
+                        <!-- Results injected here -->
                     </div>
                 </div>
             </div>
@@ -433,6 +444,61 @@
 
             // Highlight in graph
             d3.selectAll(".node").classed("highlight-neighbor", n => n.id === d.id);
+        }
+
+        async function performHybridSearch(query) {
+            if (!query) return;
+            
+            const resultsDiv = document.getElementById('searchResults');
+            const list = document.getElementById('resultsList');
+            resultsDiv.classList.remove('hidden');
+            list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Suche läuft...</div>';
+            
+            try {
+                const response = await fetch(`http://localhost:5001/api/search?q=${encodeURIComponent(query)}`);
+                const results = await response.json();
+                
+                if (results.length === 0) {
+                    list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Keine Ergebnisse gefunden.</div>';
+                    return;
+                }
+                
+                list.innerHTML = results.map(res => `
+                    <div class="p-3 bg-white border border-gray-100 rounded-xl hover:border-federal-300 transition-all cursor-pointer group"
+                         onclick="highlightResult('${res.id}')">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[9px] font-bold text-federal-500 uppercase">${res.doc_title || 'Unbekannt'}</span>
+                            <span class="text-[9px] font-bold text-accent-gold">${Math.round(res.score * 100)}% Match</span>
+                        </div>
+                        <h4 class="text-sm font-semibold text-federal-900 mb-1 leading-snug">${res.breadcrumbs || 'Hauptdokument'}</h4>
+                        <p class="text-xs text-gray-600 line-clamp-3 font-sans">${res.text.substring(0, 150)}...</p>
+                        ${res.rules.length > 0 ? `
+                            <div class="mt-2 flex gap-1">
+                                <span class="text-[8px] bg-federal-100 text-federal-700 px-1.5 py-0.5 rounded font-bold uppercase">${res.rules.length} REGELN</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error("Hybrid search error:", error);
+                list.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Fehler bei der Suche. Ist die API gestartet?</div>';
+            }
+        }
+
+        function highlightResult(nodeId) {
+            // Node in D3 graph might be different if it's not a doc node
+            // But we can try to find the document it belongs to
+            const docId = nodeId.split('_')[0];
+            const node = graphData.nodes.find(n => n.id === docId);
+            if (node) {
+                selectNode(node);
+                // Center graph on node
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity.translate(width / 2, height / 2).scale(1.5).translate(-node.x, -node.y)
+                );
+            }
         }
 
         function handleSearch(query) {
