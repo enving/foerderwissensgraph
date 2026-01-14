@@ -156,27 +156,21 @@
 
                 <!-- Filters -->
                 <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-sm pointer-events-auto flex flex-col gap-3">
-                    <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
+                        <button onclick="clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
+                    </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
-                            <option value="">Alle Ministerien</option>
-                            <option value="BMWK">BMWK</option>
-                            <option value="BMBF">BMBF</option>
-                            <option value="BMF">BMF</option>
+                        <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                            <option value="">Alle Ressorts</option>
                         </select>
-                        <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
-                            <option value="">Alle Dokumenttypen</option>
-                            <option value="ANBest-P">ANBest-P</option>
-                            <option value="ANBest-GK">ANBest-GK</option>
-                            <option value="ANBest-I">ANBest-I</option>
-                            <option value="AZA">AZA</option>
-                            <option value="AZK">AZK</option>
-                            <option value="NKBF">NKBF</option>
+                        <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                            <option value="">Alle Typen</option>
                         </select>
                     </div>
                     <div class="flex flex-col gap-1">
                         <label class="text-[9px] font-bold text-gray-400 uppercase px-1">Zeitraum (Stand ab)</label>
-                        <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500" onchange="applyFilters()">
+                        <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
                     </div>
                 </div>
 
@@ -286,12 +280,51 @@
                 graphData = await docsResponse.json();
                 knowledgeData = await knowledgeResponse.json();
 
+                populateFilters();
                 processRules();
                 renderGraph();
             } catch (error) {
                 console.error("Error loading data:", error);
                 alert("Fehler beim Laden der Daten. Bitte stellen Sie sicher, dass Sie die Datei über einen Webserver öffnen.");
             }
+        }
+
+        function populateFilters() {
+            const ministries = new Set();
+            const types = new Set();
+
+            graphData.nodes.forEach(n => {
+                if (n.ministerium) {
+                    const min = n.ministerium.trim();
+                    if (min && min !== "unbekannt") ministries.add(min);
+                }
+                if (n.herausgeber) {
+                    const iss = n.herausgeber.trim();
+                    if (iss && iss !== "unbekannt") ministries.add(iss);
+                }
+                if (n.kuerzel) {
+                    const type = n.kuerzel.trim();
+                    if (type) types.add(type);
+                }
+            });
+
+            const minSelect = document.getElementById('filterMinistry');
+            minSelect.innerHTML = '<option value="">Alle Ressorts</option>';
+            Array.from(ministries).sort().forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m;
+                opt.innerText = m;
+                minSelect.appendChild(opt);
+            });
+
+            const typeSelect = document.getElementById('filterType');
+            typeSelect.innerHTML = '<option value="">Alle Typen</option>';
+            Array.from(types).sort().forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.innerText = t;
+                typeSelect.appendChild(opt);
+            });
         }
 
         function processRules() {
@@ -604,7 +637,11 @@
             
             d3.selectAll(".node").classed("dimmed", n => {
                 let match = true;
-                if (min && n.ministerium && n.ministerium.toLowerCase() !== min && n.herausgeber && n.herausgeber.toLowerCase() !== min) match = false;
+                if (min) {
+                    const nodeMin = (n.ministerium || "").toLowerCase();
+                    const nodeIss = (n.herausgeber || "").toLowerCase();
+                    if (nodeMin !== min && nodeIss !== min) match = false;
+                }
                 if (type && n.kuerzel && !n.kuerzel.toLowerCase().includes(type)) match = false;
                 if (date && n.stand && n.stand < date) match = false;
                 return !match;
@@ -613,6 +650,13 @@
             // Re-run search if active
             const query = document.getElementById('hybridSearchInput').value;
             if (query) performHybridSearch(query);
+        }
+
+        function clearFilters() {
+            document.getElementById('filterMinistry').value = "";
+            document.getElementById('filterType').value = "";
+            document.getElementById('filterDateStart').value = "";
+            applyFilters();
         }
 
         function highlightResult(nodeId) {
