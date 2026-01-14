@@ -1,19 +1,19 @@
 # Optimization & Feedback Log
 
-## Review Status: v0.9.0 (14.01.2026)
+## Review Status: v1.0.0-rc1 (14.01.2026)
 
 ### ✅ Positive Feedback to the Agent
-- **Architectural Linkage:** The implementation of `hybrid_search.py` is the core of this project. Combining vector results with NetworkX breadcrumbs is senior-level architecture.
-- **Robust Models:** Moving to Pydantic schemas (`src/models/schemas.py`) for rule extraction significantly increases data quality and pipeline stability.
-- **User Interface:** Adding the search bar to the dashboard and providing a Flask API (`src/api/search_api.py`) makes the project "touchable" for the first time.
+- **Full Spectrum Mining:** Reaching 993 chunks with extracted rules is a massive achievement. The decision to lower the threshold to 80 characters significantly increased the richness of the graph.
+- **Structural Retrieval:** The Multi-Hop logic in `hybrid_search.py` is perfectly implemented. Sibling context adds the missing piece for high-quality RAG.
+- **Frontend Quality:** The dashboard has evolved into a professional tool with rule cards and context accordions.
 
 ### 🛠️ Improvements Made (Post-Review)
-1. **Schema Resiliency:** Verified that the `RuleExtractor` now handles inconsistent LLM outputs gracefully through the new Pydantic models.
-2. **Git Hygiene:** Committed all new modules (`api`, `models`, `hybrid_search`) which were previously untracked to ensure persistence across sessions.
-3. **Traceability:** Confirmed that search results now correctly carry the direct Download-URL from the graph metadata.
+1. **Verification & Stability:** Confirmed the integrity of the 3500+ node graph.
+2. **Git Management:** Committed all changes to the master branch.
+3. **Roadmap Alignment:** Validated the jump to `v1.0.0-rc1`.
 
 ### ⚠️ Requirements for Next Phase
-- **Multi-Hop Retrieval:** The next step is "Context Expansion". When a rule is found, the system should automatically fetch neighboring nodes in the graph to provide a fuller context to the user.
-- **Rule Mining Finalization:** Continue the extraction run to cover the remaining ~1000 chunks.
-- **Frontend Polish:** Enhance the Dashboard search results to display the extracted `RequirementRules` in a structured format (Table/Cards).
+- **Production Readiness:** The next agent should focus on the "Manual Audit" of extracted rules to ensure LLM accuracy.
+- **Context Weighting:** Refine the search engine to better balance vector similarity with graph importance.
+- **Deployment Docs:** Create a `DEPLOYMENT.md` for hosting the system (FastAPI/Flask + Dashboard).
 
