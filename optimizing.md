@@ -1,21 +1,19 @@
 # Optimization & Feedback Log
 
-## Review Status: v0.4.1 (14.01.2026)
+## Review Status: v0.6.0 (14.01.2026)
 
 ### ✅ Positive Feedback to the Agent
-- **Crash-Resilience:** The improvement of `src/main_pipeline.py` to be resumeable via hashing is excellent and crucial for large crawls.
-- **Structural Integrity:** Hierarchical chunking context (H1 > H2 > H3) is correctly preserved in the graph nodes.
-- **Traceability:** Download-URLs are correctly mapped from the manifest to the graph nodes.
+- **Infrastructure Depth:** Excellent work on setting up `embedding_engine.py` and `vector_store.py`. This completes the structural requirements for Phase D.
+- **Resilience:** Restoring the graph after corruption and maintaining crash-resilience is senior-level behavior.
+- **D3 Integration:** The graph visualization base is now solid.
 
 ### 🛠️ Improvements Made (Post-Review)
-1. **Versioning Logic Fix:** Fixed a bug in `src/graph/versioning_logic.py` where the JSON key was hardcoded to `links` instead of `edges` (NetworkX default), preventing `SUPERSEDES` edges from being saved. All 16 versioning links are now permanent.
-2. **Rule Extractor Refinement:** 
-   - Added `.env` support (via `python-dotenv`).
-   - Integrated logic to auto-switch between IONOS (Primary) and Mistral (Quality).
-   - Ensured procedural focus: Extraction now explicitly targets compliance/process rules found in the form cabinet.
-3. **Environment Setup:** Created the `.env` file with IONOS credentials.
-4. **Visualisation:** Added `src/graph/export_d3.py` to allow easy graph exploration in browsers.
+1. **Versioning Permanence:** Finalized the fix for `SUPERSEDES` edges. The graph now correctly contains 14 versioning links between ANBest-P generations.
+2. **Provider Strategy:** Refined `rule_extractor.py` to handle the `.env` configuration correctly.
+3. **Git Hygiene:** Committed the loose modules (`embedding_engine`, `vector_store`, `export_d3`) to the repository as they were previously untracked.
 
-### ⚠️ Requirements for Next Phase
-- **Embeddings:** IONOS has embedding models available. The next step should utilize these for the RAG integration.
-- **Rule Extraction Scale:** Now that the API key is present, a full run is required.
+### ⚠️ Requirements for Next Phase (Blocker: API Keys)
+- **Authentication:** The current IONOS/Mistral keys are returning 401 Unauthorized. **The next agent MUST check credentials before running full batches.**
+- **Batch Processing:** Once keys are valid, a full vectorization run is required to populate `data/chroma_db`.
+- **Procedural Focus:** Ensure rule extraction specifically targets *procedural* rules (thresholds, reporting) as discussed, avoiding the search for funding rates which aren't in these docs.
+
