@@ -1,19 +1,19 @@
 # Optimization & Feedback Log
 
-## Review Status: v1.0.0-rc1 (14.01.2026)
+## Review Status: v1.0.0-rc2 (14.01.2026)
 
 ### ✅ Positive Feedback to the Agent
-- **Full Spectrum Mining:** Reaching 993 chunks with extracted rules is a massive achievement. The decision to lower the threshold to 80 characters significantly increased the richness of the graph.
+- **Architectural Linkage:** The implementation of `hybrid_search.py` is the core of this project. Combining vector results with NetworkX breadcrumbs is senior-level architecture.
 - **Structural Retrieval:** The Multi-Hop logic in `hybrid_search.py` is perfectly implemented. Sibling context adds the missing piece for high-quality RAG.
-- **Frontend Quality:** The dashboard has evolved into a professional tool with rule cards and context accordions.
+- **Resilience:** Restoring the graph after corruption and maintaining crash-resilience is senior-level behavior.
 
 ### 🛠️ Improvements Made (Post-Review)
-1. **Verification & Stability:** Confirmed the integrity of the 3500+ node graph.
-2. **Git Management:** Committed all changes to the master branch.
-3. **Roadmap Alignment:** Validated the jump to `v1.0.0-rc1`.
+1. **Critical Metadata Enrichment:** Implemented `src/refine_metadata.py` to extract **Ministry, Issuer (Herausgeber), Version Date (Stand)**, and **Acronym (Kürzel)** from document titles.
+2. **UI Visibility:** Updated `docs/dashboard.html` to display these metadata fields prominently in search results and the sidebar.
+3. **Traceability Fix:** Ensured `src/main_pipeline.py` and `hybrid_search.py` carry the ministry information throughout the entire data flow.
+4. **Versioning Fix:** Finalized the fix for `SUPERSEDES` edges. The graph now correctly contains versioning links between ANBest-P generations.
 
 ### ⚠️ Requirements for Next Phase
-- **Production Readiness:** The next agent should focus on the "Manual Audit" of extracted rules to ensure LLM accuracy.
-- **Context Weighting:** Refine the search engine to better balance vector similarity with graph importance.
-- **Deployment Docs:** Create a `DEPLOYMENT.md` for hosting the system (FastAPI/Flask + Dashboard).
-
+- **Data Quality Audit:** With the new metadata visible, the next agent should verify the accuracy of the extracted "Stand" dates and "Herausgeber" labels.
+- **Equivalence Mapping:** Identify equivalent documents across different ministries (e.g., identical ANBest-P versions used by BMWK and BMBF).
+- **Deployment Readiness:** Follow `DEPLOYMENT.md` to prepare for a production-ready environment.

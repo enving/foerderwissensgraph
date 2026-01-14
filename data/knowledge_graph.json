@@ -11,7 +11,10 @@
       "filename": "0027.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=135",
       "id": "0027",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZA"
     },
     {
       "type": "chunk",
@@ -2468,7 +2471,10 @@
       "filename": "0028.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=136",
       "id": "0028",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZA"
     },
     {
       "type": "chunk",
@@ -2965,7 +2971,10 @@
       "filename": "0029.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=562",
       "id": "0029",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZA"
     },
     {
       "type": "chunk",
@@ -3611,7 +3620,10 @@
       "filename": "0322.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=137",
       "id": "0322",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2006-04",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -3950,7 +3962,10 @@
       "filename": "0323.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=901",
       "id": "0323",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2012-01",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -4249,7 +4264,10 @@
       "filename": "0323a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1364",
       "id": "0323a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2014-01",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -4572,7 +4590,10 @@
       "filename": "0323b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1708",
       "id": "0323b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2016-11",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -4886,7 +4907,10 @@
       "filename": "0323c.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1912",
       "id": "0323c",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2018-06",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -5164,7 +5188,10 @@
       "filename": "0323d.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=2037",
       "id": "0323d",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2019-06",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -5538,7 +5565,10 @@
       "filename": "0323e.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3681",
       "id": "0323e",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2024-05",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -5927,7 +5957,10 @@
       "filename": "0323f.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=4010",
       "id": "0323f",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2025-04",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -6297,7 +6330,9 @@
       "filename": "0324b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1503",
       "id": "0324b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "2015-01"
     },
     {
       "type": "chunk",
@@ -6578,7 +6613,10 @@
       "filename": "0325.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=138",
       "id": "0325",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2006-04",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -6859,7 +6897,10 @@
       "filename": "0325b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1363",
       "id": "0325b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2014-01",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -7157,7 +7198,10 @@
       "filename": "0325c.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=1710",
       "id": "0325c",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2016-11",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -7485,7 +7529,10 @@
       "filename": "0325d.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=2038",
       "id": "0325d",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2019-06",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -7791,7 +7838,10 @@
       "filename": "0325e.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3682",
       "id": "0325e",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2024-05",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -8252,7 +8302,10 @@
       "filename": "0325f.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=4006",
       "id": "0325f",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2025-04",
+      "kuerzel": "ANBest-GK"
     },
     {
       "type": "chunk",
@@ -8631,7 +8684,10 @@
       "filename": "0329.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3821",
       "id": "0329",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2019-06",
+      "kuerzel": "ANBest-I"
     },
     {
       "type": "chunk",
@@ -9021,7 +9077,10 @@
       "filename": "0329a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3825",
       "id": "0329a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2024-05",
+      "kuerzel": "ANBest-I"
     },
     {
       "type": "chunk",
@@ -9375,7 +9434,10 @@
       "filename": "0329b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=4012",
       "id": "0329b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2025-04",
+      "kuerzel": "ANBest-I"
     },
     {
       "type": "chunk",
@@ -9687,7 +9749,9 @@
       "filename": "0330a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=139",
       "id": "0330a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1998"
     },
     {
       "type": "chunk",
@@ -10412,7 +10476,9 @@
       "filename": "0370b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=151",
       "id": "0370b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1998"
     },
     {
       "type": "chunk",
@@ -11446,7 +11512,9 @@
       "filename": "0640c.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3562",
       "id": "0640c",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -11938,7 +12006,9 @@
       "filename": "3220.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=166",
       "id": "3220",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -19342,7 +19412,10 @@
       "filename": "0041a1.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=145",
       "id": "0041a.1",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZK"
     },
     {
       "type": "chunk",
@@ -19643,7 +19716,10 @@
       "filename": "0047.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=146",
       "id": "0047",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZK"
     },
     {
       "type": "chunk",
@@ -21185,7 +21261,10 @@
       "filename": "0048.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=147",
       "id": "0048",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "AZK"
     },
     {
       "type": "chunk",
@@ -22288,7 +22367,10 @@
       "filename": "0049.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=148",
       "id": "0049",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Vorlage"
     },
     {
       "type": "chunk",
@@ -22416,7 +22498,10 @@
       "filename": "0328.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=2034",
       "id": "0328",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2019-06",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -22918,7 +23003,10 @@
       "filename": "0328a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=3823",
       "id": "0328a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2024-05",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -23527,7 +23615,10 @@
       "filename": "0328b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=4007",
       "id": "0328b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": "2025-04",
+      "kuerzel": "ANBest-P"
     },
     {
       "type": "chunk",
@@ -24043,7 +24134,10 @@
       "filename": "0348a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=149",
       "id": "0348a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1998",
+      "kuerzel": "Zuwendungen"
     },
     {
       "type": "chunk",
@@ -25678,7 +25772,9 @@
       "filename": "0087.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=154",
       "id": "0087",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -27201,7 +27297,9 @@
       "filename": "0361b.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=164",
       "id": "0361b",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1998"
     },
     {
       "type": "chunk",
@@ -29115,7 +29213,9 @@
       "filename": "0370c.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=165",
       "id": "0370c",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1998"
     },
     {
       "type": "chunk",
@@ -30217,7 +30317,9 @@
       "filename": "0061a1.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=160",
       "id": "0061a.1",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -30333,7 +30435,9 @@
       "filename": "0067a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=161",
       "id": "0067a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -31276,7 +31380,10 @@
       "filename": "0068a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=162",
       "id": "0068a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Merkblatt"
     },
     {
       "type": "chunk",
@@ -31986,7 +32093,10 @@
       "filename": "0025.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=168",
       "id": "0025",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Obergrenzen"
     },
     {
       "type": "chunk",
@@ -32241,7 +32351,9 @@
       "filename": "0094.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=167",
       "id": "0094",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -32807,7 +32919,10 @@
       "filename": "0055a.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=169",
       "id": "0055a",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMF",
+      "stand": null,
+      "kuerzel": "BMF-"
     },
     {
       "type": "chunk",
@@ -33077,7 +33192,10 @@
       "filename": "0110.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=170",
       "id": "0110",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Merkblatt"
     },
     {
       "type": "chunk",
@@ -33305,7 +33423,10 @@
       "filename": "0119.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=171",
       "id": "0119",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "EU-"
     },
     {
       "type": "chunk",
@@ -40279,7 +40400,10 @@
       "filename": "0380.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=172",
       "id": "0380",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Abschrift"
     },
     {
       "type": "chunk",
@@ -40862,7 +40986,10 @@
       "filename": "0381.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=173",
       "id": "0381",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Abschrift"
     },
     {
       "type": "chunk",
@@ -42809,7 +42936,10 @@
       "filename": "0382.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=174",
       "id": "0382",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Verordnung"
     },
     {
       "type": "chunk",
@@ -42829,7 +42959,10 @@
       "filename": "3310.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=2336",
       "id": "3310",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null,
+      "kuerzel": "Antrag"
     },
     {
       "type": "chunk",
@@ -44367,7 +44500,9 @@
       "filename": "3830.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=539",
       "id": "3830",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMWK",
+      "stand": null
     },
     {
       "type": "chunk",
@@ -44910,7 +45045,10 @@
       "filename": "0348.pdf",
       "url": "https://foerderportal.bund.de/easy/module/profi_formularschrank/download.php?datei1=177",
       "id": "0348",
-      "ministerium": "bmwe"
+      "ministerium": "BMWK",
+      "herausgeber": "BMBF",
+      "stand": "1988",
+      "kuerzel": "NKFT"
     },
     {
       "type": "chunk",

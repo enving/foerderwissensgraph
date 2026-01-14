@@ -1,25 +1,25 @@
-# Next Steps & Roadmap (v1.0.0-rc1)
+# Next Steps & Roadmap (v1.0.0-rc2)
 
-## 📍 Aktueller Status (v1.0.0-rc1)
-- [x] **High Throughput:** 43+ Dokumente verarbeitet, 3400+ Chunks im Graph.
-- [x] **Phase D (Context Expansion):** Multi-Hop Retrieval in `hybrid_search.py` implementiert. Suchergebnisse enthalten nun automatisiert Nachbarknoten aus dem Graphen.
-- [x] **Rule Mining Finalized:** Schwellenwert auf 80 Zeichen gesenkt und Final Run für restliche Chunks durchgeführt.
-- [x] **Frontend Polish:** Dashboard zeigt Regeln nun als strukturierte Karten an. Graph-Kontext ist via Akkordeon-View einsehbar.
-- [x] **API Support:** Hybrid Search Engine ist voll integriert und über REST-API abfragbar.
+## 📍 Aktueller Status (v1.0.0-rc2)
+- [x] **Full Spectrum Graph:** 50+ Dokumente, 3500+ Chunks, 990+ extrahierte Regeln.
+- [x] **Metadata Power:** Ministerium, Herausgeber, Stand (Datum) und Kürzel extrahiert und im Graph verankert.
+- [x] **Hybrid Search Engine:** Semantische Suche + Graphen-Breadcrumbs + Context Expansion aktiv.
+- [x] **Dashboard UI:** Professionelle Visualisierung mit Regel-Karten und Metadaten-Anzeige.
+- [x] **Deployment Guide:** `DEPLOYMENT.md` erstellt.
 
 ## 🛠️ Meilensteine & Tasks
 
-### Phase B: Extraction & Mining (Abgeschlossen)
-- [x] **Final Run:** Alle relevanten Chunks (>80 Zeichen) haben nun extrahierte Regeln.
-- [ ] **Manual Audit:** Stichprobenartige Prüfung der v1.0.0 Datenqualität.
+### Phase B: Extraction & Mining (Validation)
+- [ ] **Data Audit:** Stichprobenartige Prüfung der extrahierten "Stand"-Daten und Regeln auf Richtigkeit.
+- [ ] **Cross-Ministry Mapping:** Identifikation von identischen Regelwerken über Ministeriumsgrenzen hinweg (`EQUIVALENT_TO`).
 
-### Phase C: Dashboard & UI (Stabil)
-- [x] **Rule Cards:** Visualisierung der Compliance-Regeln direkt in den Suchergebnissen.
-- [x] **Graph Context:** Visualisierung der Nachbarschafts-Beziehungen bei RAG-Treffern.
+### Phase C: Dashboard & UI (Final Polish)
+- [ ] **Filter UI:** Möglichkeit, die Suche auf spezifische Ministerien oder Zeiträume (Stand) einzugrenzen.
+- [ ] **Export Feature:** Möglichkeit, Suchergebnisse (inkl. Regeln und Kontext) als PDF/JSON zu exportieren.
 
-### Phase D: Graph-RAG Integration (Stabil)
-- [x] **Multi-Hop Retrieval:** Navigation im Graphen zur Kontext-Erweiterung aktiv.
-- [ ] **Context Weighting:** Optimierung der Relevanz-Gewichtung zwischen Vektor-Score und Graphen-Distanz.
+### Phase D: Graph-RAG Integration (Optimization)
+- [ ] **Context Weighting:** Feinjustierung der 70/30 Gewichtung zwischen Vektor-Score und Graph-Centrality.
+- [ ] **LLM Answer Engine:** Integration eines Moduls, das auf Basis der Hybrid-Search Ergebnisse eine finale Antwort formuliert (RAG-Completion).
 
 ## 🚀 Session-Start Befehl
-"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Implementiere die `HybridSearchEngine` (Phase D), um semantische Suche mit Graphen-Kontext zu verknüpfen."
+"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Starte das System mit `src/api/search_api.py` und führe einen Audit der extrahierten Metadaten durch."

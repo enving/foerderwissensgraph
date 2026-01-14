@@ -77,15 +77,12 @@ class HybridSearchEngine:
 
         for i in range(len(ids)):
             chunk_id = ids[i]
-            # distance: 0 is exact match, 2 is max distance
             semantic_score = 1 - (distances[i] / 2)
 
-            # Graph-based relevance (structural importance)
-            graph_score = 0.5  # Baseline
+            graph_score = 0.5
             if chunk_id in self.graph:
-                # Degree Centrality as proxy for importance
-                centrality = self.graph.degree(chunk_id)
-                graph_score = min(1.0, centrality / 10.0)  # Normalized
+                node_degree = self.graph.degree[chunk_id]
+                graph_score = min(1.0, float(node_degree) / 10.0)
 
             combined_score = (semantic_score * vector_weight) + (
                 graph_score * graph_weight
@@ -101,6 +98,9 @@ class HybridSearchEngine:
                 "source_url": "",
                 "doc_title": "",
                 "ministerium": "",
+                "herausgeber": "",
+                "stand": "",
+                "kuerzel": "",
                 "rules": [],
                 "neighbor_context": [],
             }
@@ -120,6 +120,9 @@ class HybridSearchEngine:
                             entry["source_url"] = p_data.get("url", "")
                             entry["doc_title"] = p_data.get("title", "")
                             entry["ministerium"] = p_data.get("ministerium", "")
+                            entry["herausgeber"] = p_data.get("herausgeber", "")
+                            entry["stand"] = p_data.get("stand", "")
+                            entry["kuerzel"] = p_data.get("kuerzel", "")
 
                             # Fetch siblings
                             siblings = list(self.graph.successors(p))

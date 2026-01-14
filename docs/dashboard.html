@@ -182,7 +182,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </div>
-                <h2 id="docTitle" class="text-2xl font-serif leading-tight mb-4">Wählen Sie ein Dokument aus</h2>
+                <h2 id="docTitle" class="text-2xl font-serif leading-tight mb-2">Wählen Sie ein Dokument aus</h2>
+                <div id="docKuerzel" class="text-xs text-federal-600 font-bold mb-4"></div>
                 <div class="flex flex-wrap gap-2 mb-6">
                     <a id="docLink" href="#" target="_blank" class="text-xs flex items-center gap-1.5 text-federal-600 hover:text-federal-800 font-medium">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -407,6 +408,7 @@
         // Sidebar & Interaction
         function selectNode(d) {
             document.getElementById('docTitle').innerText = d.title;
+            document.getElementById('docKuerzel').innerText = d.kuerzel ? `[${d.kuerzel}]` : '';
             const categoryText = d.ministerium ? `${d.ministerium.toUpperCase()} | ${d.category}` : d.category;
             document.getElementById('docCategory').innerText = categoryText;
             document.getElementById('docId').innerText = d.id;
@@ -414,6 +416,21 @@
 
             const rules = documentRules[d.id] || [];
             document.getElementById('ruleCount').innerText = rules.length;
+            
+            // Add Stand info if available
+            const statsGrid = document.getElementById('docStats');
+            const standDivId = 'docStandContainer';
+            let standDiv = document.getElementById(standDivId);
+            if (!standDiv) {
+                standDiv = document.createElement('div');
+                standDiv.id = standDivId;
+                standDiv.className = 'bg-white p-3 rounded-lg border border-gray-100';
+                statsGrid.appendChild(standDiv);
+            }
+            standDiv.innerHTML = `
+                <div class="text-[10px] text-gray-400 uppercase font-bold tracking-tighter">Stand / Herausgeber</div>
+                <div class="text-xs font-serif">${d.stand || '--'} / ${d.herausgeber || '--'}</div>
+            `;
 
             const list = document.getElementById('rulesList');
             if (rules.length === 0) {
@@ -468,10 +485,19 @@
                     <div class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-federal-300 transition-all cursor-pointer group shadow-sm hover:shadow-md"
                          onclick="highlightResult('${res.id}')">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-[10px] font-bold text-federal-500 uppercase tracking-tight">${res.ministerium ? res.ministerium.toUpperCase() + ' | ' : ''}${res.doc_title || 'Unbekannt'}</span>
-                            <span class="text-[10px] font-bold text-accent-gold bg-gold/10 px-2 py-0.5 rounded-full">${Math.round(res.score * 100)}% Match</span>
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-bold text-federal-500 uppercase tracking-tight">${res.herausgeber ? res.herausgeber.toUpperCase() : (res.ministerium ? res.ministerium.toUpperCase() : 'Unbekannt')}</span>
+                                <span class="text-[10px] text-gray-400 font-sans">${res.doc_title || 'Unbekannt'}</span>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-[10px] font-bold text-accent-gold bg-gold/10 px-2 py-0.5 rounded-full">${Math.round(res.score * 100)}% Match</span>
+                                ${res.stand ? `<span class="text-[9px] text-gray-400 mt-1">Stand: ${res.stand}</span>` : ''}
+                            </div>
                         </div>
-                        <h4 class="text-base font-semibold text-federal-900 mb-2 leading-tight">${res.breadcrumbs || 'Hauptdokument'}</h4>
+                        <h4 class="text-base font-semibold text-federal-900 mb-2 leading-tight">
+                            ${res.kuerzel ? `<span class="text-federal-700">[${res.kuerzel}]</span> ` : ''}
+                            ${res.breadcrumbs || 'Hauptdokument'}
+                        </h4>
                         <p class="text-sm text-gray-600 line-clamp-3 font-sans mb-4">${res.text}</p>
                         
                         ${res.rules && res.rules.length > 0 ? `
