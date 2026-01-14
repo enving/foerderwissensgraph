@@ -407,7 +407,8 @@
         // Sidebar & Interaction
         function selectNode(d) {
             document.getElementById('docTitle').innerText = d.title;
-            document.getElementById('docCategory').innerText = d.category;
+            const categoryText = d.ministerium ? `${d.ministerium.toUpperCase()} | ${d.category}` : d.category;
+            document.getElementById('docCategory').innerText = categoryText;
             document.getElementById('docId').innerText = d.id;
             document.getElementById('docLink').href = d.url;
 
@@ -467,7 +468,7 @@
                     <div class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-federal-300 transition-all cursor-pointer group shadow-sm hover:shadow-md"
                          onclick="highlightResult('${res.id}')">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-[10px] font-bold text-federal-500 uppercase tracking-tight">${res.doc_title || 'Unbekannt'}</span>
+                            <span class="text-[10px] font-bold text-federal-500 uppercase tracking-tight">${res.ministerium ? res.ministerium.toUpperCase() + ' | ' : ''}${res.doc_title || 'Unbekannt'}</span>
                             <span class="text-[10px] font-bold text-accent-gold bg-gold/10 px-2 py-0.5 rounded-full">${Math.round(res.score * 100)}% Match</span>
                         </div>
                         <h4 class="text-base font-semibold text-federal-900 mb-2 leading-tight">${res.breadcrumbs || 'Hauptdokument'}</h4>

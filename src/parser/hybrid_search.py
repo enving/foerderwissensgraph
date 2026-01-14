@@ -36,17 +36,25 @@ class HybridSearchEngine:
         limit: int = 5,
         filter_dict: Optional[Dict[str, Any]] = None,
         multi_hop: bool = True,
+        vector_weight: float = 0.7,
+        graph_weight: float = 0.3,
     ) -> List[Dict[str, Any]]:
         """
         Performs a hybrid search:
         1. Semantic search in ChromaDB.
         2. Graph traversal to fetch 'Breadcrumbs' and 'Source URL'.
         3. Context expansion (Multi-Hop) if requested.
+        4. (Optional) Re-ranking based on graph structural importance.
         """
         logger.info(f"Hybrid search for: '{query}'")
 
+        query_embeddings = self.vector_store.embedding_engine.get_embeddings([query])
+        if not query_embeddings:
+            logger.error("Failed to generate embedding for query")
+            return []
+
         results = self.vector_store.collection.query(
-            query_texts=[query], n_results=limit, where=filter_dict
+            query_embeddings=query_embeddings, n_results=limit * 2, where=filter_dict
         )
 
         hybrid_results = []
@@ -69,15 +77,30 @@ class HybridSearchEngine:
 
         for i in range(len(ids)):
             chunk_id = ids[i]
-            score = 1 - distances[i]
+            # distance: 0 is exact match, 2 is max distance
+            semantic_score = 1 - (distances[i] / 2)
+
+            # Graph-based relevance (structural importance)
+            graph_score = 0.5  # Baseline
+            if chunk_id in self.graph:
+                # Degree Centrality as proxy for importance
+                centrality = self.graph.degree(chunk_id)
+                graph_score = min(1.0, centrality / 10.0)  # Normalized
+
+            combined_score = (semantic_score * vector_weight) + (
+                graph_score * graph_weight
+            )
 
             entry = {
                 "id": chunk_id,
                 "text": documents[i],
-                "score": score,
+                "score": combined_score,
+                "semantic_score": semantic_score,
+                "graph_score": graph_score,
                 "breadcrumbs": "",
                 "source_url": "",
                 "doc_title": "",
+                "ministerium": "",
                 "rules": [],
                 "neighbor_context": [],
             }
@@ -96,6 +119,7 @@ class HybridSearchEngine:
                         if p_data.get("type") == "document":
                             entry["source_url"] = p_data.get("url", "")
                             entry["doc_title"] = p_data.get("title", "")
+                            entry["ministerium"] = p_data.get("ministerium", "")
 
                             # Fetch siblings
                             siblings = list(self.graph.successors(p))

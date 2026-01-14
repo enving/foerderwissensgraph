@@ -21,6 +21,8 @@ def main():
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
 
+    ministerium = manifest.get("ministerium", "unbekannt")
+
     engine = DoclingEngine()
     builder = GraphBuilder()
 
@@ -41,6 +43,7 @@ def main():
 
         file_hash = file_info["hash"]
         filename = file_info["filename"]
+
         if file_hash in existing_hashes:
             logger.info(f"Updating metadata for {nr}")
             builder.add_document(
@@ -51,11 +54,11 @@ def main():
                     "hash": file_info["hash"],
                     "filename": filename,
                     "url": file_info.get("url"),
+                    "ministerium": ministerium,
                 },
             )
             continue
 
-        filename = file_info["filename"]
         if not filename.endswith(".pdf"):
             continue
 
@@ -78,6 +81,7 @@ def main():
                     "hash": file_info["hash"],
                     "filename": filename,
                     "url": file_info.get("url"),
+                    "ministerium": ministerium,
                 },
             )
 
