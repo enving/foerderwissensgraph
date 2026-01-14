@@ -1,24 +1,24 @@
-# Next Steps & Roadmap (v0.6.0)
+# Next Steps & Roadmap (v0.6.1)
 
-## 📍 Aktueller Status (v0.6.0)
+## 📍 Aktueller Status (v0.6.1)
 - [x] Full Scale-up (BMWK): 50 PDFs verarbeitet, 3500+ Chunks im Graph.
-- [x] **Graph-RAG Infrastructure:** `embedding_engine.py` und `vector_store.py` (ChromaDB) implementiert.
-- [x] **Versioning:** 14 `SUPERSEDES`-Kanten fest im Graphen verankert.
-- [x] **Visualization:** D3.js Export funktionsfähig.
-- [!] **Blocker:** API-Keys (IONOS/Mistral) liefern aktuell 401 Unauthorized.
+- [x] **Graph-RAG Infrastructure:** `embedding_engine.py` und `vector_store.py` (ChromaDB) bereit.
+- [x] **Versioning:** 14 `SUPERSEDES`-Kanten verankert.
+- [x] **Visualization:** D3.js Export vorhanden.
+- [!] **Blocker:** IONOS/Mistral API-Keys liefern aktuell 401 Unauthorized (siehe `optimizing.md`).
 
 ## 🛠️ Meilensteine & Tasks
 
 ### Phase B: Extraction & Mining (Priorität: Hoch)
-- [ ] **Rule Extraction Full Run:** Führe `src/parser/rule_extractor.py` für alle relevanten Chunks aus (sobald API-Key valide).
-- [ ] **Data Cleaning:** Entferne redundante Chunks oder Header-only Knoten aus der Verarbeitung.
+- [ ] **API Validation:** Debugge den IONOS 401 Fehler (Prüfe Header/Token-Ablauf).
+- [ ] **Rule Extraction Full Run:** Führe `src/parser/rule_extractor.py` für alle relevanten Chunks aus.
 
 ### Phase C: Dashboard & UI (Priorität: Medium)
-- [ ] **Dashboard Implementation:** Einfaches HTML/JS Frontend erstellen, um den Graphen interaktiv zu explorieren.
+- [ ] **Dashboard Implementation:** Einfaches HTML/JS Frontend erstellen (Browser-Visualisierung).
 
 ### Phase D: Graph-RAG Integration (Priorität: Kritisch)
-- [ ] **Full Vectorization:** Alle 3500+ Chunks in ChromaDB indexieren (sobald API-Key valide).
-- [ ] **Hybrid Search:** Implementiere eine Test-Abfrage, die Graph-Beziehungen nutzt, um RAG-Ergebnisse mit Kontext (Breadcrumbs) anzureichern.
+- [ ] **Full Vectorization:** Alle 3500+ Chunks in ChromaDB indexieren.
+- [ ] **Hybrid Search:** Implementiere eine Test-Abfrage: "Suche nach Reisekosten-Regeln und reichere Ergebnisse mit übergeordneten Graphen-Metadaten an."
 
 ## 🚀 Session-Start Befehl
-"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Validiere die API-Keys und starte die Voll-Vektorisierung der Chunks in ChromaDB (Phase D)."
+"Lies `AGENTS.md`, `optimizing.md` und `NEXTSTEPS.md`. Löse den 401-Blocker und starte die Vektorisierung in ChromaDB (Phase D)."

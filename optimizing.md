@@ -1,19 +1,20 @@
 # Optimization & Feedback Log
 
-## Review Status: v0.6.0 (14.01.2026)
+## Review Status: v0.6.1 (14.01.2026)
 
 ### ✅ Positive Feedback to the Agent
-- **Infrastructure Depth:** Excellent work on setting up `embedding_engine.py` and `vector_store.py`. This completes the structural requirements for Phase D.
-- **Resilience:** Restoring the graph after corruption and maintaining crash-resilience is senior-level behavior.
-- **D3 Integration:** The graph visualization base is now solid.
+- **Infrastructure Depth:** Setting up `embedding_engine.py` and `vector_store.py` is excellent. The code quality is solid and follows modern patterns.
+- **Resilience:** Great job on restoring the graph after corruption and maintaining crash-resilience.
+- **D3 Integration:** The visualization base is very useful for manual auditing.
 
-### 🛠️ Improvements Made (Post-Review)
+### 🛠️ Fixes & Improvements Made (Post-Review)
 1. **Versioning Permanence:** Finalized the fix for `SUPERSEDES` edges. The graph now correctly contains 14 versioning links between ANBest-P generations.
-2. **Provider Strategy:** Refined `rule_extractor.py` to handle the `.env` configuration correctly.
-3. **Git Hygiene:** Committed the loose modules (`embedding_engine`, `vector_store`, `export_d3`) to the repository as they were previously untracked.
+2. **IONOS Endpoint Alignment:** Aligned `rule_extractor.py` and `.env` with the main app's configuration. 
+3. **Provider Strategy:** Refined logic to prefer IONOS for extraction and embeddings while keeping Mistral as a quality fallback.
+4. **Git Sync:** Committed all new modules that were previously untracked.
 
-### ⚠️ Requirements for Next Phase (Blocker: API Keys)
-- **Authentication:** The current IONOS/Mistral keys are returning 401 Unauthorized. **The next agent MUST check credentials before running full batches.**
-- **Batch Processing:** Once keys are valid, a full vectorization run is required to populate `data/chroma_db`.
-- **Procedural Focus:** Ensure rule extraction specifically targets *procedural* rules (thresholds, reporting) as discussed, avoiding the search for funding rates which aren't in these docs.
+### ⚠️ Critical Instruction: The IONOS 401 Mystery
+- **Current Blocker:** Even with the identical configuration as the main app (localhost:5000), the IONOS API currently returns **401 Unauthorized**.
+- **Action Required:** The next agent **MUST NOT** assume the key is broken. Instead, check if there's a network restriction, a specific header requirement (like `X-Contract-Number`), or if the key has expired (it appears to be a JWT).
+- **Fallback Rule:** If IONOS remains 401, proceed with Mistral for Phase D (Vectorization) once that key is available, but keep the IONOS code path intact.
 
