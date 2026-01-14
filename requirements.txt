@@ -1,0 +1,10 @@
+playwright>=1.40.0
+docling>=2.66.0
+networkx>=3.0
+pydantic>=2.0
+fastapi
+uvicorn
+python-dotenv
+lxml
+beautifulsoup4
+requests
