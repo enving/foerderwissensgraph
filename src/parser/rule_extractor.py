@@ -21,8 +21,10 @@ class RuleExtractor:
             os.getenv("IONOS_API_URL")
             or "https://openai.inference.de-txl.ionos.com/v1/chat/completions"
         )
-        self.model = os.getenv("IONOS_MODEL") or "mistral-large-latest"
+        if "/chat/completions" not in self.api_url:
+            self.api_url = self.api_url.rstrip("/") + "/chat/completions"
 
+        self.model = os.getenv("IONOS_MODEL") or "mistral-large-latest"
         self.mistral_api_key = os.getenv("MISTRAL_API_KEY")
 
     def extract_rules(self, text: str) -> List[Dict[str, Any]]:
@@ -50,20 +52,29 @@ class RuleExtractor:
         # Try IONOS first
         if self.api_key:
             try:
+                headers = {
+                    "Authorization": f"Bearer {self.api_key}",
+                    "Content-Type": "application/json",
+                }
+                payload = {
+                    "model": self.model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "response_format": {"type": "json_object"},
+                }
+
+                logger.info(f"Sending request to IONOS API ({self.model})...")
                 response = requests.post(
                     self.api_url,
-                    headers={
-                        "Authorization": f"Bearer {self.api_key}",
-                        "Content-Type": "application/json",
-                    },
-                    json={
-                        "model": self.model,
-                        "messages": [{"role": "user", "content": prompt}],
-                        "response_format": {"type": "json_object"},
-                    },
+                    headers=headers,
+                    json=payload,
                     timeout=60,
                 )
-                if response.status_code != 401:
+
+                if response.status_code == 401:
+                    logger.error(
+                        "IONOS API Key Unauthorized (401). Check permissions for the model hub."
+                    )
+                else:
                     response.raise_for_status()
                     result = response.json()
                     content = result["choices"][0]["message"]["content"]
@@ -71,10 +82,6 @@ class RuleExtractor:
                     if isinstance(data, list):
                         return data
                     return data.get("rules", [])
-                else:
-                    logger.warning(
-                        "IONOS API Key unauthorized. Trying Mistral fallback."
-                    )
             except Exception as e:
                 logger.error(f"IONOS Extraction failed: {e}")
 
@@ -83,6 +90,7 @@ class RuleExtractor:
             try:
                 from mistralai import Mistral
 
+                logger.info("Using Mistral fallback...")
                 client = Mistral(api_key=self.mistral_api_key)
                 response = client.chat.complete(
                     model="mistral-large-latest",
@@ -99,49 +107,6 @@ class RuleExtractor:
                 logger.error(f"Mistral Fallback Extraction failed: {e}")
 
         return []
-
-        prompt = f"""
-        Analysiere den folgenden Text aus einer deutschen Zuwendungsrichtlinie und extrahiere prozessuale Regeln.
-        Suche speziell nach:
-        1. Vergaberechtlichen Schwellenwerten (z.B. Beträge in Euro, ab denen Angebote eingeholt werden müssen).
-        2. Berichtspflichten (Zeitpunkte, Formate für Verwendungsnachweise oder Berichte).
-        3. Definitionen von zuwendungsfähigen Ausgaben (Was darf abgerechnet werden?).
-        4. Formular-Strukturen (Hinweise auf notwendige Anlagen oder spezifische Felder).
-
-        Gib die Ergebnisse als JSON-Liste von Objekten zurück mit dem Key "rules". Jedes Objekt in der Liste muss folgende Felder haben:
-        - "category": (Vergabe, Bericht, Ausgaben, Formular)
-        - "rule": (Kurze Beschreibung der Regel)
-        - "value": (Spezifischer Schwellenwert oder Frist, falls vorhanden)
-        
-        Text:
-        {text}
-        """
-
-        try:
-            response = requests.post(
-                self.api_url,
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": self.model,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "response_format": {"type": "json_object"},
-                },
-                timeout=60,
-            )
-            response.raise_for_status()
-            result = response.json()
-            content = result["choices"][0]["message"]["content"]
-            data = json.loads(content)
-            # Handle both list directly or wrapped in "rules"
-            if isinstance(data, list):
-                return data
-            return data.get("rules", [])
-        except Exception as e:
-            logger.error(f"LLM Extraction failed: {e}")
-            return []
 
 
 def process_graph_rules(graph_path: Path):
@@ -162,20 +127,17 @@ def process_graph_rules(graph_path: Path):
 
     for i, node in enumerate(nodes):
         if node.get("type") == "chunk":
-            # Skip if already processed
-            if "rules" in node and node["rules"]:
+            # Skip if already processed (marked as list, even if empty)
+            if "rules" in node and isinstance(node["rules"], list):
                 continue
 
             text = node.get("text", "")
-            if len(text) > 100:
+            if len(text) > 150:
                 logger.info(
                     f"[{i}/{len(nodes)}] Extracting rules from chunk {node['id']}"
                 )
                 rules = extractor.extract_rules(text)
-                if rules:
-                    node["rules"] = rules
-                else:
-                    node["rules"] = []
+                node["rules"] = rules  # Will be empty list if extraction failed
                 chunk_count += 1
 
                 # Periodic save
