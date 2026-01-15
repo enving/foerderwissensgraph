@@ -1,0 +1,104 @@
+{
+  "$schema": "./tasks.schema.json",
+  "meta": {
+    "version": "1.0.0",
+    "last_updated": "2026-01-15T17:55:00Z",
+    "last_agent": "opencode",
+    "project_phase": "development"
+  },
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Citation Parser Development",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "opencode",
+      "verified": true,
+      "verified_by": "opencode",
+      "verified_date": "2026-01-15",
+      "requires_review": true,
+      "description": "Develop a module (src/parser/citation_extractor.py) that finds references like 'BNBest-P' or '§ 44 BHO' in text.",
+      "acceptance_criteria": [
+        "Regex-based extraction of law and guideline citations",
+        "Successful identification of common German grant guidelines"
+      ],
+      "subtasks": [],
+      "docs_updated": true
+    },
+    {
+      "id": "TASK-002",
+      "title": "Reference Linking in Graph",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "opencode",
+      "verified": true,
+      "verified_by": "opencode",
+      "verified_date": "2026-01-15",
+      "requires_review": true,
+      "description": "Generate REFERENCES edges between document nodes based on citations.",
+      "acceptance_criteria": [
+        "Edges created in knowledge_graph.json",
+        "Linking works for existing documents"
+      ],
+      "subtasks": [],
+      "docs_updated": true
+    },
+    {
+      "id": "TASK-003",
+      "title": "BUGFIX UI Filter",
+      "status": "pending",
+      "priority": "medium",
+      "category": "bug",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "pending",
+      "description": "Type filter (e.g., 'Merkblatt') is inactive/without function. Only ministry filter works.",
+      "acceptance_criteria": [
+        "Type filter correctly filters graph nodes in UI"
+      ],
+      "subtasks": []
+    }
+  ],
+  "features": [
+    {
+      "id": "FEAT-001",
+      "title": "Graph Density (The Brain)",
+      "status": "in_progress",
+      "version": "1.0.0",
+      "created": "2026-01-13",
+      "completed": null,
+      "requires_review": true,
+      "tests": {
+        "unit": "completed",
+        "integration": "completed",
+        "e2e": "pending"
+      },
+      "docs": {
+        "prd_updated": true,
+        "api_docs_updated": false,
+        "user_guide_updated": false
+      }
+    }
+  ],
+  "rules": {
+    "version_increment": "Only increment version when feature is completed AND reviewed",
+    "review_policy": "Reviews can only be done by NEXT agent, not same agent",
+    "hallucination_prevention": [
+      "Never mark tasks as completed without verification",
+      "Always check if files/functions exist before referencing",
+      "Update this JSON after every significant change"
+    ],
+    "handoff_required": [
+      "Update meta.last_agent",
+      "Update meta.last_updated",
+      "Mark completed tasks",
+      "Set requires_review for next agent"
+    ]
+  }
+}

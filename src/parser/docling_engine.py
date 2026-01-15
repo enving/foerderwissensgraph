@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Iterator
 from docling.document_converter import DocumentConverter
 from docling_core.transforms.chunker.hierarchical_chunker import HierarchicalChunker
+from src.parser.citation_extractor import CitationExtractor
 
 
 class DoclingEngine:
@@ -13,6 +14,7 @@ class DoclingEngine:
     def __init__(self):
         self.converter = DocumentConverter()
         self.chunker = HierarchicalChunker()
+        self.citation_extractor = CitationExtractor()
 
     def convert_to_markdown(self, pdf_path: Path) -> str:
         """

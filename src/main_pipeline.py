@@ -3,10 +3,50 @@ import logging
 from pathlib import Path
 from src.parser.docling_engine import DoclingEngine
 from src.graph.graph_builder import GraphBuilder
+from src.discovery.law_crawler import LawCrawler
 
-# Setup logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
+
+
+def enrich_graph_with_laws(builder: GraphBuilder):
+    crawler = LawCrawler()
+    referenced_laws = set()
+
+    for node_id, data in builder.graph.nodes(data=True):
+        if data.get("type") == "external" and node_id.startswith("law_"):
+            referenced_laws.add(data.get("kuerzel"))
+
+    if not referenced_laws:
+        return
+
+    logger.info(f"Enriching graph with {len(referenced_laws)} referenced laws...")
+
+    for law_abbr in referenced_laws:
+        try:
+            logger.info(f"Fetching content for law: {law_abbr}")
+            xml_content = crawler.fetch_law(law_abbr)
+            norms = crawler.parse_law_xml(xml_content)
+
+            law_node_id = f"law_{law_abbr}"
+            builder.graph.nodes[law_node_id].update(
+                {"type": "law", "source": "gesetze-im-internet.de"}
+            )
+
+            for norm in norms:
+                para_id = f"{law_node_id}_{norm['paragraph']}".replace(" ", "_")
+                builder.add_chunk(
+                    law_node_id,
+                    para_id,
+                    {
+                        "text": norm["content"],
+                        "paragraph": norm["paragraph"],
+                        "title": norm["title"],
+                        "type": "law_section",
+                    },
+                )
+        except Exception as e:
+            logger.warning(f"Could not enrich law {law_abbr}: {e}")
 
 
 def main():
@@ -107,6 +147,8 @@ def main():
                         headings = []
                     context_path = " > ".join(headings)
 
+                    citations = engine.citation_extractor.extract(chunk.text)
+
                     builder.add_chunk(
                         nr,
                         chunk_id,
@@ -114,6 +156,7 @@ def main():
                             "text": chunk.text,
                             "context": context_path,
                             "headings": headings,
+                            "citations": citations,
                         },
                     )
 
@@ -123,6 +166,8 @@ def main():
             except Exception as e:
                 logger.error(f"Error processing {nr}: {e}")
 
+    builder.create_reference_edges()
+    enrich_graph_with_laws(builder)
     builder.save_graph(output_graph_path)
     logger.info(
         f"Successfully processed {processed_count} new documents. Graph saved to {output_graph_path}"

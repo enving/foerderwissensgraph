@@ -642,7 +642,7 @@
                     const nodeIss = (n.herausgeber || "").toLowerCase();
                     if (nodeMin !== min && nodeIss !== min) match = false;
                 }
-                if (type && n.kuerzel && !n.kuerzel.toLowerCase().includes(type)) match = false;
+                if (type && (!n.kuerzel || !n.kuerzel.toLowerCase().includes(type))) match = false;
                 if (date && n.stand && n.stand < date) match = false;
                 return !match;
             });
