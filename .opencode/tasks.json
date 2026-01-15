@@ -2,9 +2,9 @@
   "$schema": "./tasks.schema.json",
   "meta": {
     "version": "1.1.1",
-    "last_updated": "2026-01-15T15:35:00Z",
-    "last_agent": "Tristan Häfele",
-    "project_phase": "Phase C: Graph-Guided RAG"
+    "last_updated": "2026-01-15T21:15:00Z",
+    "last_agent": "Antigravity",
+    "project_phase": "development"
   },
   "tasks": [
     {

@@ -133,10 +133,38 @@ class HybridSearchEngine:
                                 if edata.get("relation") == "REFERENCES":
                                     target_node = self.graph.nodes[target_id]
                                     target_title = target_node.get("title", target_id)
+
+                                    # If it's a law, try to find specific paragraphs mentioned in the original chunk text
+                                    referenced_text = f"Referenz: {target_title}"
+                                    if target_node.get("node_type") == "law":
+                                        # Optimization: Check if the original chunk text mentions a paragraph of this law
+                                        # For now, we fetch the 2 most connected paragraphs as 'context'
+                                        law_chunks = [
+                                            (s, self.graph.nodes[s])
+                                            for s in self.graph.successors(target_id)
+                                            if self.graph.nodes[s].get("section_type")
+                                            == "law_section"
+                                        ]
+                                        if law_chunks:
+                                            # Simple heuristic: first 2 paragraphs
+                                            for lc_id, lc_data in law_chunks[:2]:
+                                                entry["neighbor_context"].append(
+                                                    {
+                                                        "id": lc_id,
+                                                        "text": lc_data.get("text", "")[
+                                                            :300
+                                                        ]
+                                                        + "...",
+                                                        "breadcrumbs": f"{target_title} > {lc_data.get('paragraph', '')}",
+                                                        "type": "reference",
+                                                    }
+                                                )
+                                            continue  # Already added specific sections
+
                                     entry["neighbor_context"].append(
                                         {
                                             "id": target_id,
-                                            "text": f"Referenz: {target_title}",
+                                            "text": referenced_text,
                                             "breadcrumbs": "Graph Reference",
                                             "type": "reference",
                                         }
