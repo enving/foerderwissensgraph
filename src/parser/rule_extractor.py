@@ -28,6 +28,72 @@ class RuleExtractor:
         self.model = os.getenv("IONOS_MODEL") or "mistral-large-latest"
         self.mistral_api_key = os.getenv("MISTRAL_API_KEY")
 
+    def generate_answer(self, query: str, context: List[str]) -> str:
+        """
+        Generates an answer based on the query and provided context chunks.
+        """
+        if not self.api_key and not self.mistral_api_key:
+            return "Answer generation unavailable (No API Key)."
+
+        context_str = "\n\n".join(context)
+        prompt = f"""
+        Beantworte die folgende Frage basierend auf den bereitgestellten Kontext-Informationen aus Zuwendungsrichtlinien.
+        
+        Frage: {query}
+        
+        Kontext:
+        {context_str}
+        
+        Antwort (kurz und präzise, auf Deutsch):
+        """
+
+        # Try IONOS first
+        if self.api_key:
+            try:
+                headers = {
+                    "Authorization": f"Bearer {self.api_key}",
+                    "Content-Type": "application/json",
+                }
+                payload = {
+                    "model": self.model,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "max_tokens": 500,
+                }
+
+                logger.info(f"Generating answer via IONOS ({self.model})...")
+                response = requests.post(
+                    self.api_url,
+                    headers=headers,
+                    json=payload,
+                    timeout=30,
+                )
+
+                if response.status_code == 200:
+                    result = response.json()
+                    return result["choices"][0]["message"]["content"]
+                else:
+                    logger.warning(
+                        f"IONOS Answer gen failed: {response.status_code} {response.text}"
+                    )
+            except Exception as e:
+                logger.error(f"IONOS Answer gen error: {e}")
+
+        # Try Mistral fallback
+        if self.mistral_api_key:
+            try:
+                from mistralai import Mistral
+
+                client = Mistral(api_key=self.mistral_api_key)
+                response = client.chat.complete(
+                    model="mistral-large-latest",
+                    messages=[{"role": "user", "content": prompt}],
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                logger.error(f"Mistral Answer gen error: {e}")
+
+        return "Antwort konnte nicht generiert werden (Dienst nicht verfügbar)."
+
     def extract_rules(self, text: str) -> List[Dict[str, Any]]:
         if not self.api_key and not self.mistral_api_key:
             logger.warning("No API Keys found. Skipping LLM extraction.")

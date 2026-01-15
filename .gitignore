@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Logs and PIDs
+*.log
+*.pid
+
+# Data (Optional - keeping raw data, but maybe ignoring large binary stores if desired)
+# data/chroma_db/
+# data/knowledge_graph.json
+data/raw/
+
+# Temporary
+tmp/
+docs/screenshots/
+bmbf_dump.html

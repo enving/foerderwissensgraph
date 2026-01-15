@@ -8,6 +8,7 @@ MINISTRY_MAP = {
     "bmwe": "BMWK",
     "bmwk": "BMWK",
     "bmbf": "BMBF",
+    "bmbfsfj": "BMFSFJ",
     "bmf": "BMF",
     "bmel": "BMEL",
     "bmuv": "BMUV",
@@ -40,6 +41,9 @@ def refine_metadata():
 
     print("Refining metadata for document nodes...")
 
+    # First pass: Build Doc Map for lookup
+    doc_map = {n["id"]: n for n in data.get("nodes", []) if n.get("type") == "document"}
+
     doc_count = 0
     for node in data.get("nodes", []):
         if node.get("type") == "document":
@@ -51,7 +55,9 @@ def refine_metadata():
 
             # 2. Specific Issuer (from title)
             issuer = node["ministerium"]  # Default to cabinet
-            if "BMBF" in title:
+            if "BMFSFJ" in title:
+                issuer = "BMFSFJ"
+            elif "BMBF" in title:
                 issuer = "BMBF"
             elif "BMWK" in title or "BMWE" in title:
                 issuer = "BMWK"
@@ -60,10 +66,7 @@ def refine_metadata():
             node["herausgeber"] = issuer
 
             # 3. Extraction of "Stand" (Date)
-            # Pattern: (Month Year) or (Month; Year) or (DD.MM.YY)
             stand = None
-
-            # Try "Month Year" or "(Month Year)"
             date_match = re.search(r"([a-zA-Zä]+)\s+(\d{4})", title, re.IGNORECASE)
             if date_match:
                 m = date_match.group(1).lower()
@@ -71,7 +74,6 @@ def refine_metadata():
                 if m in MONTHS:
                     stand = f"{y}-{MONTHS[m]}"
 
-            # Try "(August 2018)" or "August 2018"
             if not stand:
                 month_year_paren = re.search(
                     r"\((?:Stand[:\s]+)?([a-zA-Zä]+)\s+(\d{4})\)", title, re.IGNORECASE
@@ -82,13 +84,11 @@ def refine_metadata():
                     if m in MONTHS:
                         stand = f"{y}-{MONTHS[m]}"
 
-            # Try "98" style (common in old BMBF docs)
             if not stand:
                 short_year = re.search(r"\b(\d{2})\b(?!\s+\d{2})", title)
                 if short_year and int(short_year.group(1)) > 80:
                     stand = f"19{short_year.group(1)}"
 
-            # Try "01.10.88"
             if not stand:
                 dot_date = re.search(r"(\d{2})\.(\d{2})\.(\d{2})", title)
                 if dot_date:
@@ -96,11 +96,9 @@ def refine_metadata():
 
             node["stand"] = stand
 
-            # 4. Extraction of "Kürzel" (Abbreviation)
-            # Pattern: AZA, AZK, ANBest-P, etc.
+            # 4. Extraction of "Kürzel"
             kuerzel_match = re.search(r"\b([A-Z][A-Za-z-]{2,15}(?:-[A-Z])?)\b", title)
             if kuerzel_match:
-                # Filter out generic words
                 k = kuerzel_match.group(1)
                 if k not in [
                     "Richtlinien",
@@ -112,7 +110,6 @@ def refine_metadata():
                 ]:
                     node["kuerzel"] = k
 
-            # Manual override for some common ones if regex misses
             if "ANBest-P" in title:
                 node["kuerzel"] = "ANBest-P"
             if "ANBest-GK" in title:
@@ -125,11 +122,32 @@ def refine_metadata():
                 node["kuerzel"] = "AZK"
 
             doc_count += 1
+            # Update map with refined data
+            doc_map[node["id"]] = node
+
+    # Second pass: Propagate to Chunks
+    chunk_count = 0
+    for node in data.get("nodes", []):
+        if node.get("type") == "chunk":
+            # ID format check: 0027_chunk_0
+            if "_chunk_" in str(node["id"]):
+                doc_id = str(node["id"]).split("_chunk_")[0]
+                if doc_id in doc_map:
+                    parent = doc_map[doc_id]
+                    # Propagate
+                    node["ministerium"] = parent.get("ministerium")
+                    node["herausgeber"] = parent.get("herausgeber")
+                    node["stand"] = parent.get("stand")
+                    node["doc_title"] = parent.get("title")
+                    node["kuerzel"] = parent.get("kuerzel")
+                    chunk_count += 1
 
     with open(graph_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-    print(f"Metadata refinement complete. Updated {doc_count} documents.")
+    print(
+        f"Metadata refinement complete. Updated {doc_count} documents and {chunk_count} chunks."
+    )
 
 
 if __name__ == "__main__":

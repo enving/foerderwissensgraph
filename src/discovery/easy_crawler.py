@@ -74,8 +74,15 @@ class EasyCrawler:
 
                 try:
                     await page.goto(url, wait_until="load")
-                    await page.evaluate(f"easy_tabelle('{cat_id}', 7)")
-                    await page.wait_for_timeout(5000)
+
+                    # BMBF Specific Check
+                    if "bmbf" not in self.ministerium.lower():
+                        await page.evaluate(f"easy_tabelle('{cat_id}', 7)")
+                        await page.wait_for_timeout(5000)
+                    else:
+                        print(
+                            "   ℹ️ BMBF-Modus: Überspringe JS-Toggle (Tabelle bereits offen)"
+                        )
 
                     rows = await page.query_selector_all(f"#{cat_id} tr")
                     print(f"   📊 {len(rows)} Zeilen gefunden.")
@@ -174,8 +181,21 @@ class EasyCrawler:
 
 if __name__ == "__main__":
     import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Easy-Online Crawler")
+    parser.add_argument(
+        "limit", nargs="?", type=int, default=None, help="Limit files per category"
+    )
+    parser.add_argument(
+        "--ministry",
+        type=str,
+        default="bmwe",
+        help="Target Ministry (e.g., bmwe, bmbf)",
+    )
+
+    args = parser.parse_args()
 
     output = Path("/home/enving/Dev/Bund-ZuwendungsGraph/data")
-    limit = int(sys.argv[1]) if len(sys.argv) > 1 else None
-    crawler = EasyCrawler(output, limit_per_cat=limit)
+    crawler = EasyCrawler(output, ministerium=args.ministry, limit_per_cat=args.limit)
     asyncio.run(crawler.run())

@@ -21,6 +21,11 @@ MINISTRY_REGISTRY = {
         "current_name": "Bundesministerium für Bildung und Forschung",
         "aliases": ["BMBF", "Bildung und Forschung"],
     },
+    "BMFSFJ": {
+        "id": "MIN_FAMILY",
+        "current_name": "Bundesministerium für Familie, Senioren, Frauen und Jugend",
+        "aliases": ["BMFSFJ", "BMBFSFJ", "Familie"],
+    },
     "BMF": {
         "id": "MIN_FINANCE",
         "current_name": "Bundesministerium der Finanzen",

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pathlib import Path
 from src.parser.hybrid_search import HybridSearchEngine
+from src.parser.rule_extractor import RuleExtractor
 import logging
 
 app = Flask(__name__)
@@ -14,6 +15,8 @@ logger = logging.getLogger(__name__)
 engine = HybridSearchEngine(
     graph_path=Path("data/knowledge_graph.json"), db_path="data/chroma_db"
 )
+# Initialize Answer Engine
+answer_engine = RuleExtractor()
 
 
 @app.route("/api/search", methods=["GET"])
@@ -53,19 +56,23 @@ def search():
         if match:
             filtered_results.append(res)
 
-    # If no Answer Engine result, just return filtered results
-    # Task 5: Implement Answer Engine
-    if filtered_results and len(query.split()) > 3:
-        top_context = "\n---\n".join(
-            [
-                f"Source: {r.get('doc_title')}\nText: {r.get('text')}"
-                for r in filtered_results[:3]
-            ]
-        )
-        # Placeholder for Answer Engine logic
-        # In a real scenario, we would call an LLM here
-        answer = f"Basierend auf den Dokumenten: {filtered_results[0].get('doc_title')} etc.\n\nAntwort: [LLM Answer Engine placeholder. Top-3 Context used.]"
-        return jsonify({"answer": answer, "results": filtered_results})
+    if filtered_results and len(query.split()) > 2:
+        # Prepare context for RAG
+        top_results = filtered_results[:3]
+        context_chunks = [
+            f"Titel: {r.get('doc_title', 'Unbekannt')}\nText: {r.get('text', '')}"
+            for r in top_results
+        ]
+
+        # Generate Answer
+        try:
+            answer = answer_engine.generate_answer(query, context_chunks)
+        except Exception as e:
+            logger.error(f"Answer generation failed: {e}")
+            answer = None
+
+        if answer:
+            return jsonify({"answer": answer, "results": filtered_results})
 
     return jsonify(filtered_results)
 
