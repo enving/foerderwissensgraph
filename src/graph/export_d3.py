@@ -18,16 +18,37 @@ def export_to_d3(graph_path: Path, output_path: Path):
     # Our graph already has this structure, but we might want to filter it
     # for better performance in the browser.
 
-    # Example: Filter to only show Document nodes and SUPERSEDES edges
-    doc_nodes = [n for n in data["nodes"] if n.get("type") == "document"]
+    valid_types = ["document", "law", "external"]
+    doc_nodes = [
+        n
+        for n in data["nodes"]
+        if n.get("type") in valid_types or n.get("node_type") in valid_types
+    ]
 
-    # Find all edges between document nodes (mostly SUPERSEDES)
     doc_ids = {n["id"] for n in doc_nodes}
     edge_key = "links" if "links" in data else "edges"
+
+    valid_relations = ["REFERENCES", "SUPERSEDES"]
     doc_links = [
         l
         for l in data.get(edge_key, [])
-        if l["source"] in doc_ids and l["target"] in doc_ids
+        if l["source"] in doc_ids
+        and l["target"] in doc_ids
+        and l.get("relation") in valid_relations
+    ]
+
+    # Find all edges between these nodes
+    doc_ids = {n["id"] for n in doc_nodes}
+    edge_key = "links" if "links" in data else "edges"
+
+    # Explicitly include REFERENCES and SUPERSEDES relations
+    valid_relations = ["REFERENCES", "SUPERSEDES"]
+    doc_links = [
+        l
+        for l in data.get(edge_key, [])
+        if l["source"] in doc_ids
+        and l["target"] in doc_ids
+        and l.get("relation") in valid_relations
     ]
 
     d3_data = {"nodes": doc_nodes, "links": doc_links}

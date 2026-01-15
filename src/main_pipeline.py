@@ -14,7 +14,9 @@ def enrich_graph_with_laws(builder: GraphBuilder):
     referenced_laws = set()
 
     for node_id, data in builder.graph.nodes(data=True):
-        if data.get("type") == "external" and node_id.startswith("law_"):
+        if (
+            data.get("type") == "external" or data.get("node_type") == "external"
+        ) and node_id.startswith("law_"):
             referenced_laws.add(data.get("kuerzel"))
 
     if not referenced_laws:
@@ -61,7 +63,9 @@ def main():
     if output_graph_path.exists():
         builder.load_graph(output_graph_path)
         for node_id, data in builder.graph.nodes(data=True):
-            if data.get("type") == "document" and "hash" in data:
+            if (
+                data.get("type") == "document" or data.get("node_type") == "document"
+            ) and "hash" in data:
                 existing_hashes.add(data["hash"])
 
     processed_count = 0

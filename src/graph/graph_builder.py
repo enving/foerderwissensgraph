@@ -12,17 +12,14 @@ class GraphBuilder:
     def __init__(self):
         self.graph = nx.MultiDiGraph()
 
+    def add_law(self, law_id: str, metadata: Dict[str, Any]):
+        self.graph.add_node(law_id, node_type="law", **metadata)
+
     def add_document(self, doc_id: str, metadata: Dict[str, Any]):
-        """
-        Adds a document node to the graph.
-        """
-        self.graph.add_node(doc_id, type="document", **metadata)
+        self.graph.add_node(doc_id, node_type="document", **metadata)
 
     def add_chunk(self, doc_id: str, chunk_id: str, chunk_data: Dict[str, Any]):
-        """
-        Adds a chunk node and connects it to the document.
-        """
-        self.graph.add_node(chunk_id, type="chunk", **chunk_data)
+        self.graph.add_node(chunk_id, node_type="chunk", **chunk_data)
         self.graph.add_edge(doc_id, chunk_id, relation="HAS_CHUNK")
 
     def save_graph(self, output_path: Path):

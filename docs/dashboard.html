@@ -125,8 +125,16 @@
                         <span>Dokument</span>
                     </div>
                     <div class="flex items-center gap-2 text-sm">
+                        <span class="w-3 h-3 rounded-full bg-federal-500"></span>
+                        <span>Gesetz</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
                         <span class="w-8 h-0 border-t-2 border-dashed border-red-500"></span>
                         <span>SUPERSEDES</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="w-8 h-0 border-t-2 border-accent-gold"></span>
+                        <span>REFERENZ</span>
                     </div>
                 </div>
                 
@@ -350,7 +358,7 @@
 
             // Define arrowheads
             svg.append("defs").selectAll("marker")
-                .data(["SUPERSEDES", "default"])
+                .data(["SUPERSEDES", "REFERENCES", "default"])
                 .enter().append("marker")
                 .attr("id", d => `arrow-${d}`)
                 .attr("viewBox", "0 -5 10 10")
@@ -360,7 +368,11 @@
                 .attr("markerHeight", 6)
                 .attr("orient", "auto")
                 .append("path")
-                .attr("fill", d => d === "SUPERSEDES" ? "#ef4444" : "#cbd5e1")
+                .attr("fill", d => {
+                    if (d === "SUPERSEDES") return "#ef4444";
+                    if (d === "REFERENCES") return "#D4AF37";
+                    return "#cbd5e1";
+                })
                 .attr("d", "M0,-5L10,0L0,5");
 
             const linkElements = g.append("g")
@@ -369,7 +381,12 @@
                 .data(links)
                 .enter().append("path")
                 .attr("class", d => `link ${d.relation?.toLowerCase() || ''}`)
-                .attr("marker-end", d => `url(#arrow-${d.relation === "SUPERSEDES" ? "SUPERSEDES" : "default"})`);
+                .attr("stroke", d => d.relation === "REFERENCES" ? "#D4AF37" : null)
+                .attr("marker-end", d => {
+                    if (d.relation === "SUPERSEDES") return "url(#arrow-SUPERSEDES)";
+                    if (d.relation === "REFERENCES") return "url(#arrow-REFERENCES)";
+                    return "url(#arrow-default)";
+                });
 
             const nodeElements = g.append("g")
                 .attr("class", "nodes")
@@ -377,8 +394,8 @@
                 .data(nodes)
                 .enter().append("circle")
                 .attr("class", "node")
-                .attr("r", 12)
-                .attr("fill", d => "#003366")
+                .attr("r", d => (d.node_type === "law" || d.type === "law") ? 16 : 12)
+                .attr("fill", d => (d.node_type === "law" || d.type === "law") ? "#0055AA" : "#003366")
                 .on("mouseover", showTooltip)
                 .on("mouseout", hideTooltip)
                 .on("click", (e, d) => selectNode(d))
@@ -624,6 +641,7 @@
                     </div>
                 `).join('');
                 
+                list.innerHTML = html;
             } catch (error) {
                 console.error("Hybrid search error:", error);
                 list.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Fehler bei der Suche. Ist die API gestartet?</div>';

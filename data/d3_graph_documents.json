@@ -727,6 +727,32 @@
       "stand": null,
       "kuerzel": "Gleichstellung",
       "id": "0326"
+    },
+    {
+      "type": "law",
+      "title": "Gesetz: BHO",
+      "kuerzel": "BHO",
+      "source": "gesetze-im-internet.de",
+      "node_type": "law",
+      "category": "Gesetz",
+      "id": "law_BHO"
+    },
+    {
+      "type": "law",
+      "title": "Gesetz: VwVfG",
+      "kuerzel": "VwVfG",
+      "source": "gesetze-im-internet.de",
+      "node_type": "law",
+      "category": "Gesetz",
+      "id": "law_VwVfG"
+    },
+    {
+      "node_type": "law",
+      "title": "Gesetz: AO",
+      "kuerzel": "AO",
+      "source": "gesetze-im-internet.de",
+      "category": "Gesetz",
+      "id": "law_AO"
     }
   ],
   "links": [
@@ -734,12 +760,6 @@
       "relation": "SUPERSEDES",
       "source": "0323",
       "target": "0322",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0323",
-      "target": "0321",
       "key": 0
     },
     {
@@ -767,33 +787,15 @@
       "key": 0
     },
     {
-      "relation": "EQUIVALENT_TO",
-      "source": "0323d",
-      "target": "0328",
-      "key": 0
-    },
-    {
       "relation": "SUPERSEDES",
       "source": "0323e",
       "target": "0323d",
       "key": 0
     },
     {
-      "relation": "EQUIVALENT_TO",
-      "source": "0323e",
-      "target": "0328a",
-      "key": 0
-    },
-    {
       "relation": "SUPERSEDES",
       "source": "0323f",
       "target": "0323e",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0323f",
-      "target": "0328b",
       "key": 0
     },
     {
@@ -836,30 +838,6 @@
       "relation": "SUPERSEDES",
       "source": "0329b",
       "target": "0329a",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0328",
-      "target": "0323d",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0328a",
-      "target": "0323e",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0328b",
-      "target": "0323f",
-      "key": 0
-    },
-    {
-      "relation": "EQUIVALENT_TO",
-      "source": "0321",
-      "target": "0323",
       "key": 0
     }
   ]

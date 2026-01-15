@@ -28,7 +28,7 @@ pip install -r requirements.txt
 playwright install chromium
 
 # 2. Server starten (API + Frontend)
-# (Aktuell noch manuell, siehe NEXTSTEPS für Docker-Pläne)
+# (Aktuell noch manuell, siehe docs/next-steps.md für Docker-Pläne)
 python src/api/search_api.py &
 python -m http.server 8000 --directory docs
 ```
