@@ -24,21 +24,21 @@
     2. Das referenzierte Bundesreisekostengesetz (via `REFERENCES` Kante).
     3. Die übergeordnete Rahmenrichtlinie (via `PART_OF` Kante).
 
-### C. The Skeleton: Industrial Grade Operations
-*Das System muss einfach deploybar und stabil sein.*
-- **Ziel:** One-Command-Setup für Entwickler und Server.
-- **Feature:** Docker-Compose Setup (API + Frontend + VectorDB), standardisierte Configs, CI/CD für Daten-Ingestion.
+### C. The Skeleton: Developer Experience (DX)
+*Das System muss lokal einfach zu entwickeln sein.*
+- **Ziel:** Einfacher Start für Entwickler ohne komplexe Container-Magie.
+- **Feature:** Standardisierte `requirements.txt`, klare `python` Start-Skripte, strukturierte Configs.
 
 ## 3. User Stories
 1. **Als Fördermittelberater** möchte ich wissen, welche Version der BNBest für ein Programm aus 2021 gilt, ohne manuell Versionsnummern zu vergleichen.
-2. **Als Entwickler** möchte ich das System mit einem Befehl starten, ohne 3 Terminal-Fenster zu jonglieren.
+2. **Als Entwickler** möchte ich das System schnell lokal starten und Änderungen sofort sehen.
 3. **Als Analyst** möchte ich sehen, welche Richtlinien am häufigsten referenziert werden (Zentralitäts-Analyse).
 
 ## 4. Tech Stack & Architektur
 - **Core:** Python 3.10+, NetworkX (Graph Logik).
 - **Ingestion:** Playwright (Crawl), Docling (PDF Parsing).
 - **Storage:**
-  - Graph: JSON (File-based, future: Neo4j/NetworkX adapter).
+  - Graph: JSON (File-based).
   - Vector: ChromaDB (Local).
 - **Frontend:** D3.js (Visualisierung), TailwindCSS.
 - **API:** Flask/FastAPI.
@@ -46,4 +46,4 @@
 ## 5. Success Metrics
 - **Node Density:** Verhältnis von Kanten zu Knoten (Ziel: > 1.5, aktuell ~0.4).
 - **Query Accuracy:** Korrekte Beantwortung von "Gilt X noch?" Fragen (Test via Golden Dataset).
-- **Setup Time:** < 5 Minuten für neue Devs.
+- **Setup Time:** < 5 Minuten für neue Devs (via venv).

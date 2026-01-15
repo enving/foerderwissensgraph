@@ -15,11 +15,11 @@
 - [ ] **Reference Linking:** Generiere `REFERENCES` Kanten zwischen Dokument-Knoten basierend auf den Citations.
 - [ ] **External Nodes:** Erstelle "Stub-Nodes" für Gesetze (z.B. BHO), die oft zitiert werden, aber (noch) nicht als PDF vorliegen.
 
-### Phase B: DevOps & Stability (Das "Skelett")
-*Ziel: Weg vom "basteligen" Setup.*
-- [ ] **Dockerize:** Erstelle ein `Dockerfile` und `docker-compose.yml` für API, Frontend-Server und (optional) ChromaDB Service.
+### Phase B: Local Stability & Refinement
+*Ziel: Robuste lokale Entwicklungsumgebung.*
 - [ ] **Config Management:** Zentralisiere Ports und Pfade in `config/settings.yaml`.
 - [ ] **Robust Crawler:** Erweitere den Crawler um automatische Retry-Logik und bessere Ministeriums-Erkennung.
+- [ ] **Testing:** Baue eine einfache Test-Suite für die wichtigsten Pfade (kein Over-Engineering).
 
 ### Phase C: Graph-Guided RAG (Die "Muskeln")
 *Ziel: Nutzung der neuen Graph-Struktur für Antworten.*
