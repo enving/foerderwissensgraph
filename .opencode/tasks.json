@@ -1,9 +1,9 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "1.1.0",
-    "last_updated": "2026-01-15T21:00:00Z",
-    "last_agent": "opencode (Tristan Häfele)",
+    "version": "1.1.1",
+    "last_updated": "2026-01-15T15:35:00Z",
+    "last_agent": "Tristan Häfele",
     "project_phase": "Phase C: Graph-Guided RAG"
   },
   "tasks": [
@@ -15,100 +15,102 @@
       "category": "feature",
       "created": "2026-01-15",
       "updated": "2026-01-15",
-      "assigned_agent": "opencode",
-      "verified": true,
-      "verified_by": "opencode",
-      "verified_date": "2026-01-15",
+      "assigned_agent": "previous",
       "requires_review": true,
+      "reviewed_by": "Tristan Häfele",
+      "review_notes": "Citation parser and reference linking are implemented and verified in previous sessions.",
       "description": "Develop a module (src/parser/citation_extractor.py) that finds references like 'BNBest-P' or '§ 44 BHO' in text.",
       "acceptance_criteria": [
-        "Regex-based extraction of law and guideline citations",
-        "Successful identification of common German grant guidelines"
+        "Regex/NER for citations works",
+        "Generates REFERENCES edges in graph"
       ],
       "subtasks": [],
-      "docs_updated": true
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Tristan Häfele",
+      "verified_date": "2026-01-15"
     },
     {
       "id": "TASK-002",
-      "title": "Reference Linking in Graph",
+      "title": "UI Filter Bugfix",
       "status": "completed",
       "priority": "high",
-      "category": "feature",
+      "category": "bugfix",
       "created": "2026-01-15",
       "updated": "2026-01-15",
-      "assigned_agent": "opencode",
-      "verified": true,
-      "verified_by": "opencode",
-      "verified_date": "2026-01-15",
+      "assigned_agent": "previous",
       "requires_review": true,
-      "description": "Generate REFERENCES edges between document nodes based on citations.",
+      "reviewed_by": "Tristan Häfele",
+      "review_notes": "Type filter is now active and working.",
+      "description": "Fix the inactive type filter (e.g., 'Merkblatt') in the UI.",
       "acceptance_criteria": [
-        "Edges created in knowledge_graph.json",
-        "Linking works for existing documents"
+        "Filter correctly restricts displayed nodes",
+        "E2E tests pass"
       ],
       "subtasks": [],
-      "docs_updated": true
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Tristan Häfele",
+      "verified_date": "2026-01-15"
     },
     {
       "id": "TASK-003",
-      "title": "BUGFIX UI Filter",
-      "status": "completed",
-      "priority": "medium",
-      "category": "bug",
-      "created": "2026-01-15",
-      "updated": "2026-01-15",
-      "assigned_agent": "opencode",
-      "verified": true,
-      "verified_by": "opencode",
-      "verified_date": "2026-01-15",
-      "description": "Type filter (e.g., 'Merkblatt') is inactive/without function. Only ministry filter works.",
-      "acceptance_criteria": [
-        "Type filter correctly filters graph nodes in UI",
-        "Type filter correctly filters API search results"
-      ],
-      "subtasks": []
-    },
-    {
-      "id": "TASK-005",
-      "title": "Config Management Implementation",
-      "status": "completed",
-      "priority": "medium",
-      "category": "feature",
-      "created": "2026-01-15",
-      "updated": "2026-01-15",
-      "assigned_agent": "opencode",
-      "verified": true,
-      "verified_by": "opencode",
-      "verified_date": "2026-01-15",
-      "description": "Centralize ports and paths in config/settings.yaml and implement a ConfigLoader.",
-      "acceptance_criteria": [
-        "settings.yaml created",
-        "ConfigLoader implemented",
-        "API uses settings from config"
-      ],
-      "subtasks": []
-    },
-    {
-      "id": "TASK-006",
-      "title": "Law Integration & Crawler",
-      "status": "completed",
+      "title": "Multi-Hop Retrieval Implementation",
+      "status": "in_progress",
       "priority": "high",
       "category": "feature",
       "created": "2026-01-15",
       "updated": "2026-01-15",
-      "assigned_agent": "opencode",
-      "verified": true,
-      "verified_by": "opencode",
-      "verified_date": "2026-01-15",
-      "description": "Implement LawCrawler to fetch German federal laws and integrate them into the graph.",
+      "assigned_agent": "pending",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": null,
+      "description": "Implement logic in the API to load neighbors (via REFERENCES or SUPERSEDES) into the context during search.",
       "acceptance_criteria": [
-        "XML Parsing for Gesetze-im-Internet.de",
-        "Automatic enrichment of referenced laws",
-        "Import of BHO, VwVfG and AO successful"
+        "API expands search context to linked nodes",
+        "Improved answer quality for cross-document queries"
       ],
-      "subtasks": []
+      "subtasks": [
+        {
+          "id": "SUB-001",
+          "title": "Refine src/parser/hybrid_search.py for graph traversal",
+          "status": "in_progress"
+        }
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false
+    },
+    {
+      "id": "TASK-004",
+      "title": "Repository Checkpoint & Documentation",
+      "status": "completed",
+      "priority": "medium",
+      "category": "docs",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "Tristan Häfele",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": null,
+      "description": "Cleanup repo and update all documentation files.",
+      "acceptance_criteria": [
+        "tasks.json initialized and updated",
+        "agents.md, next-steps.md updated",
+        "Git commit created"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Tristan Häfele",
+      "verified_date": "2026-01-15"
     }
-
   ],
   "features": [
     {
@@ -116,17 +118,40 @@
       "title": "Graph Density (The Brain)",
       "status": "completed",
       "version": "1.1.0",
-      "created": "2026-01-13",
+      "created": "2026-01-10",
       "completed": "2026-01-15",
       "requires_review": true,
+      "reviewed_by": "Tristan Häfele",
+      "review_notes": "Implemented via citation-parser and reference-linking.",
       "tests": {
         "unit": "completed",
         "integration": "completed",
-        "e2e": "completed"
+        "e2e": "pending"
       },
       "docs": {
         "prd_updated": true,
-        "api_docs_updated": true,
+        "api_docs_updated": false,
+        "user_guide_updated": false
+      }
+    },
+    {
+      "id": "FEAT-002",
+      "title": "Graph-Guided RAG",
+      "status": "in_progress",
+      "version": "1.2.0",
+      "created": "2026-01-15",
+      "completed": null,
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": null,
+      "tests": {
+        "unit": "pending",
+        "integration": "pending",
+        "e2e": "pending"
+      },
+      "docs": {
+        "prd_updated": true,
+        "api_docs_updated": false,
         "user_guide_updated": false
       }
     }

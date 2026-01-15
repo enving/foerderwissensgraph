@@ -25,9 +25,9 @@
 
 ### Phase C: Graph-Guided RAG (Die "Muskeln") - ⭐ PRIORITÄT
 *Ziel: Nutzung der neuen Graph-Struktur für Antworten.*
-- [ ] **Multi-Hop Retrieval:** Implementiere Logik in der API, die bei einer Suche auch Nachbarn (via `REFERENCES` oder `SUPERSEDES`) in den Kontext lädt. (Erster Entwurf in `src/parser/hybrid_search.py` vorhanden)
+- [ ] **Multi-Hop Retrieval:** Implementiere Logik in der API, die bei einer Suche auch Nachbarn (via `REFERENCES` oder `SUPERSEDES`) in den Kontext lädt. (TASK-003, Erster Entwurf in `src/parser/hybrid_search.py` vorhanden)
 - [ ] **Answer Engine Tuning:** Verbessere die Prompts, um Widersprüche zwischen Versionen aufzulösen.
 - [ ] **Cross-Document QA:** Ermögliche Fragen, die Informationen aus mehreren verknüpften Dokumenten kombinieren.
 
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase B (Local Stability)**. Starte mit dem Fix für den UI-Filter."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase C (Graph-Guided RAG)**. Starte mit TASK-003: Multi-Hop Retrieval."
