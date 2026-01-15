@@ -8,67 +8,48 @@ def test_filters():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        # Load the local dashboard file
-        dashboard_path = os.path.abspath(
-            "/home/enving/Dev/Bund-ZuwendungsGraph/docs/dashboard.html"
-        )
-        page.goto(f"file://{dashboard_path}")
-        page.wait_for_load_state("networkidle")
+        try:
+            page.goto("http://localhost:8000/docs/dashboard.html", timeout=5000)
+        except:
+            dashboard_path = os.path.abspath("docs/dashboard.html")
+            page.goto(f"file://{dashboard_path}")
 
+        page.wait_for_load_state("networkidle")
         print(f"Page title: {page.title()}")
 
-        # Check if filter elements exist
-        print("Checking filter visibility...")
-        print(f"Ministry filter visible: {page.is_visible('#filterMinistry')}")
-        print(f"Type filter visible: {page.is_visible('#filterType')}")
-
-        # Try to select BMWK (or BMWE which we know exists in the data)
-        # Check available options first
-        print("Checking filter options...")
         options = page.eval_on_selector_all(
             "#filterMinistry option", "opts => opts.map(o => o.value)"
         )
-        print(f"Available Ministry Options: {options}")
+        target_min = next((o for o in options if o and o != "Alle Ressorts"), "BMWK")
+        print(f"Selecting Ministry: {target_min}")
+        page.select_option("#filterMinistry", target_min)
+        page.wait_for_timeout(500)
 
-        target_ministry = "BMWE" if "BMWE" in options else "BMWK"
-        print(f"Selecting {target_ministry}...")
+        type_options = page.eval_on_selector_all(
+            "#filterType option", "opts => opts.map(o => o.value)"
+        )
+        target_type = next(
+            (o for o in type_options if o and o != "Alle Typen"), "Merkblatt"
+        )
+        print(f"Selecting Type: {target_type}")
+        page.select_option("#filterType", target_type)
+        page.wait_for_timeout(500)
 
-        # Select option
-        page.select_option("#filterMinistry", target_ministry)
-
-        # Wait for transition
-        page.wait_for_timeout(1000)
-
-        # Take a screenshot to see the state
-        page.screenshot(path="docs/screenshots/filter_test.png")
-        print("Screenshot saved to docs/screenshots/filter_test.png")
-
-        # Verify Visual Change: Check if 'dimmed' class is applied to some nodes
-        # Since we have filtered, nodes NOT matching should have class 'dimmed'
         dimmed_count = page.locator(".node.dimmed").count()
         total_nodes = page.locator(".node").count()
+        print(f"Nodes: {total_nodes}, Dimmed: {dimmed_count}")
 
-        print(f"Total Nodes: {total_nodes}")
-        print(f"Dimmed Nodes: {dimmed_count}")
-
-        if dimmed_count > 0:
-            print("SUCCESS: Filter applied visually (nodes dimmed).")
-        else:
-            print(
-                "WARNING: No nodes dimmed. Filter might not be working or all nodes match."
-            )
-
-        # Test Search
-        print("Testing Search...")
-        page.fill("#hybridSearchInput", "Förderung")
+        print("Testing Hybrid Search with filters...")
+        page.fill("#hybridSearchInput", "ANBest")
         page.keyboard.press("Enter")
-        page.wait_for_timeout(2000)  # Wait for results
+        page.wait_for_selector("#resultsList", timeout=10000)
 
-        results_visible = page.is_visible("#searchResults")
-        print(f"Search Results Visible: {results_visible}")
-        page.screenshot(path="docs/screenshots/search_test.png")
+        results_count = page.locator("#resultsList > div").count()
+        print(f"Search Results: {results_count}")
 
+        page.screenshot(path="docs/screenshots/intensive_ui_test.png")
         browser.close()
+        assert total_nodes > 0
 
 
 if __name__ == "__main__":

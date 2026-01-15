@@ -8,6 +8,9 @@ from datetime import datetime
 from playwright.async_api import async_playwright
 
 
+from src.models.ministry_registry import MinistryRegistry
+
+
 class EasyCrawler:
     """
     Systematischer Crawler für den Bundes-Formularschrank (Easy-Online).
@@ -28,11 +31,12 @@ class EasyCrawler:
     }
 
     def __init__(
-        self, output_dir: Path, ministerium: str = "bmwe", limit_per_cat: int = None
+        self, output_dir: Path, ministerium: str = "BMWK", limit_per_cat: int = None
     ):
         self.output_dir = output_dir
-        self.raw_dir = output_dir / "raw" / ministerium
-        self.ministerium = ministerium
+        # Canonicalize ministry name (e.g., BMWE -> BMWK)
+        self.ministerium = MinistryRegistry.get_canonical_name(ministerium)
+        self.raw_dir = output_dir / "raw" / self.ministerium.lower()
         self.manifest_path = self.raw_dir / "manifest.json"
         self.limit_per_cat = limit_per_cat
 
