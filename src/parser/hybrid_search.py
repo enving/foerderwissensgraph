@@ -54,35 +54,38 @@ class HybridSearchEngine:
             return []
 
         results = self.vector_store.collection.query(
-            query_embeddings=query_embeddings, n_results=limit * 2, where=filter_dict
+            query_embeddings=list(query_embeddings),
+            n_results=limit * 2,
+            where=filter_dict,
         )
 
         hybrid_results = []
 
-        if not results or not results.get("ids"):
+        if not results:
             return []
 
-        ids = results.get("ids", [[]])[0]
-        distances = (
-            results.get("distances", [[]])[0]
-            if results.get("distances")
-            else [0] * len(ids)
-        )
-        metadatas = (
-            results.get("metadatas", [[]])[0] if results.get("metadatas") else []
-        )
-        documents = (
-            results.get("documents", [[]])[0] if results.get("documents") else []
-        )
+        ids_list = results.get("ids")
+        if not ids_list or len(ids_list) == 0:
+            return []
+        ids = ids_list[0]
+
+        distances_list = results.get("distances")
+        distances = distances_list[0] if distances_list else [0.0] * len(ids)
+
+        metadatas_list = results.get("metadatas")
+        metadatas = metadatas_list[0] if metadatas_list else []
+
+        documents_list = results.get("documents")
+        documents = documents_list[0] if documents_list else []
 
         for i in range(len(ids)):
             chunk_id = ids[i]
-            semantic_score = 1 - (distances[i] / 2)
+            semantic_score = 1.0 - (distances[i] / 2.0)
 
             graph_score = 0.5
             if chunk_id in self.graph:
-                node_degree = self.graph.degree[chunk_id]
-                graph_score = min(1.0, float(node_degree) / 10.0)
+                deg = len(list(self.graph.neighbors(chunk_id)))
+                graph_score = min(1.0, float(deg) / 10.0)
 
             combined_score = (semantic_score * vector_weight) + (
                 graph_score * graph_weight
@@ -124,23 +127,35 @@ class HybridSearchEngine:
                             entry["stand"] = p_data.get("stand", "")
                             entry["kuerzel"] = p_data.get("kuerzel", "")
 
-                            # Fetch siblings
-                            siblings = list(self.graph.successors(p))
-                            for sib_id in siblings:
-                                if sib_id != chunk_id:
-                                    sib_data = self.graph.nodes[sib_id]
-                                    if sib_data.get("type") == "chunk":
-                                        entry["neighbor_context"].append(
-                                            {
-                                                "id": sib_id,
-                                                "text": sib_data.get("text", "")[:200]
-                                                + "...",
-                                                "breadcrumbs": sib_data.get(
-                                                    "context", ""
-                                                ),
-                                            }
-                                        )
-                            break
+                            for _, target_id, edata in self.graph.out_edges(
+                                p, data=True
+                            ):
+                                if edata.get("relation") == "REFERENCES":
+                                    target_node = self.graph.nodes[target_id]
+                                    target_title = target_node.get("title", target_id)
+                                    entry["neighbor_context"].append(
+                                        {
+                                            "id": target_id,
+                                            "text": f"Referenz: {target_title}",
+                                            "breadcrumbs": "Graph Reference",
+                                            "type": "reference",
+                                        }
+                                    )
+
+                            for replaced_by, _, edata in self.graph.in_edges(
+                                p, data=True
+                            ):
+                                if edata.get("relation") == "SUPERSEDES":
+                                    new_doc = self.graph.nodes[replaced_by]
+                                    entry["neighbor_context"].insert(
+                                        0,
+                                        {
+                                            "id": replaced_by,
+                                            "text": f"Hinweis: Dokument wurde durch {new_doc.get('title')} ersetzt.",
+                                            "breadcrumbs": "Version Warning",
+                                            "type": "warning",
+                                        },
+                                    )
 
             hybrid_results.append(entry)
 

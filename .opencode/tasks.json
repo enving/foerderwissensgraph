@@ -1,10 +1,10 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "1.0.1",
-    "last_updated": "2026-01-15T18:45:00Z",
+    "version": "1.1.0",
+    "last_updated": "2026-01-15T20:30:00Z",
     "last_agent": "opencode",
-    "project_phase": "development"
+    "project_phase": "Phase B: Local Stability"
   },
   "tasks": [
     {
@@ -52,48 +52,34 @@
     {
       "id": "TASK-003",
       "title": "BUGFIX UI Filter",
-      "status": "pending",
-      "priority": "medium",
-      "category": "bug",
-      "created": "2026-01-15",
-      "updated": "2026-01-15",
-      "assigned_agent": "pending",
-      "description": "Type filter (e.g., 'Merkblatt') is inactive/without function. Only ministry filter works.",
-      "acceptance_criteria": [
-        "Type filter correctly filters graph nodes in UI"
-      ],
-      "subtasks": []
-    },
-    {
-      "id": "TASK-004",
-      "title": "Checkpoint & Documentation Refresh",
       "status": "completed",
       "priority": "medium",
-      "category": "maintenance",
+      "category": "bug",
       "created": "2026-01-15",
       "updated": "2026-01-15",
       "assigned_agent": "opencode",
       "verified": true,
       "verified_by": "opencode",
       "verified_date": "2026-01-15",
-      "description": "Cleaned up repository and updated all documentation files for the next session.",
+      "description": "Type filter (e.g., 'Merkblatt') is inactive/without function. Only ministry filter works.",
       "acceptance_criteria": [
-        "Repository cleaned from logs and cache",
-        "PRD.md, agents.md, next-steps.md, dev-rules.md updated",
-        "tasks.json updated"
+        "Type filter correctly filters graph nodes in UI",
+        "Type filter correctly filters API search results"
       ],
-      "subtasks": [],
-      "docs_updated": true
+      "subtasks": []
     },
     {
       "id": "TASK-005",
       "title": "Config Management Implementation",
-      "status": "in_progress",
+      "status": "completed",
       "priority": "medium",
       "category": "feature",
       "created": "2026-01-15",
       "updated": "2026-01-15",
       "assigned_agent": "opencode",
+      "verified": true,
+      "verified_by": "opencode",
+      "verified_date": "2026-01-15",
       "description": "Centralize ports and paths in config/settings.yaml and implement a ConfigLoader.",
       "acceptance_criteria": [
         "settings.yaml created",
@@ -101,25 +87,46 @@
         "API uses settings from config"
       ],
       "subtasks": []
+    },
+    {
+      "id": "TASK-006",
+      "title": "Law Integration & Crawler",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "opencode",
+      "verified": true,
+      "verified_by": "opencode",
+      "verified_date": "2026-01-15",
+      "description": "Implement LawCrawler to fetch German federal laws and integrate them into the graph.",
+      "acceptance_criteria": [
+        "XML Parsing for Gesetze-im-Internet.de",
+        "Automatic enrichment of referenced laws",
+        "Import of BHO, VwVfG and AO successful"
+      ],
+      "subtasks": []
     }
+
   ],
   "features": [
     {
       "id": "FEAT-001",
       "title": "Graph Density (The Brain)",
-      "status": "in_progress",
-      "version": "1.0.0",
+      "status": "completed",
+      "version": "1.1.0",
       "created": "2026-01-13",
-      "completed": null,
+      "completed": "2026-01-15",
       "requires_review": true,
       "tests": {
         "unit": "completed",
         "integration": "completed",
-        "e2e": "pending"
+        "e2e": "completed"
       },
       "docs": {
         "prd_updated": true,
-        "api_docs_updated": false,
+        "api_docs_updated": true,
         "user_guide_updated": false
       }
     }

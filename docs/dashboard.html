@@ -628,12 +628,35 @@
                                         Graph-Kontext (+${res.neighbor_context.length} Nachbarn)
                                     </summary>
                                     <div class="mt-2 space-y-2">
-                                        ${res.neighbor_context.slice(0, 3).map(nb => `
-                                            <div class="text-[10px] text-gray-500 italic p-2 bg-gray-50/50 rounded-lg border-l-2 border-gray-200">
-                                                <span class="font-semibold block mb-0.5">${nb.breadcrumbs}</span>
-                                                ${nb.text}
-                                            </div>
-                                        `).join('')}
+                                        ${res.neighbor_context.slice(0, 5).map(nb => {
+                                            let containerClass = "text-[10px] p-2.5 rounded-lg border-l-2 transition-all hover:shadow-sm ";
+                                            let icon = '';
+                                            let typeLabel = '';
+                                            
+                                            if (nb.type === 'warning') {
+                                                containerClass += "bg-red-50/80 border-red-500 text-red-900";
+                                                icon = `<svg class="w-3 h-3 text-red-600 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-red-600 mb-1 block flex items-center gap-1">Achtung: Dokument überholt</span>';
+                                            } else if (nb.type === 'reference') {
+                                                containerClass += "bg-amber-50/80 border-accent-gold text-federal-800";
+                                                icon = `<svg class="w-3 h-3 text-accent-gold inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>`;
+                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-accent-gold mb-1 block flex items-center gap-1">Verknüpfte Referenz</span>';
+                                            } else {
+                                                containerClass += "bg-gray-50/50 border-gray-200 text-gray-500 italic";
+                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-gray-400 mb-1 block">Zugehöriger Kontext</span>';
+                                            }
+
+                                            return `
+                                                <div class="${containerClass}">
+                                                    ${typeLabel}
+                                                    <span class="font-semibold block mb-0.5 text-federal-900 not-italic flex items-center gap-1">
+                                                        ${icon}
+                                                        ${nb.breadcrumbs || 'Unbekannter Abschnitt'}
+                                                    </span>
+                                                    <div class="line-clamp-2 leading-snug">${nb.text}</div>
+                                                </div>
+                                            `;
+                                        }).join('')}
                                     </div>
                                 </details>
                             </div>
