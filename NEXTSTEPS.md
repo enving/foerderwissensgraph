@@ -17,6 +17,7 @@
 
 ### Phase B: Local Stability & Refinement
 *Ziel: Robuste lokale Entwicklungsumgebung.*
+- [ ] **BUGFIX UI Filter:** Der Typ-Filter (z.B. "Merkblatt") ist inaktiv/ohne Funktion. Nur der Ministeriums-Filter funktioniert aktuell.
 - [ ] **Config Management:** Zentralisiere Ports und Pfade in `config/settings.yaml`.
 - [ ] **Robust Crawler:** Erweitere den Crawler um automatische Retry-Logik und bessere Ministeriums-Erkennung.
 - [ ] **Testing:** Baue eine einfache Test-Suite für die wichtigsten Pfade (kein Over-Engineering).
