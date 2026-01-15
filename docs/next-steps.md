@@ -17,10 +17,11 @@
 
 ### Phase B: Local Stability & Refinement - ⭐ PRIORITÄT
 *Ziel: Robuste lokale Entwicklungsumgebung.*
-- [x] **BUGFIX UI Filter:** Der Typ-Filter (z.B. "Merkblatt") ist inaktiv/ohne Funktion. Nur der Ministeriums-Filter funktioniert aktuell.
-- [x] **Config Management:** Zentralisiere Ports und Pfade in `config/settings.yaml`. (ERLEDIGT: Loader existiert, API angepasst)
-- [ ] **Robust Crawler:** Erweitere den Crawler um automatische Retry-Logik und bessere Ministeriums-Erkennung.
-- [ ] **Testing:** Baue eine einfache Test-Suite für die wichtigsten Pfade (kein Over-Engineering).
+- [x] **BUGFIX UI Filter:** Der Typ-Filter (z.B. "Merkblatt") ist inaktiv. (ERLEDIGT)
+- [x] **Config Management:** Zentralisiere Ports/Pfade in `config/settings.yaml`. (ERLEDIGT)
+- [x] **Law Integration:** Erster Import von Bundesgesetzen (BHO, VwVfG) erfolgreich. (ERLEDIGT)
+- [ ] **Robust Crawler:** Erweitere Crawler um Retry-Logik und Ministeriums-Erkennung.
+- [ ] **E2E Testing:** Erweiterung der Playwright-Tests für alle Filter-Kombinationen.
 
 ### Phase C: Graph-Guided RAG (Die "Muskeln")
 *Ziel: Nutzung der neuen Graph-Struktur für Antworten.*

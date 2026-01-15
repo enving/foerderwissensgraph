@@ -2,8 +2,10 @@ import requests
 import zipfile
 import io
 import xml.etree.ElementTree as ET
+import time
 from pathlib import Path
 from typing import List, Dict, Any
+from src.config_loader import settings
 
 
 class LawCrawler:
@@ -11,18 +13,34 @@ class LawCrawler:
     Crawls and parses German federal laws from gesetze-im-internet.de
     """
 
-    BASE_URL = "https://www.gesetze-im-internet.de/{abbr}/xml.zip"
+    def fetch_law(self, abbr: str, retries: int = 3) -> str:
+        base_url = settings.get(
+            "crawlers.laws.base_url",
+            "https://www.gesetze-im-internet.de/{abbr}/xml.zip",
+        )
+        url = base_url.format(abbr=abbr.lower())
 
-    def fetch_law(self, abbr: str) -> str:
-        url = self.BASE_URL.format(abbr=abbr.lower())
-        response = requests.get(url)
-        if response.status_code != 200:
-            raise Exception(f"Failed to fetch law {abbr} from {url}")
+        for attempt in range(retries):
+            try:
+                response = requests.get(url, timeout=30)
+                if response.status_code == 200:
+                    with zipfile.ZipFile(io.BytesIO(response.content)) as z:
+                        xml_filename = [
+                            name for name in z.namelist() if name.endswith(".xml")
+                        ][0]
+                        with z.open(xml_filename) as f:
+                            return f.read().decode("utf-8")
+                else:
+                    print(
+                        f"Attempt {attempt + 1}: Received status {response.status_code}"
+                    )
+            except Exception as e:
+                print(f"Attempt {attempt + 1}: Error fetching {abbr}: {e}")
 
-        with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-            xml_filename = [name for name in z.namelist() if name.endswith(".xml")][0]
-            with z.open(xml_filename) as f:
-                return f.read().decode("utf-8")
+            if attempt < retries - 1:
+                time.sleep(2**attempt)
+
+        raise Exception(f"Failed to fetch law {abbr} after {retries} attempts.")
 
     def parse_law_xml(self, xml_content: str) -> List[Dict[str, Any]]:
         root = ET.fromstring(xml_content.encode("utf-8"))

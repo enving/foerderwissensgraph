@@ -47,3 +47,8 @@
 - **Node Density:** Verhältnis von Kanten zu Knoten (Ziel: > 1.5, aktuell ~0.4).
 - **Query Accuracy:** Korrekte Beantwortung von "Gilt X noch?" Fragen (Test via Golden Dataset).
 - **Setup Time:** < 5 Minuten für neue Devs (via venv).
+
+## 6. Implementierungs-Status
+- [x] **Graph Density (The Brain):** Citation-Parser und Reference-Linking implementiert. (v1.1.0)
+- [x] **Local Stability:** Zentrales Config-Management und UI-Filter Fixes.
+- [ ] **Graph-Guided RAG:** Multi-Hop Retrieval in Vorbereitung.

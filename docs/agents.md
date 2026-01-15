@@ -36,10 +36,10 @@ Bevor du eine neue Aufgabe startest, lies:
 ## 🕒 Session Historie
 
 ### Session 2026-01-15 (opencode - Checkpoint)
-- **Status:** Repository aufräumt & dokumentiert.
+- **Status:** Repository aufräumt & dokumentiert (Checkpoint).
 - **Erledigt:**
-    - `__pycache__` und temporäre Dateien entfernt.
-    - `.opencode/tasks.json` Meta-Daten aktualisiert.
-    - `docs/next-steps.md` mit `tasks.json` synchronisiert (Phase B Fortschritt).
-    - Git-Checkpoint erstellt.
-- **Nächster Schritt:** Weiter mit Phase B (Robust Crawler) oder Phase C (Graph-Guided RAG).
+    - `__pycache__`, `.pyc` und temporäre Dateien entfernt.
+    - `.opencode/tasks.json` Meta-Daten aktualisiert und gegen Schema validiert.
+    - `docs/next-steps.md` synchronisiert und Prioritäten geschärft.
+    - Git-Checkpoint mit standardisierter Commit-Message erstellt.
+- **Nächster Schritt:** Start mit Phase B (Robust Crawler) oder Expansion in Phase C.

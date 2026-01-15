@@ -2,6 +2,7 @@ import asyncio
 import os
 import hashlib
 import json
+import time
 from pathlib import Path
 from datetime import datetime
 from playwright.async_api import async_playwright
@@ -148,19 +149,32 @@ class EasyCrawler:
         print(f"   📥 Downloade: [{nr}] {title[:50]}...")
 
         try:
+            retry_count = 3
 
             def do_download():
                 headers = {
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                     "Referer": "https://foerderportal.bund.de/easy/easy_index.php",
                 }
-                response = requests.get(
-                    url, cookies=cookies, headers=headers, timeout=30
-                )
-                response.raise_for_status()
-                with open(file_path, "wb") as f:
-                    f.write(response.content)
-                return True
+
+                for attempt in range(retry_count):
+                    try:
+                        response = requests.get(
+                            url, cookies=cookies, headers=headers, timeout=30
+                        )
+                        response.raise_for_status()
+                        with open(file_path, "wb") as f:
+                            f.write(response.content)
+                        return True
+                    except Exception as e:
+                        if attempt < retry_count - 1:
+                            print(
+                                f"      Retrying download ({attempt + 1}/{retry_count})..."
+                            )
+                            time.sleep(2)
+                        else:
+                            raise e
+                return False
 
             success = await asyncio.to_thread(do_download)
             if success:

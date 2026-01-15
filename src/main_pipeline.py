@@ -4,6 +4,7 @@ from pathlib import Path
 from src.parser.docling_engine import DoclingEngine
 from src.graph.graph_builder import GraphBuilder
 from src.discovery.law_crawler import LawCrawler
+from src.config_loader import settings
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -32,7 +33,7 @@ def enrich_graph_with_laws(builder: GraphBuilder):
 
             law_node_id = f"law_{law_abbr}"
             builder.graph.nodes[law_node_id].update(
-                {"type": "law", "source": "gesetze-im-internet.de"}
+                {"node_type": "law", "source": "gesetze-im-internet.de"}
             )
 
             for norm in norms:
@@ -44,7 +45,7 @@ def enrich_graph_with_laws(builder: GraphBuilder):
                         "text": norm["content"],
                         "paragraph": norm["paragraph"],
                         "title": norm["title"],
-                        "type": "law_section",
+                        "section_type": "law_section",
                     },
                 )
         except Exception as e:
@@ -52,8 +53,10 @@ def enrich_graph_with_laws(builder: GraphBuilder):
 
 
 def main():
-    base_raw_dir = Path("data/raw")
-    output_graph_path = Path("data/knowledge_graph.json")
+    base_raw_dir = Path(settings.get("paths.raw_data", "data/raw"))
+    output_graph_path = Path(
+        settings.get("paths.knowledge_graph", "data/knowledge_graph.json")
+    )
 
     engine = DoclingEngine()
     builder = GraphBuilder()
