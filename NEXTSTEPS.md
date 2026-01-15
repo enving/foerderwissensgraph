@@ -1,21 +1,30 @@
 # Next Steps & Roadmap (v1.0.0-rc4)
 
+**Fokus:** Transformation vom Prototypen zum "High-Density Knowledge Graph". Siehe `PRD.md`.
+
 ## 📍 Aktueller Status (v1.0.0-rc4)
-- [x] **Full Spectrum Graph (BMWK & BMFSFJ):** 57+ Dokumente im Graph.
-- [x] **New Expansion (BMBF/BMFSFJ):** `bmbfsfj` Daten (Abrufrichtlinien, BNBest) erfolgreich integriert und gelabelt.
-- [x] **Metadata & Equivalence:** Metadaten korrekt gemappt (BMFSFJ statt BMBF für 0324), Äquivalenz-Links (SUPERSEDES) generiert.
-- [x] **Local Embeddings:** Vektordatenbank aktualisiert.
-- [x] **UI Verification:** Dashboard Visualisierung und Suche getestet (Port 8000/5001).
+- [x] **Full Spectrum Graph:** 57+ Dokumente (BMWK, BMFSFJ) integriert.
+- [x] **Basis-Intelligenz:** Metadaten-Mapping und Versionierung (`SUPERSEDES`) funktionieren.
+- [x] **Visualisierung:** Dashboard (D3.js) live und mit API verbunden.
 
 ## 🛠️ Meilensteine & Tasks
 
-### Phase A: Further Expansion (Priorität: Mittel)
-- [ ] **BMBF Core:** Crawle und integriere weitere Kern-Richtlinien des BMBF (Bildung & Forschung), da `bmbfsfj` primär Familienministerium war.
-- [ ] **Automated Crawler:** Erweitere den Crawler um automatische Ministeriums-Erkennung (nicht nur manuell per Argument).
+### Phase A: Graph Density (Das "Gehirn") - ⭐ PRIORITÄT
+*Ziel: Den Graphen "schlau" machen durch Querverweise.*
+- [ ] **Citation Parser:** Entwickle ein Modul (`src/parser/citation_extractor.py`), das Verweise wie "BNBest-P" oder "§ 44 BHO" im Text findet.
+- [ ] **Reference Linking:** Generiere `REFERENCES` Kanten zwischen Dokument-Knoten basierend auf den Citations.
+- [ ] **External Nodes:** Erstelle "Stub-Nodes" für Gesetze (z.B. BHO), die oft zitiert werden, aber (noch) nicht als PDF vorliegen.
 
-### Phase D: Graph-RAG Optimization
-- [ ] **Answer Engine Tuning:** Verbessere die Prompts der Answer Engine für spezifische Regel-Vergleiche.
-- [ ] **Frontend:** "Suche läuft..." Anzeige verbessern, damit User Feedback bekommt.
+### Phase B: DevOps & Stability (Das "Skelett")
+*Ziel: Weg vom "basteligen" Setup.*
+- [ ] **Dockerize:** Erstelle ein `Dockerfile` und `docker-compose.yml` für API, Frontend-Server und (optional) ChromaDB Service.
+- [ ] **Config Management:** Zentralisiere Ports und Pfade in `config/settings.yaml`.
+- [ ] **Robust Crawler:** Erweitere den Crawler um automatische Retry-Logik und bessere Ministeriums-Erkennung.
+
+### Phase C: Graph-Guided RAG (Die "Muskeln")
+*Ziel: Nutzung der neuen Graph-Struktur für Antworten.*
+- [ ] **Multi-Hop Retrieval:** Implementiere Logik in der API, die bei einer Suche auch Nachbarn (via `REFERENCES` oder `SUPERSEDES`) in den Kontext lädt.
+- [ ] **Answer Engine Tuning:** Verbessere die Prompts, um Widersprüche zwischen Versionen aufzulösen.
 
 ## 🚀 Session-Start Befehl
-"Lies `AGENTS.md` und `NEXTSTEPS.md`. Starte `python -m http.server 8000 --directory docs` und `python src/api/search_api.py`, um die App zu demonstrieren."
+"Lies `PRD.md` und `NEXTSTEPS.md`. Fokus heute: **Phase A (Graph Density)**. Starte mit der Analyse, wie wir 'BNBest' Referenzen in den Texten finden können."

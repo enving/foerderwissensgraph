@@ -1,9 +1,11 @@
 # Bund-ZuwendungsGraph
 
-**Vision:** Ein 'Sovereign Knowledge Source' Werkzeug, das den Bundes-Formularschrank (Easy-Online) via Playwright & Docling in einen maschinenlesbaren, versionierten Knowledge Graph (NetworkX) + Vector Store (RAG) überführt.
+**Vision:** Ein 'Sovereign Knowledge Source' Werkzeug, das den Bundes-Formularschrank (Easy-Online) in einen maschinenlesbaren, versionierten Knowledge Graph überführt.
 
-## Status: Initialer Aufbau
-Dieses Repository wurde aus dem FAPS-Projekt (Förderantrags-Prüfungssystem) ausgegliedert, um eine eigenständige, offene Datenquelle für Bundes-Zuwendungsrichtlinien zu schaffen.
+👉 **[Siehe PRD.md für die detaillierte Produktvision und Roadmap.](PRD.md)**
+
+## Status: v1.0.0-rc4 (Stable Prototype)
+Dieses Repository baut einen Graphen aus Förderrichtlinien (BMWK, BMFSFJ, etc.), der nicht nur Text speichert, sondern **Beziehungen** (z.B. "Ersetzt Vorversion", "Gehört zu Programm X").
 
 ## Kernfunktionen
 - **Discovery:** Automatischer Crawl des Easy-Online Formularschranks.
@@ -11,15 +13,22 @@ Dieses Repository wurde aus dem FAPS-Projekt (Förderantrags-Prüfungssystem) au
 - **Knowledge Graph:** Vernetzung von Programmen, Richtlinien und Regeln.
 - **Graph-RAG:** Verbindung von strukturellem Wissen mit semantischer Suche.
 
-## Anforderungen
-- Python 3.10+
-- Playwright (mit Chromium)
-- Docling
-- NetworkX
+## Architektur
+- **Frontend:** D3.js Dashboard zur Visualisierung (Port 8000)
+- **Backend:** Flask API für Hybrid Search (Port 5001)
+- **Data:** ChromaDB (Vector Store) + NetworkX (Graph Logic)
 
-## Erste Schritte
+## Quickstart
+
 ```bash
+# 1. Installieren
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 playwright install chromium
-python src/discovery/test_discovery.py
+
+# 2. Server starten (API + Frontend)
+# (Aktuell noch manuell, siehe NEXTSTEPS für Docker-Pläne)
+python src/api/search_api.py &
+python -m http.server 8000 --directory docs
 ```
