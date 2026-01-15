@@ -3,6 +3,7 @@ from flask_cors import CORS
 from pathlib import Path
 from src.parser.hybrid_search import HybridSearchEngine
 from src.parser.rule_extractor import RuleExtractor
+from src.config_loader import settings
 import logging
 
 app = Flask(__name__)
@@ -11,11 +12,10 @@ CORS(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize Hybrid Search Engine
 engine = HybridSearchEngine(
-    graph_path=Path("data/knowledge_graph.json"), db_path="data/chroma_db"
+    graph_path=Path(settings.get("paths.knowledge_graph")),
+    db_path=settings.get("paths.chroma_db"),
 )
-# Initialize Answer Engine
 answer_engine = RuleExtractor()
 
 
@@ -78,4 +78,8 @@ def search():
 
 
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    app.run(
+        host=settings.get("api.host", "0.0.0.0"),
+        port=settings.get("api.port", 5001),
+        debug=True,
+    )

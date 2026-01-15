@@ -39,7 +39,8 @@ Bevor du eine neue Aufgabe startest, lies:
 - **Status:** Checkpoint & Aufräumen.
 - **Erledigt:**
     - Repository aufgeräumt (Logs, Cache, __pycache__ entfernt).
-    - Strukturierte Task-Verfolgung in `.opencode/tasks.json` aktualisiert (TASK-004 hinzugefügt).
+    - Strukturierte Task-Verfolgung in `.opencode/tasks.json` aktualisiert (TASK-004 & TASK-005).
     - Dokumentation verifiziert und in `docs/` konsolidiert.
     - `../PRD.md` und `next-steps.md` auf Übereinstimmung mit `tasks.json` geprüft.
+    - Config Management (TASK-005) initiiert (ConfigLoader & settings.yaml).
 - **Nächster Schritt:** Fehlerbehebung im UI-Filter (Phase B, TASK-003).

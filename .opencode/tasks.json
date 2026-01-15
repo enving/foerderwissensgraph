@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "1.0.0",
-    "last_updated": "2026-01-15T18:05:00Z",
+    "version": "1.0.1",
+    "last_updated": "2026-01-15T18:45:00Z",
     "last_agent": "opencode",
     "project_phase": "development"
   },
@@ -84,6 +84,23 @@
       ],
       "subtasks": [],
       "docs_updated": true
+    },
+    {
+      "id": "TASK-005",
+      "title": "Config Management Implementation",
+      "status": "in_progress",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-15",
+      "updated": "2026-01-15",
+      "assigned_agent": "opencode",
+      "description": "Centralize ports and paths in config/settings.yaml and implement a ConfigLoader.",
+      "acceptance_criteria": [
+        "settings.yaml created",
+        "ConfigLoader implemented",
+        "API uses settings from config"
+      ],
+      "subtasks": []
     }
   ],
   "features": [
