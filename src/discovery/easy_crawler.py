@@ -31,10 +31,12 @@ class EasyCrawler:
     }
 
     def __init__(
-        self, output_dir: Path, ministerium: str = "BMWK", limit_per_cat: int = None
+        self, output_dir: Path, ministerium: str = "bmwe", limit_per_cat: int = None
     ):
         self.output_dir = output_dir
-        # Canonicalize ministry name (e.g., BMWE -> BMWK)
+        # Keep original ID for URL
+        self.ministerium_id = ministerium
+        # Canonicalize ministry name for internal storage
         self.ministerium = MinistryRegistry.get_canonical_name(ministerium)
         self.raw_dir = output_dir / "raw" / self.ministerium.lower()
         self.manifest_path = self.raw_dir / "manifest.json"
@@ -72,7 +74,7 @@ class EasyCrawler:
             context = await browser.new_context(user_agent=user_agent)
             page = await context.new_page()
 
-            url = f"{self.BASE_URL}{self.START_PAGE}{self.ministerium}"
+            url = f"{self.BASE_URL}{self.START_PAGE}{self.ministerium_id}"
 
             for cat_id, cat_name in self.CATEGORIES.items():
                 print(f"\n📂 Scanne Kategorie: {cat_name}...")
@@ -80,16 +82,21 @@ class EasyCrawler:
                 try:
                     await page.goto(url, wait_until="load")
 
-                    # BMBF Specific Check
-                    if "bmbf" not in self.ministerium.lower():
-                        await page.evaluate(f"easy_tabelle('{cat_id}', 7)")
-                        await page.wait_for_timeout(5000)
-                    else:
-                        print(
-                            "   ℹ️ BMBF-Modus: Überspringe JS-Toggle (Tabelle bereits offen)"
-                        )
+                    # The table exists but might be hidden.
+                    # We look for the table element directly.
+                    table = await page.query_selector(f"table#{cat_id}")
 
-                    rows = await page.query_selector_all(f"#{cat_id} tr")
+                    if not table:
+                        print(f"   ⚠️ Tabelle #{cat_id} nicht gefunden. Überspringe...")
+                        continue
+
+                    # BMBF logic or if we need to trigger the visibility
+                    # Based on inspection, tables exist in DOM with style="display: none;"
+                    rows = await table.query_selector_all("tr")
+                    # Filter out header rows (usually first 2 for GII)
+                    # We actually want all rows that have 3 columns (Nr, Title, File)
+                    print(f"   📊 {len(rows)} Zeilen im DOM gefunden.")
+
                     print(f"   📊 {len(rows)} Zeilen gefunden.")
 
                     cookies = await context.cookies()

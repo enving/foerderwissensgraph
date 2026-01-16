@@ -74,11 +74,9 @@ def main():
     processed_count = 0
     limit = None
 
-    # Iterate over all directories in data/raw
-    for raw_dir in base_raw_dir.iterdir():
-        if not raw_dir.is_dir():
-            continue
-
+    # Iterate over all directories in data/raw (sorted for predictability)
+    dirs = sorted([d for d in base_raw_dir.iterdir() if d.is_dir()])
+    for raw_dir in dirs:
         manifest_path = raw_dir / "manifest.json"
         if not manifest_path.exists():
             continue

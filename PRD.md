@@ -1,6 +1,6 @@
 # Product Requirements Document (PRD): Bund-ZuwendungsGraph
 
-**Version:** 1.1 (Draft)
+**Version:** 1.1.2
 **Status:** Active Development
 **Vision:** Der fortschrittlichste, souveräne Knowledge Graph für den deutschen Förderdschungel. Wir verwandeln "totes PDF-Wissen" in einen lebendigen, abfragbaren Graphen für Sachbearbeiter und Antragsteller.
 

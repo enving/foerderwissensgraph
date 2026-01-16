@@ -11,10 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class EmbeddingEngine:
-    def __init__(self, api_key: Optional[str] = None, use_local: bool = False):
-        self.use_local = (
-            use_local or os.getenv("USE_LOCAL_EMBEDDINGS", "false").lower() == "true"
-        )
+    def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv("IONOS_API_KEY")
         self.api_url = (
             os.getenv("IONOS_EMBEDDING_API_URL")
@@ -23,15 +20,12 @@ class EmbeddingEngine:
         self.model_name = os.getenv("IONOS_EMBEDDING_MODEL") or "BAAI/bge-m3"
 
         self.mistral_api_key = os.getenv("MISTRAL_API_KEY")
-        self._local_model = None
 
     def get_embeddings(self, texts: List[str]) -> List[List[float]]:
-        if self.use_local:
-            return self._get_local_embeddings(texts)
-
         if not self.api_key and not self.mistral_api_key:
-            logger.info("No API Keys found. Falling back to local embeddings.")
-            return self._get_local_embeddings(texts)
+            raise ValueError(
+                "No API Keys found (IONOS/Mistral). Local fallback is disabled."
+            )
 
         # Try IONOS first
         if self.api_key:
@@ -67,30 +61,19 @@ class EmbeddingEngine:
                 client = Mistral(api_key=self.mistral_api_key)
                 logger.info(f"Using Mistral for batch of {len(texts)} texts")
                 response = client.embeddings.create(model="mistral-embed", inputs=texts)
-                return [item.embedding for item in response.data]
+                embeddings: List[List[float]] = []
+                for item in response.data:
+                    if item.embedding is not None:
+                        embeddings.append(item.embedding)
+                    else:
+                        raise RuntimeError("Mistral returned empty embeddings")
+                return embeddings
             except Exception as e:
                 logger.error(f"Mistral Fallback Embedding failed: {e}")
 
-        logger.info(
-            "Remote embedding failed or unavailable. Falling back to local embeddings."
+        raise RuntimeError(
+            "Remote embedding failed or unavailable through all providers."
         )
-        return self._get_local_embeddings(texts)
-
-    def _get_local_embeddings(self, texts: List[str]) -> List[List[float]]:
-        try:
-            from sentence_transformers import SentenceTransformer
-
-            if self._local_model is None:
-                logger.info("Loading local embedding model (all-MiniLM-L6-v2)...")
-                self._local_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-            embeddings = self._local_model.encode(texts)
-            if hasattr(embeddings, "tolist"):
-                return embeddings.tolist()
-            return list(embeddings)
-        except Exception as e:
-            logger.error(f"Local embedding failed: {e}")
-            return []
 
 
 if __name__ == "__main__":

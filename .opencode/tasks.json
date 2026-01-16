@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "1.1.1",
-    "last_updated": "2026-01-15T21:15:00Z",
+    "version": "1.1.2",
+    "last_updated": "2026-01-16T10:00:00Z",
     "last_agent": "Antigravity",
     "project_phase": "development"
   },
@@ -92,8 +92,8 @@
       "priority": "medium",
       "category": "docs",
       "created": "2026-01-15",
-      "updated": "2026-01-15",
-      "assigned_agent": "Tristan Häfele",
+      "updated": "2026-01-16",
+      "assigned_agent": "Antigravity",
       "requires_review": false,
       "reviewed_by": null,
       "review_notes": null,
@@ -108,8 +108,8 @@
       "blocks": [],
       "docs_updated": true,
       "verified": true,
-      "verified_by": "Tristan Häfele",
-      "verified_date": "2026-01-15"
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-16"
     }
   ],
   "features": [

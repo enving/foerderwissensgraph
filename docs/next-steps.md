@@ -1,11 +1,12 @@
-# Next Steps & Roadmap (v1.0.0-rc4)
+# Next Steps & Roadmap (v1.1.2)
 
 **Fokus:** Transformation vom Prototypen zum "High-Density Knowledge Graph". Siehe `../PRD.md`.
 
-## 📍 Aktueller Status (v1.0.0-rc4)
+## 📍 Aktueller Status (v1.1.2)
 - [x] **Full Spectrum Graph:** 57+ Dokumente (BMWK, BMFSFJ) integriert.
 - [x] **Basis-Intelligenz:** Metadaten-Mapping und Versionierung (`SUPERSEDES`) funktionieren.
 - [x] **Visualisierung:** Dashboard (D3.js) live und mit API verbunden.
+- [x] **Repository Checkpoint:** Dokumentation und Struktur bereinigt.
 
 ## 🛠️ Meilensteine & Tasks
 
