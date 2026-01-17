@@ -35,10 +35,15 @@
 - [x] **Full E2E Test Suite (TASK-006):** Playwright Abdeckung für alle UI-Elemente und Filter. (ERLEDIGT)
 - [x] **Dockerization (TASK-005):** Erstellung von Dockerfiles und docker-compose. (ERLEDIGT)
 
-## 🚀 Kommende Ziele (Phase E)
+## 🚀 Kommende Ziele (Phase E: Data Completeness & Hosting)
+- [ ] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand.
+- [ ] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung).
+- [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting.
+
+## 🚀 Kommende Ziele (Phase F)
 - [ ] **Multi-User:** Authentifizierung und Benutzerverwaltung.
-- [ ] **Cloud Deployment:** Vorbereitung für Azure/AWS.
 - [ ] **Advanced Graph Analytics:** Berechnung von Centrality Scores für Förderprogramme.
 
+
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase E (Advanced Features & Security)**. Starte mit Authentifizierung."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase E (Data Completeness & Hosting)**. Starte mit der Crawler-Erweiterung."

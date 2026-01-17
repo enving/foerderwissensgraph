@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 from src.models.schemas import RequirementRuleResult, RequirementRule
+from src.llm import get_llm_provider, BaseLLMProvider
 
 load_dotenv()
 
@@ -14,30 +15,43 @@ logger = logging.getLogger(__name__)
 
 
 class RuleExtractor:
-    def __init__(self, api_key: Optional[str] = None):
-        self.api_key = (
-            api_key or os.getenv("IONOS_API_KEY") or os.getenv("IONOS_MISTRAL_API_KEY")
-        )
-        self.api_url = (
-            os.getenv("IONOS_API_URL")
-            or "https://openai.inference.de-txl.ionos.com/v1/chat/completions"
-        )
-        if "/chat/completions" not in self.api_url:
-            self.api_url = self.api_url.rstrip("/") + "/chat/completions"
+    def __init__(self, provider: Optional[BaseLLMProvider] = None):
+        """
+        Initialize RuleExtractor with LLM provider.
 
-        self.model = os.getenv("IONOS_MODEL") or "mistral-large-latest"
+        Args:
+            provider: Optional LLM provider instance.
+                     If None, uses default from environment (LLM_PROVIDER)
+        """
+        if provider is None:
+            try:
+                self.provider = get_llm_provider()
+                logger.info(f"Initialized with {self.provider.get_provider_name()} provider")
+            except Exception as e:
+                logger.warning(f"Failed to initialize LLM provider: {e}")
+                self.provider = None
+        else:
+            self.provider = provider
+
+        # Backward compatibility: Keep old attributes for legacy code
+        self.api_key = os.getenv("IONOS_API_KEY")
+        self.api_url = os.getenv("IONOS_API_URL", "https://openai.inference.de-txl.ionos.com/v1/chat/completions")
+        self.model = os.getenv("IONOS_MODEL", "openai/gpt-oss-120b")
         self.mistral_api_key = os.getenv("MISTRAL_API_KEY")
 
     def generate_answer(self, query: str, context: List[str]) -> str:
         """
         Generates an answer based on the query and provided context chunks.
+
+        Uses provider-agnostic LLM abstraction layer.
         """
-        if not self.api_key and not self.mistral_api_key:
-            return "Answer generation unavailable (No API Key)."
+        if not self.provider:
+            return "Answer generation unavailable (No LLM Provider configured)."
 
         context_str = "\n\n".join(context)
         prompt = f"""
-        Du bist ein Experte für deutsche Zuwendungsrichtlinien. Beantworte die folgende Frage basierend auf den bereitgestellten Kontext-Informationen.
+        Du bist ein Experte für deutsche Verwaltungsvorschriften und Nebenbestimmungen (ANBest-P, BNBest-P, AZA, etc.).
+        Beantworte die folgende Frage basierend auf den bereitgestellten Kontext-Informationen.
         Der Kontext enthält primäre Textabschnitte sowie verknüpfte Informationen aus dem Knowledge Graph (Markiert mit [REFERENCE] oder [WARNING]).
 
         WICHTIG:
@@ -46,64 +60,20 @@ class RuleExtractor:
         - Nenne die Quellen (Titel der Richtlinie oder Paragraph), wenn sie im Kontext angegeben sind.
 
         Frage: {query}
-        
+
         Kontext:
         {context_str}
-        
+
         Antwort (präzise, auf Deutsch, unter Berücksichtigung von Querverweisen):
         """
 
-        # Try IONOS first
-        if self.api_key:
-            try:
-                headers = {
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                }
-                payload = {
-                    "model": self.model,
-                    "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 500,
-                }
+        try:
+            response = self.provider.generate(prompt, max_tokens=500, temperature=0.3)
+            return response.content
 
-                logger.info(f"Generating answer via IONOS ({self.model})...")
-                response = requests.post(
-                    self.api_url,
-                    headers=headers,
-                    json=payload,
-                    timeout=30,
-                )
-
-                if response.status_code == 200:
-                    result = response.json()
-                    content = result["choices"][0]["message"]["content"]
-                    if content:
-                        return str(content)
-                    else:
-                        logger.warning("IONOS returned empty content.")
-                else:
-                    logger.warning(
-                        f"IONOS Answer gen failed: {response.status_code} {response.text}"
-                    )
-            except Exception as e:
-                logger.error(f"IONOS Answer gen error: {e}")
-
-        # Try Mistral fallback
-        if self.mistral_api_key:
-            try:
-                from mistralai import Mistral
-
-                client = Mistral(api_key=self.mistral_api_key)
-                response = client.chat.complete(
-                    model="mistral-large-latest",
-                    messages=[{"role": "user", "content": prompt}],
-                )
-                content = response.choices[0].message.content
-                return str(content) if content else ""  # type: ignore
-            except Exception as e:
-                logger.error(f"Mistral Answer gen error: {e}")
-
-        return "Antwort konnte nicht generiert werden (Dienst nicht verfügbar)."
+        except Exception as e:
+            logger.error(f"LLM generation failed: {e}")
+            return "Antwort konnte nicht generiert werden (LLM Fehler)."
 
     def extract_rules(self, text: str) -> List[Dict[str, Any]]:
         if not self.api_key and not self.mistral_api_key:
