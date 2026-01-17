@@ -52,4 +52,5 @@
 - [x] **Graph Density (The Brain):** Citation-Parser und Reference-Linking implementiert. (v1.1.0)
 - [x] **Local Stability:** Zentrales Config-Management und UI-Filter Fixes abgeschlossen.
 - [x] **Graph-Guided RAG:** Multi-Hop Retrieval implementiert (Phase C).
-- [ ] **Deployment & Scaling:** Dockerization und Multi-User Support (Phase D).
+- [x] **Deployment & Scaling:** Dockerization und Multi-User Support (Phase D).
+- [ ] **Phase E:** Cloud Scaling & Advanced Analytics.

@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: .
+    ports:
+      - "5001:5001"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    restart: always
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docs:/usr/share/nginx/html
+      - ./data:/usr/share/nginx/data
+    restart: always

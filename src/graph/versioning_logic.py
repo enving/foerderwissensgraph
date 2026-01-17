@@ -44,14 +44,28 @@ def apply_versioning(graph_path: Path):
     edge_key = "links" if "links" in data else "edges"
     edges = [e for e in data.get(edge_key, []) if e.get("relation") != "SUPERSEDES"]
 
-    groups = {"ANBest-P-Kosten": [], "ANBest-P": [], "ANBest-GK": [], "ANBest-I": []}
+    groups = {
+        "ANBest-P-Kosten": [],
+        "ANBest-P": [],
+        "ANBest-GK": [],
+        "ANBest-I": [],
+        "BEBF": [],
+        "AZA": [],
+        "AZK": [],
+        "BNBest-P": [],
+    }
 
     for node in nodes:
         if node.get("type") == "document":
             title = node.get("title", "")
-            for key in ["ANBest-P-Kosten", "ANBest-P", "ANBest-GK", "ANBest-I"]:
-                if key in title:
+            kuerzel = node.get("kuerzel", "")
+            for key in groups.keys():
+                if key in title or key in kuerzel:
                     date = extract_date(title)
+                    # Fallback for old documents like "BEBF 98"
+                    if not date and "98" in title:
+                        date = datetime(1998, 1, 1)
+
                     if date:
                         groups[key].append({"id": node["id"], "date": date})
                     break

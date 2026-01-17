@@ -31,10 +31,14 @@
 - [x] **Cross-Document QA:** Ermögliche Fragen, die Informationen aus mehreren verknüpften Dokumenten kombinieren. (ERLEDIGT)
 - [x] **API Documentation:** Migration zu FastAPI für automatische Swagger-Docs (/docs). (ERLEDIGT)
 
-## 🚀 Kommende Ziele (Phase D)
-- [ ] **Full E2E Test Suite (TASK-006):** Playwright Abdeckung für alle UI-Elemente und Filter.
-- [ ] **Dockerization (TASK-005):** Erstellung von Dockerfiles und docker-compose.
+## 🚀 Kommende Ziele (Phase D) - ✅ ERLEDIGT
+- [x] **Full E2E Test Suite (TASK-006):** Playwright Abdeckung für alle UI-Elemente und Filter. (ERLEDIGT)
+- [x] **Dockerization (TASK-005):** Erstellung von Dockerfiles und docker-compose. (ERLEDIGT)
+
+## 🚀 Kommende Ziele (Phase E)
 - [ ] **Multi-User:** Authentifizierung und Benutzerverwaltung.
+- [ ] **Cloud Deployment:** Vorbereitung für Azure/AWS.
+- [ ] **Advanced Graph Analytics:** Berechnung von Centrality Scores für Förderprogramme.
 
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase D (Deployment & Testing)**. Starte mit TASK-006: E2E Test Suite."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase E (Advanced Features & Security)**. Starte mit Authentifizierung."
