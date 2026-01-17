@@ -31,11 +31,13 @@
 - [x] **Cross-Document QA:** Ermögliche Fragen, die Informationen aus mehreren verknüpften Dokumenten kombinieren. (ERLEDIGT)
 - [x] **API Documentation:** Migration zu FastAPI für automatische Swagger-Docs (/docs). (ERLEDIGT)
 
-## 🚀 Kommende Ziele (Phase D) - ✅ ERLEDIGT
-- [x] **Full E2E Test Suite (TASK-006):** Playwright Abdeckung für alle UI-Elemente und Filter. (ERLEDIGT)
-- [x] **Dockerization (TASK-005):** Erstellung von Dockerfiles und docker-compose. (ERLEDIGT)
+### Phase D: Advanced Graph RAG & Testing - ✅ ERLEDIGT
+*Ziel: Erhöhung der Retrieval-Genauigkeit und Test-Abdeckung.*
+- [x] **Unit Testing (TASK-013):** Vollständige Unit Tests für BM25Index, Reranker und LLM Provider. (ERLEDIGT)
+- [x] **Query Enhancement (TASK-012):** Implementierung von Multi-Query, HyDE und Query Decomposition. (ERLEDIGT)
+- [x] **API Documentation (TASK-015):** Detaillierte Dokumentation von `/api/search/advanced` in `docs/API.md`. (ERLEDIGT)
 
-## 🚀 Kommende Ziele (Phase E: Data Completeness & Hosting)
+### Phase E: Data Completeness & Hosting - ⏳ IN ARBEIT
 - [ ] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand.
 - [ ] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung).
 - [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting.

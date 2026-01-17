@@ -1,10 +1,10 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.1.0",
-    "last_updated": "2026-01-17T20:30:00Z",
-    "last_agent": "opencode (review)",
-    "project_phase": "Phase 1+2 Graph RAG: Complete ✅ | Phase 3-6: Pending | Phase E: Data Completeness"
+    "version": "2.2.0",
+    "last_updated": "2026-01-17T22:30:00Z",
+    "last_agent": "Antigravity (Sisyphus)",
+    "project_phase": "Phase 1+2 Graph RAG: Complete ✅ | Phase 3: Verified ✅ | Unit Tests: 100% ✅"
   },
   "tasks": [
     {
@@ -463,8 +463,8 @@
       "reviewed_by": null,
       "review_notes": "BM25 + RRF + Reranking pipeline implemented. Backward compatible with existing API. Performance improvements projected at +20-30%.",
       "tests": {
-        "unit": "pending",
-        "integration": "pending",
+        "unit": "completed",
+        "integration": "completed",
         "e2e": "pending"
       },
       "docs": {
