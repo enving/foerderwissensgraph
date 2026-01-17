@@ -39,7 +39,7 @@
 
 ### Phase E: Data Completeness & Hosting - ⏳ IN ARBEIT
 - [ ] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand.
-- [ ] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung).
+- [x] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung).
 - [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting.
 
 ## 🚀 Kommende Ziele (Phase F)
