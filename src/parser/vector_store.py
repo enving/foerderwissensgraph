@@ -48,7 +48,10 @@ class VectorStore:
 
             if embeddings:
                 self.collection.upsert(
-                    ids=ids, embeddings=embeddings, documents=texts, metadatas=metadatas
+                    ids=ids,
+                    embeddings=embeddings,
+                    documents=texts,
+                    metadatas=metadatas,
                 )
             else:
                 logger.error(f"Failed to get embeddings for batch starting at {i}")

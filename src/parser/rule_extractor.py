@@ -37,14 +37,20 @@ class RuleExtractor:
 
         context_str = "\n\n".join(context)
         prompt = f"""
-        Beantworte die folgende Frage basierend auf den bereitgestellten Kontext-Informationen aus Zuwendungsrichtlinien.
-        
+        Du bist ein Experte für deutsche Zuwendungsrichtlinien. Beantworte die folgende Frage basierend auf den bereitgestellten Kontext-Informationen.
+        Der Kontext enthält primäre Textabschnitte sowie verknüpfte Informationen aus dem Knowledge Graph (Markiert mit [REFERENCE] oder [WARNING]).
+
+        WICHTIG:
+        - Wenn ein [WARNING] vorliegt, das besagt, dass ein Dokument ersetzt wurde, erwähne dies unbedingt zuerst.
+        - Integriere Informationen aus [REFERENCE] Quellen, um die Antwort zu vervollständigen (Multi-Hop RAG).
+        - Nenne die Quellen (Titel der Richtlinie oder Paragraph), wenn sie im Kontext angegeben sind.
+
         Frage: {query}
         
         Kontext:
         {context_str}
         
-        Antwort (kurz und präzise, auf Deutsch):
+        Antwort (präzise, auf Deutsch, unter Berücksichtigung von Querverweisen):
         """
 
         # Try IONOS first
@@ -70,7 +76,11 @@ class RuleExtractor:
 
                 if response.status_code == 200:
                     result = response.json()
-                    return result["choices"][0]["message"]["content"]
+                    content = result["choices"][0]["message"]["content"]
+                    if content:
+                        return str(content)
+                    else:
+                        logger.warning("IONOS returned empty content.")
                 else:
                     logger.warning(
                         f"IONOS Answer gen failed: {response.status_code} {response.text}"
@@ -88,7 +98,8 @@ class RuleExtractor:
                     model="mistral-large-latest",
                     messages=[{"role": "user", "content": prompt}],
                 )
-                return response.choices[0].message.content
+                content = response.choices[0].message.content
+                return str(content) if content else ""  # type: ignore
             except Exception as e:
                 logger.error(f"Mistral Answer gen error: {e}")
 
@@ -163,9 +174,10 @@ class RuleExtractor:
                     response_format={"type": "json_object"},
                 )
                 content = response.choices[0].message.content
-                if content:
-                    validated = RequirementRuleResult.model_validate_json(content)
+                if content and isinstance(content, str):
+                    validated = RequirementRuleResult.model_validate_json(content)  # type: ignore
                     return [rule.model_dump() for rule in validated.rules]
+                return []
             except Exception as e:
                 logger.error(f"Mistral Fallback Extraction failed: {e}")
 

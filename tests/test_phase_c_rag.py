@@ -65,5 +65,47 @@ def test_multi_hop_rag():
         print(f"❌ Answer generation failed: {e}")
 
 
+def test_version_warning_rag():
+    print("\n--- Phase C: Version Warning RAG Verification ---")
+    engine = HybridSearchEngine()
+    answer_engine = RuleExtractor()
+
+    # Query aimed at an older document that has been superseded
+    query = "Welche Regelungen gelten für die Projektförderung im BMWK (alte Fassung)?"
+
+    print(f"Query: {query}")
+    results = engine.search(query, limit=3)
+
+    if not results:
+        print("❌ No results found.")
+        return
+
+    found_warning = False
+    context_chunks = []
+
+    for res in results:
+        for neighbor in res.get("neighbor_context", []):
+            if neighbor.get("type") == "warning":
+                found_warning = True
+                print(f"  ⚠️ Found Version Warning: {neighbor['text']}")
+
+            n_type = neighbor.get("type", "reference").upper()
+            context_chunks.append(
+                f"[{n_type}] Quelle: {neighbor.get('breadcrumbs')}\nText: {neighbor['text']}"
+            )
+
+        context_chunks.append(f"Quelle: {res['doc_title']}\nText: {res['text']}")
+
+    print("\nGenerating Answer...")
+    answer = answer_engine.generate_answer(query, context_chunks)
+    print(f"AI Answer:\n{answer}")
+
+    if found_warning and ("ersetzt" in answer.lower() or "neu" in answer.lower()):
+        print("\n✅ Warning Success: AI acknowledged the superseded status.")
+    else:
+        print("\n⚠️ Warning Partial: AI might have missed the versioning info.")
+
+
 if __name__ == "__main__":
     test_multi_hop_rag()
+    test_version_warning_rag()

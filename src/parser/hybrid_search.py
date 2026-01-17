@@ -115,7 +115,14 @@ class HybridSearchEngine:
 
                 # 3. Context Expansion (Multi-Hop)
                 if multi_hop:
-                    # Get sibling chunks (chunks belonging to the same document)
+                    # A. Direct references from the chunk itself
+                    for _, target_id, edata in self.graph.out_edges(
+                        chunk_id, data=True
+                    ):
+                        if edata.get("relation") == "REFERENCES":
+                            self._add_neighbor_context(entry, target_id)
+
+                    # B. References from the parent document
                     parents = list(self.graph.predecessors(chunk_id))
                     for p in parents:
                         p_data = self.graph.nodes[p]
@@ -131,48 +138,12 @@ class HybridSearchEngine:
                                 p, data=True
                             ):
                                 if edata.get("relation") == "REFERENCES":
-                                    target_node = self.graph.nodes[target_id]
-                                    target_title = target_node.get("title", target_id)
+                                    self._add_neighbor_context(entry, target_id)
 
-                                    # If it's a law, try to find specific paragraphs mentioned in the original chunk text
-                                    referenced_text = f"Referenz: {target_title}"
-                                    if target_node.get("node_type") == "law":
-                                        # Optimization: Check if the original chunk text mentions a paragraph of this law
-                                        # For now, we fetch the 2 most connected paragraphs as 'context'
-                                        law_chunks = [
-                                            (s, self.graph.nodes[s])
-                                            for s in self.graph.successors(target_id)
-                                            if self.graph.nodes[s].get("section_type")
-                                            == "law_section"
-                                        ]
-                                        if law_chunks:
-                                            # Simple heuristic: first 2 paragraphs
-                                            for lc_id, lc_data in law_chunks[:2]:
-                                                entry["neighbor_context"].append(
-                                                    {
-                                                        "id": lc_id,
-                                                        "text": lc_data.get("text", "")[
-                                                            :300
-                                                        ]
-                                                        + "...",
-                                                        "breadcrumbs": f"{target_title} > {lc_data.get('paragraph', '')}",
-                                                        "type": "reference",
-                                                    }
-                                                )
-                                            continue  # Already added specific sections
-
-                                    entry["neighbor_context"].append(
-                                        {
-                                            "id": target_id,
-                                            "text": referenced_text,
-                                            "breadcrumbs": "Graph Reference",
-                                            "type": "reference",
-                                        }
-                                    )
-
+                            # C. Versioning (SUPERSEDES) from the parent document
                             for replaced_by, _, edata in self.graph.in_edges(
                                 p, data=True
-                            ):
+                            ):  # type: ignore
                                 if edata.get("relation") == "SUPERSEDES":
                                     new_doc = self.graph.nodes[replaced_by]
                                     entry["neighbor_context"].insert(
@@ -188,6 +159,43 @@ class HybridSearchEngine:
             hybrid_results.append(entry)
 
         return hybrid_results
+
+    def _add_neighbor_context(self, entry: Dict[str, Any], target_id: str):
+        """Helper to add neighbor info to results."""
+        target_node = self.graph.nodes[target_id]
+        target_title = target_node.get("title", target_id)
+
+        # If it's a law, try to find specific paragraphs
+        referenced_text = f"Referenz: {target_title}"
+        if (
+            target_node.get("node_type") == "law"
+            or target_node.get("type") == "external"
+        ):
+            law_chunks = [
+                (s, self.graph.nodes[s])
+                for s in self.graph.successors(target_id)
+                if self.graph.nodes[s].get("section_type") == "law_section"
+            ]
+            if law_chunks:
+                for lc_id, lc_data in law_chunks[:2]:
+                    entry["neighbor_context"].append(
+                        {
+                            "id": lc_id,
+                            "text": lc_data.get("text", "")[:300] + "...",
+                            "breadcrumbs": f"{target_title} > {lc_data.get('paragraph', '')}",
+                            "type": "reference",
+                        }
+                    )
+                return
+
+        entry["neighbor_context"].append(
+            {
+                "id": target_id,
+                "text": referenced_text,
+                "breadcrumbs": "Graph Reference",
+                "type": "reference",
+            }
+        )
 
 
 if __name__ == "__main__":

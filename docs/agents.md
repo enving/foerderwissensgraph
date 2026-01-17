@@ -54,6 +54,15 @@ Bevor du eine neue Aufgabe startest, lies:
     - Git-Commit für Checkpoint erstellt.
 - **Nächster Schritt:** Fokus auf TASK-003: Multi-Hop Retrieval in `src/parser/hybrid_search.py`.
 
+### Session 2026-01-17 (opencode - Checkpoint & Documentation)
+- **Status:** Repository Checkpoint & Task Management Migration.
+- **Erledigt:**
+    - `.opencode/tasks.json` mit tatsächlichen Projekt-Tasks initialisiert.
+    - `PRD.md` Implementierungs-Status für Phase C auf abgeschlossen gesetzt.
+    - `docs/next-steps.md` mit neuen Prioritäten (Phase D) synchronisiert.
+    - Repository-Reinigung (Caches, __pycache__).
+- **Nächster Schritt:** Fokus auf TASK-006: Full E2E Test Suite für Dashboard und API.
+
 ### Session 2026-01-17 (opencode - Checkpoint & Cleanup)
 - **Status:** Repository Checkpoint abgeschlossen.
 - **Erledigt:**

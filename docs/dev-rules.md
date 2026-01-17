@@ -13,9 +13,10 @@ Dieser Guide ist für alle Agenten VERPFLICHTEND. Er sichert die Qualität und K
    - Erstelle nach JEDEM abgeschlossenen Meilenstein (Task) einen aussagekräftigen Git-Commit.
    - Nutze `git status`, um sicherzustellen, dass keine neuen Module als "untracked" liegen bleiben.
 
-3. **Data Quality First:**
+3. **Data Quality & Task Management:**
    - Vertraue nicht blind auf "große Zahlen" im Graph. Prüfe stichprobenartig, ob Metadaten (Ministry, Date) auch bei *Kind-Knoten (Chunks)* ankommen, nicht nur bei den Dokument-Roots.
-   - Wenn Metadaten fehlen, stoppe die Expansion (Crawling) und repariere die Pipeline.
+   - **Task Sync:** Halte `.opencode/tasks.json` IMMER aktuell. Markiere Tasks erst nach Verifikation als completed.
+   - **Review Policy:** Tasks mit `requires_review: true` dürfen nur vom NÄCHSTEN Agenten reviewed werden.
 
 4. **Kanonische Daten:**
    - Nutze für Ministerien IMMER die `MinistryRegistry`. 

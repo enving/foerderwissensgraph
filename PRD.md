@@ -51,4 +51,5 @@
 ## 6. Implementierungs-Status
 - [x] **Graph Density (The Brain):** Citation-Parser und Reference-Linking implementiert. (v1.1.0)
 - [x] **Local Stability:** Zentrales Config-Management und UI-Filter Fixes abgeschlossen.
-- [ ] **Graph-Guided RAG:** Multi-Hop Retrieval in Arbeit (Phase C).
+- [x] **Graph-Guided RAG:** Multi-Hop Retrieval implementiert (Phase C).
+- [ ] **Deployment & Scaling:** Dockerization und Multi-User Support (Phase D).

@@ -24,11 +24,17 @@
 - [x] **Robust Crawler:** Erweitere Crawler um Retry-Logik und Ministeriums-Erkennung. (ERLEDIGT)
 - [x] **E2E Testing:** Erweiterung der Playwright-Tests für alle Filter-Kombinationen. (ERLEDIGT)
 
-### Phase C: Graph-Guided RAG (Die "Muskeln") - ⭐ PRIORITÄT
+### Phase C: Graph-Guided RAG (Die "Muskeln") - ✅ ERLEDIGT
 *Ziel: Nutzung der neuen Graph-Struktur für Antworten.*
-- [ ] **Multi-Hop Retrieval:** Implementiere Logik in der API, die bei einer Suche auch Nachbarn (via `REFERENCES` oder `SUPERSEDES`) in den Kontext lädt. (TASK-003, Erster Entwurf in `src/parser/hybrid_search.py` vorhanden)
-- [ ] **Answer Engine Tuning:** Verbessere die Prompts, um Widersprüche zwischen Versionen aufzulösen.
-- [ ] **Cross-Document QA:** Ermögliche Fragen, die Informationen aus mehreren verknüpften Dokumenten kombinieren.
+- [x] **Multi-Hop Retrieval:** Implementiere Logik in der API, die bei einer Suche auch Nachbarn (via `REFERENCES` oder `SUPERSEDES`) in den Kontext lädt. (ERLEDIGT)
+- [x] **Answer Engine Tuning:** Verbessere die Prompts, um Widersprüche zwischen Versionen aufzulösen. (ERLEDIGT)
+- [x] **Cross-Document QA:** Ermögliche Fragen, die Informationen aus mehreren verknüpften Dokumenten kombinieren. (ERLEDIGT)
+- [x] **API Documentation:** Migration zu FastAPI für automatische Swagger-Docs (/docs). (ERLEDIGT)
+
+## 🚀 Kommende Ziele (Phase D)
+- [ ] **Full E2E Test Suite (TASK-006):** Playwright Abdeckung für alle UI-Elemente und Filter.
+- [ ] **Dockerization (TASK-005):** Erstellung von Dockerfiles und docker-compose.
+- [ ] **Multi-User:** Authentifizierung und Benutzerverwaltung.
 
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase C (Graph-Guided RAG)**. Starte mit TASK-003: Multi-Hop Retrieval."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase D (Deployment & Testing)**. Starte mit TASK-006: E2E Test Suite."
