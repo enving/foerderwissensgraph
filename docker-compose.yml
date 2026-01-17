@@ -1,10 +1,26 @@
 services:
+  chroma:
+    image: docker.io/chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data/chroma_db_container:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+    restart: always
+
   backend:
     build: .
     ports:
       - "5001:5001"
     env_file:
       - .env
+    environment:
+      - CHROMA_HOST=chroma
+      - CHROMA_PORT=8000
+    depends_on:
+      - chroma
     volumes:
       - ./data:/app/data
     restart: always

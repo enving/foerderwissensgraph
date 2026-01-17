@@ -1,7 +1,20 @@
 import json
 import logging
+import os
 from pathlib import Path
-import chromadb
+from typing import Optional
+
+try:
+    import chromadb
+    from chromadb.config import Settings
+except ImportError:
+    # Fallback for lightweight client if full chromadb (with ONNX) fails to install
+    try:
+        import chromadb_client as chromadb
+        from chromadb_client.config import Settings
+    except ImportError:
+        chromadb = None
+
 from src.parser.embedding_engine import EmbeddingEngine
 
 logging.basicConfig(level=logging.INFO)
@@ -10,8 +23,24 @@ logger = logging.getLogger(__name__)
 
 class VectorStore:
     def __init__(self, db_path: str = "data/chroma_db"):
-        self.client = chromadb.PersistentClient(path=db_path)
         self.embedding_engine = EmbeddingEngine()
+
+        # Check if we should use HTTP client (for Podman/Docker)
+        self.host = os.getenv("CHROMA_HOST")
+        self.port = os.getenv("CHROMA_PORT", "8000")
+
+        if self.host:
+            logger.info(f"Connecting to ChromaDB at {self.host}:{self.port}")
+            self.client = chromadb.HttpClient(host=self.host, port=self.port)
+        else:
+            logger.info(f"Using local persistent ChromaDB at {db_path}")
+            if hasattr(chromadb, "PersistentClient"):
+                self.client = chromadb.PersistentClient(path=db_path)
+            else:
+                raise ImportError(
+                    "Full chromadb package required for local persistence. Use CHROMA_HOST for client mode."
+                )
+
         self.collection = self.client.get_or_create_collection(
             name="chunks", metadata={"hnsw:space": "cosine"}
         )
