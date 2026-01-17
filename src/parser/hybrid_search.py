@@ -6,10 +6,12 @@ import json
 
 from src.parser.vector_store import VectorStore
 from src.parser.embedding_engine import EmbeddingEngine
+from src.graph.graph_algorithms import GraphAlgorithms
 
 # Graph RAG enhancements (Phase 1)
 try:
     from src.parser.bm25_index import BM25Index
+
     BM25_AVAILABLE = True
 except ImportError:
     BM25_AVAILABLE = False
@@ -17,6 +19,7 @@ except ImportError:
 
 try:
     from src.parser.reranker import Reranker, create_reranker
+
     RERANKER_AVAILABLE = True
 except ImportError:
     RERANKER_AVAILABLE = False
@@ -38,6 +41,7 @@ class HybridSearchEngine:
         self.vector_store = VectorStore(db_path=db_path)
         self.graph_path = graph_path
         self.graph = self._load_graph()
+        self.graph_algorithms = GraphAlgorithms(self.graph)
 
         # Phase 1: BM25 Sparse Retrieval
         self.bm25_index = None
@@ -48,7 +52,7 @@ class HybridSearchEngine:
                     graph_path=graph_path,
                     index_path=bm25_index_path,
                     use_spacy=True,
-                    rebuild=False
+                    rebuild=False,
                 )
                 logger.info(f"BM25 index ready: {self.bm25_index.get_stats()}")
             except Exception as e:
@@ -60,7 +64,9 @@ class HybridSearchEngine:
         if enable_reranking and RERANKER_AVAILABLE:
             try:
                 logger.info("Initializing reranker (lazy-loaded)...")
-                self.reranker = create_reranker(enabled=True, model_name="mmarco-mMiniLM-L12")
+                self.reranker = create_reranker(
+                    enabled=True, model_name="mmarco-mMiniLM-L12"
+                )
                 logger.info(f"Reranker ready: {self.reranker.get_stats()}")
             except Exception as e:
                 logger.warning(f"Failed to initialize reranker: {e}")
@@ -245,9 +251,7 @@ class HybridSearchEngine:
     # ===== PHASE 1: GRAPH RAG ENHANCEMENTS =====
 
     def _reciprocal_rank_fusion(
-        self,
-        ranked_lists: List[List[Tuple[str, float]]],
-        k: int = 60
+        self, ranked_lists: List[List[Tuple[str, float]]], k: int = 60
     ) -> List[Tuple[str, float]]:
         """
         Reciprocal Rank Fusion (RRF) for combining multiple ranked lists.
@@ -270,11 +274,7 @@ class HybridSearchEngine:
                 rrf_scores[chunk_id] += 1.0 / (k + rank)
 
         # Sort by RRF score
-        sorted_results = sorted(
-            rrf_scores.items(),
-            key=lambda x: x[1],
-            reverse=True
-        )
+        sorted_results = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
 
         return sorted_results
 
@@ -286,37 +286,16 @@ class HybridSearchEngine:
         multi_hop: bool = True,
         use_bm25: bool = True,
         use_reranking: bool = True,
+        use_ppr: bool = True,
         retrieval_candidates: int = 20,
         rerank_top_k: int = 10,
     ) -> List[Dict[str, Any]]:
-        """
-        PHASE 1: State-of-the-Art Hybrid Search with BM25 + RRF + Reranking.
+        logger.info(
+            f"[v2] Hybrid search for: '{query}' (BM25={use_bm25}, Rerank={use_reranking}, PPR={use_ppr})"
+        )
 
-        Pipeline:
-        1. Multi-Retrieval: BM25 (sparse) + Vector (dense)
-        2. RRF Fusion: Combine rankings
-        3. Cross-Encoder Reranking: Semantic reranking
-        4. Graph Expansion: Multi-hop context (REFERENCES, SUPERSEDES)
-
-        Args:
-            query: Search query
-            limit: Final number of results
-            filter_dict: ChromaDB metadata filters
-            multi_hop: Enable graph traversal
-            use_bm25: Enable BM25 sparse retrieval
-            use_reranking: Enable cross-encoder reranking
-            retrieval_candidates: Number of candidates from each retriever
-            rerank_top_k: Number of candidates to rerank
-
-        Returns:
-            List of enriched result dictionaries
-        """
-        logger.info(f"[v2] Hybrid search for: '{query}' (BM25={use_bm25}, Rerank={use_reranking})")
-
-        # Step 1: Multi-Retrieval (Vector + BM25)
         retrieval_results = []
 
-        # 1A. Vector Search (Dense)
         query_embeddings = self.vector_store.embedding_engine.get_embeddings([query])
         if query_embeddings:
             vector_results = self.vector_store.collection.query(
@@ -330,93 +309,99 @@ class HybridSearchEngine:
                 distances = vector_results.get("distances", [[]])[0]
 
                 vector_scored = [
-                    (chunk_id, 1.0 - (dist / 2.0))  # Convert distance to similarity
+                    (chunk_id, 1.0 - (dist / 2.0))
                     for chunk_id, dist in zip(ids, distances)
                 ]
                 retrieval_results.append(vector_scored)
-                logger.info(f"Vector search: {len(vector_scored)} results")
-        else:
-            logger.warning("Failed to generate query embeddings")
 
-        # 1B. BM25 Search (Sparse)
         if use_bm25 and self.bm25_index:
             try:
                 bm25_results = self.bm25_index.search(query, k=retrieval_candidates)
                 retrieval_results.append(bm25_results)
-                logger.info(f"BM25 search: {len(bm25_results)} results")
             except Exception as e:
                 logger.warning(f"BM25 search failed: {e}")
 
-        # Step 2: RRF Fusion
         if not retrieval_results:
-            logger.warning("No retrieval results, returning empty")
             return []
 
         fused_results = self._reciprocal_rank_fusion(retrieval_results, k=60)
-        logger.info(f"RRF fusion: {len(fused_results)} unique results")
 
-        # Limit to top candidates for reranking
-        fused_results = fused_results[:rerank_top_k]
+        candidate_ids = [cid for cid, _ in fused_results[:rerank_top_k]]
+        filtered_ids = self.graph_algorithms.apply_temporal_filter(candidate_ids)
 
-        # Step 3: Prepare chunks for reranking
+        filtered_fused = []
+        seen_ids = set()
+        for cid, score in fused_results:
+            if cid in filtered_ids and cid not in seen_ids:
+                filtered_fused.append((cid, score))
+                seen_ids.add(cid)
+
         chunks_for_reranking = []
-        chunk_metadata = {}  # Store original data
-
-        for chunk_id, rrf_score in fused_results:
-            # Fetch chunk text from graph
+        for chunk_id, rrf_score in filtered_fused[:rerank_top_k]:
             if chunk_id in self.graph:
                 node_data = self.graph.nodes[chunk_id]
                 chunk_text = node_data.get("text", "")
-
-                chunks_for_reranking.append({
-                    "id": chunk_id,
-                    "text": chunk_text,
-                    "rrf_score": rrf_score
-                })
-
-                chunk_metadata[chunk_id] = node_data
+                chunks_for_reranking.append(
+                    {"id": chunk_id, "text": chunk_text, "rrf_score": rrf_score}
+                )
             else:
-                # Fetch from vector store if not in graph
                 try:
                     vs_result = self.vector_store.collection.get(ids=[chunk_id])
                     if vs_result and vs_result.get("documents"):
-                        chunk_text = vs_result["documents"][0]
-                        chunks_for_reranking.append({
-                            "id": chunk_id,
-                            "text": chunk_text,
-                            "rrf_score": rrf_score
-                        })
-                except Exception as e:
-                    logger.warning(f"Failed to fetch chunk {chunk_id}: {e}")
+                        chunks_for_reranking.append(
+                            {
+                                "id": chunk_id,
+                                "text": vs_result["documents"][0],
+                                "rrf_score": rrf_score,
+                            }
+                        )
+                except:
+                    pass
 
-        # Step 4: Cross-Encoder Reranking
         if use_reranking and self.reranker and chunks_for_reranking:
             try:
                 reranked_chunks = self.reranker.rerank(
                     query=query,
                     chunks=chunks_for_reranking,
-                    top_k=limit * 2,  # Get more for graph expansion
-                    text_key="text"
+                    top_k=limit * 2,
+                    text_key="text",
                 )
-                logger.info(f"Reranked: {len(reranked_chunks)} results")
-            except Exception as e:
-                logger.warning(f"Reranking failed: {e}, using RRF results")
-                reranked_chunks = chunks_for_reranking[:limit * 2]
+            except:
+                reranked_chunks = chunks_for_reranking[: limit * 2]
         else:
-            reranked_chunks = chunks_for_reranking[:limit * 2]
+            reranked_chunks = chunks_for_reranking[: limit * 2]
 
-        # Step 5: Build results with graph enrichment
+        top_chunk_ids = [c["id"] for c in reranked_chunks[:limit]]
+
+        if use_ppr:
+            expanded_subgraph = self.graph_algorithms.extract_ppr_subgraph(
+                top_chunk_ids, top_k=20
+            )
+            expanded_nodes = list(expanded_subgraph.nodes)
+        elif multi_hop:
+            expanded_nodes = list(
+                self.graph_algorithms.smart_k_hop_expansion(top_chunk_ids, k=2)
+            )
+        else:
+            expanded_nodes = top_chunk_ids
+
+        centrality_scores = self.graph_algorithms.get_centrality_scores(expanded_nodes)
+
         hybrid_results = []
-
         for chunk in reranked_chunks[:limit]:
             chunk_id = chunk["id"]
+
+            base_score = chunk.get("reranker_score", chunk.get("rrf_score", 0.0))
+            g_score = centrality_scores.get(chunk_id, 0.5)
+            combined_score = (base_score * 0.7) + (g_score * 0.3)
 
             entry = {
                 "id": chunk_id,
                 "text": chunk.get("text", ""),
-                "score": chunk.get("reranker_score", chunk.get("rrf_score", 0.0)),
+                "score": combined_score,
                 "rrf_score": chunk.get("rrf_score", 0.0),
                 "reranker_score": chunk.get("reranker_score", 0.0),
+                "graph_centrality": g_score,
                 "breadcrumbs": "",
                 "source_url": "",
                 "doc_title": "",
@@ -428,20 +413,16 @@ class HybridSearchEngine:
                 "neighbor_context": [],
             }
 
-            # Graph enrichment
             if chunk_id in self.graph:
                 node_data = self.graph.nodes[chunk_id]
                 entry["breadcrumbs"] = node_data.get("context", "")
                 entry["rules"] = node_data.get("rules", [])
 
-                # Multi-Hop Context Expansion
-                if multi_hop:
-                    # A. Direct references from chunk
-                    for _, target_id, edata in self.graph.out_edges(chunk_id, data=True):
-                        if edata.get("relation") == "REFERENCES":
-                            self._add_neighbor_context(entry, target_id)
+                if multi_hop or use_ppr:
+                    for neighbor in self.graph.successors(chunk_id):
+                        if neighbor in expanded_nodes:
+                            self._add_neighbor_context(entry, neighbor)
 
-                    # B. References from parent document
                     parents = list(self.graph.predecessors(chunk_id))
                     for p in parents:
                         p_data = self.graph.nodes[p]
@@ -453,27 +434,17 @@ class HybridSearchEngine:
                             entry["stand"] = p_data.get("stand", "")
                             entry["kuerzel"] = p_data.get("kuerzel", "")
 
-                            for _, target_id, edata in self.graph.out_edges(p, data=True):
-                                if edata.get("relation") == "REFERENCES":
+                            for _, target_id, edata in self.graph.out_edges(
+                                p, data=True
+                            ):
+                                if (
+                                    edata.get("relation") == "REFERENCES"
+                                    and target_id in expanded_nodes
+                                ):
                                     self._add_neighbor_context(entry, target_id)
-
-                            # C. Versioning (SUPERSEDES)
-                            for replaced_by, _, edata in self.graph.in_edges(p, data=True):
-                                if edata.get("relation") == "SUPERSEDES":
-                                    new_doc = self.graph.nodes[replaced_by]
-                                    entry["neighbor_context"].insert(
-                                        0,
-                                        {
-                                            "id": replaced_by,
-                                            "text": f"Hinweis: Dokument wurde durch {new_doc.get('title')} ersetzt.",
-                                            "breadcrumbs": "Version Warning",
-                                            "type": "warning",
-                                        },
-                                    )
 
             hybrid_results.append(entry)
 
-        logger.info(f"Final results: {len(hybrid_results)}")
         return hybrid_results
 
 

@@ -1,10 +1,10 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.0.0",
-    "last_updated": "2026-01-17T18:00:00Z",
-    "last_agent": "opencode",
-    "project_phase": "Phase 1 Graph RAG: Complete | Phase E: Data Completeness & Hosting"
+    "version": "2.1.0",
+    "last_updated": "2026-01-17T19:00:00Z",
+    "last_agent": "Antigravity",
+    "project_phase": "Phase 2 Graph RAG: Complete | Phase E: Data Completeness & Hosting"
   },
   "tasks": [
     {
@@ -305,15 +305,15 @@
     {
       "id": "TASK-011",
       "title": "Phase 2 Graph RAG: Personalized PageRank & Graph Algorithms",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "category": "feature",
       "created": "2026-01-17",
       "updated": "2026-01-17",
-      "assigned_agent": "pending",
-      "requires_review": false,
+      "assigned_agent": "Antigravity",
+      "requires_review": true,
       "reviewed_by": null,
-      "review_notes": null,
+      "review_notes": "Implemented Personalized PageRank, smart k-hop expansion, temporal filtering, and centrality-based scoring. Integrated into search_v2().",
       "description": "Implement advanced graph algorithms: Personalized PageRank for subgraph extraction, smart k-hop expansion with temporal filtering, and centrality-based scoring.",
       "acceptance_criteria": [
         "GraphAlgorithms class with PPR implementation",
@@ -322,11 +322,61 @@
         "Replace degree-based scoring with PageRank centrality",
         "Integration into search_v2()"
       ],
-      "subtasks": [],
+      "subtasks": [
+        "Create src/graph/graph_algorithms.py",
+        "Implement PPR and subgraph extraction",
+        "Implement smart k-hop expansion",
+        "Implement temporal filter for SUPERSEDES",
+        "Integrate into HybridSearchEngine"
+      ],
       "blocked_by": [
         "TASK-010"
       ],
-      "blocks": [],
+      "blocks": [
+        "TASK-012"
+      ],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-17",
+      "files_changed": [
+        "src/graph/graph_algorithms.py (NEW)",
+        "src/parser/hybrid_search.py (MODIFIED)",
+        "tests/test_phase2.py (NEW)"
+      ]
+    },
+    {
+      "id": "TASK-012",
+      "title": "Phase 3 Graph RAG: Query Enhancement",
+      "status": "pending",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-17",
+      "updated": "2026-01-17",
+      "assigned_agent": "pending",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": null,
+      "description": "Implement query enhancement techniques: Multi-query generation, HyDE (Hypothetical Document Embeddings), and query decomposition.",
+      "acceptance_criteria": [
+        "QueryEnhancer class with multi-query support",
+        "HyDE generation for legal terminology",
+        "Query decomposition for complex questions",
+        "Integration into search_v2()"
+      ],
+      "subtasks": [
+        "Create src/parser/query_enhancer.py",
+        "Implement multi-query generation",
+        "Implement HyDE",
+        "Implement query decomposition",
+        "Integrate into retrieval pipeline"
+      ],
+      "blocked_by": [
+        "TASK-011"
+      ],
+      "blocks": [
+        "TASK-013"
+      ],
       "docs_updated": false
     }
   ],
