@@ -7,6 +7,8 @@ import json
 from src.parser.vector_store import VectorStore
 from src.parser.embedding_engine import EmbeddingEngine
 from src.graph.graph_algorithms import GraphAlgorithms
+from src.parser.query_enhancer import QueryEnhancer
+from src.llm.provider_factory import get_llm_provider
 
 # Graph RAG enhancements (Phase 1)
 try:
@@ -42,6 +44,15 @@ class HybridSearchEngine:
         self.graph_path = graph_path
         self.graph = self._load_graph()
         self.graph_algorithms = GraphAlgorithms(self.graph)
+
+        # Phase 2: Query Enhancement
+        try:
+            llm_provider = get_llm_provider()
+            self.query_enhancer = QueryEnhancer(llm_provider)
+            logger.info("QueryEnhancer initialized.")
+        except Exception as e:
+            logger.warning(f"Failed to initialize QueryEnhancer: {e}")
+            self.query_enhancer = None
 
         # Phase 1: BM25 Sparse Retrieval
         self.bm25_index = None
@@ -287,39 +298,90 @@ class HybridSearchEngine:
         use_bm25: bool = True,
         use_reranking: bool = True,
         use_ppr: bool = True,
+        use_query_enhancement: bool = True,
         retrieval_candidates: int = 20,
         rerank_top_k: int = 10,
     ) -> List[Dict[str, Any]]:
         logger.info(
-            f"[v2] Hybrid search for: '{query}' (BM25={use_bm25}, Rerank={use_reranking}, PPR={use_ppr})"
+            f"[v2] Hybrid search for: '{query}' (BM25={use_bm25}, Rerank={use_reranking}, PPR={use_ppr}, Enhance={use_query_enhancement})"
         )
+
+        enhanced_data = None
+        if use_query_enhancement and self.query_enhancer:
+            try:
+                enhanced_data = self.query_enhancer.enhance(query)
+                logger.info(
+                    f"Query enhanced: {len(enhanced_data['all_queries'])} queries generated."
+                )
+            except Exception as e:
+                logger.warning(f"Query enhancement failed: {e}")
 
         retrieval_results = []
 
-        query_embeddings = self.vector_store.embedding_engine.get_embeddings([query])
-        if query_embeddings:
-            vector_results = self.vector_store.collection.query(
-                query_embeddings=list(query_embeddings),
-                n_results=retrieval_candidates,
-                where=filter_dict,
+        # 1. Vector Search
+        search_queries = enhanced_data["all_queries"] if enhanced_data else [query]
+
+        # If we have HyDE text, we can use it for vector search specifically
+        vector_queries = search_queries.copy()
+        if enhanced_data and enhanced_data.get("hyde_text"):
+            vector_queries.append(enhanced_data["hyde_text"])
+
+        all_vector_candidates: Dict[str, float] = {}  # chunk_id -> best_score
+
+        for q in vector_queries:
+            query_embeddings = self.vector_store.embedding_engine.get_embeddings([q])
+            if query_embeddings:
+                vector_results = self.vector_store.collection.query(
+                    query_embeddings=list(query_embeddings),
+                    n_results=retrieval_candidates,
+                    where=filter_dict,
+                )
+
+                if vector_results and vector_results.get("ids"):
+                    ids = vector_results["ids"][0]
+                    distances = vector_results.get("distances", [[]])[0]
+
+                    for chunk_id, dist in zip(ids, distances):
+                        score = 1.0 - (dist / 2.0)
+                        if (
+                            chunk_id not in all_vector_candidates
+                            or score > all_vector_candidates[chunk_id]
+                        ):
+                            all_vector_candidates[chunk_id] = score
+
+        if all_vector_candidates:
+            # Sort and add to retrieval results
+            sorted_vector = sorted(
+                all_vector_candidates.items(), key=lambda x: x[1], reverse=True
             )
+            retrieval_results.append(sorted_vector[:retrieval_candidates])
 
-            if vector_results and vector_results.get("ids"):
-                ids = vector_results["ids"][0]
-                distances = vector_results.get("distances", [[]])[0]
-
-                vector_scored = [
-                    (chunk_id, 1.0 - (dist / 2.0))
-                    for chunk_id, dist in zip(ids, distances)
-                ]
-                retrieval_results.append(vector_scored)
-
+        # 2. BM25 Search
         if use_bm25 and self.bm25_index:
-            try:
-                bm25_results = self.bm25_index.search(query, k=retrieval_candidates)
-                retrieval_results.append(bm25_results)
-            except Exception as e:
-                logger.warning(f"BM25 search failed: {e}")
+            all_bm25_candidates: Dict[str, float] = {}
+            # Use original query and variations for BM25
+            bm25_queries = [query]
+            if enhanced_data:
+                bm25_queries.extend(enhanced_data.get("variations", []))
+                bm25_queries.extend(enhanced_data.get("sub_queries", []))
+
+            for q in set(bm25_queries):
+                try:
+                    bm25_res = self.bm25_index.search(q, k=retrieval_candidates)
+                    for chunk_id, score in bm25_res:
+                        if (
+                            chunk_id not in all_bm25_candidates
+                            or score > all_bm25_candidates[chunk_id]
+                        ):
+                            all_bm25_candidates[chunk_id] = score
+                except Exception as e:
+                    logger.warning(f"BM25 search failed for '{q}': {e}")
+
+            if all_bm25_candidates:
+                sorted_bm25 = sorted(
+                    all_bm25_candidates.items(), key=lambda x: x[1], reverse=True
+                )
+                retrieval_results.append(sorted_bm25[:retrieval_candidates])
 
         if not retrieval_results:
             return []
