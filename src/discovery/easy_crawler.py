@@ -30,6 +30,17 @@ class EasyCrawler:
         "t7": "Altvorhaben",
     }
 
+    KNOWN_MINISTRIES = [
+        "bmwe",
+        "bmbfsfj",
+        "bmleh",
+        "bmukn",
+        "bmftr",
+        "bisp",
+        "ble",
+        "bafa",
+    ]
+
     def __init__(
         self, output_dir: Path, ministerium: str = "bmwe", limit_per_cat: int = None
     ):
@@ -44,6 +55,28 @@ class EasyCrawler:
 
         self.raw_dir.mkdir(parents=True, exist_ok=True)
         self.manifest = self._load_manifest()
+
+    @classmethod
+    async def crawl_all(cls, output_dir: Path, limit_per_cat: int = None):
+        """Crawls all known ministries."""
+        print(f"🌍 Starting global crawl for {len(cls.KNOWN_MINISTRIES)} ministries...")
+
+        results = {}
+        for min_id in cls.KNOWN_MINISTRIES:
+            print(f"\n{'=' * 50}")
+            print(f"🏛️  Processing Ministry: {min_id}")
+            print(f"{'=' * 50}")
+
+            crawler = cls(output_dir, ministerium=min_id, limit_per_cat=limit_per_cat)
+            await crawler.run()
+            results[min_id] = "Success"
+
+            # Global rate limit between ministries
+            print("⏳ Cooldown 5s between ministries...")
+            time.sleep(5)
+
+        print("\n✅ Global crawl completed.")
+        return results
 
     def _load_manifest(self) -> dict:
         if self.manifest_path.exists():
@@ -102,13 +135,15 @@ class EasyCrawler:
                     cookies = await context.cookies()
                     session_cookies = {c["name"]: c["value"] for c in cookies}
 
-                    target_rows = (
-                        rows
-                        if self.limit_per_cat is None
-                        else rows[: self.limit_per_cat + 1]
-                    )
+                    processed_count = 0
 
-                    for i, row in enumerate(target_rows):
+                    for i, row in enumerate(rows):
+                        if (
+                            self.limit_per_cat is not None
+                            and processed_count >= self.limit_per_cat
+                        ):
+                            break
+
                         cells = await row.query_selector_all("td")
                         if len(cells) >= 3:
                             nr = (await cells[0].inner_text()).strip()
@@ -119,6 +154,7 @@ class EasyCrawler:
                             file_link = await cells[2].query_selector("a")
 
                             if file_link:
+                                processed_count += 1  # Only count valid files
                                 filename = (await file_link.inner_text()).strip()
                                 href = await file_link.get_attribute("href")
                                 full_url = (
@@ -135,6 +171,8 @@ class EasyCrawler:
                                     cat_name,
                                     session_cookies,
                                 )
+                                # Rate limiting per file
+                                time.sleep(1)
                 except Exception as e:
                     print(f"   ❌ Fehler in Kategorie {cat_name}: {e}")
 
@@ -160,7 +198,7 @@ class EasyCrawler:
         print(f"   📥 Downloade: [{nr}] {title[:50]}...")
 
         try:
-            retry_count = 3
+            retry_count = 5
 
             def do_download():
                 headers = {
@@ -171,7 +209,7 @@ class EasyCrawler:
                 for attempt in range(retry_count):
                     try:
                         response = requests.get(
-                            url, cookies=cookies, headers=headers, timeout=30
+                            url, cookies=cookies, headers=headers, timeout=60
                         )
                         response.raise_for_status()
                         with open(file_path, "wb") as f:
@@ -179,10 +217,11 @@ class EasyCrawler:
                         return True
                     except Exception as e:
                         if attempt < retry_count - 1:
+                            wait_time = (attempt + 1) * 2
                             print(
-                                f"      Retrying download ({attempt + 1}/{retry_count})..."
+                                f"      ⚠️  Retrying download ({attempt + 1}/{retry_count}) in {wait_time}s... Error: {e}"
                             )
-                            time.sleep(2)
+                            time.sleep(wait_time)
                         else:
                             raise e
                 return False
@@ -218,9 +257,20 @@ if __name__ == "__main__":
         default="bmwe",
         help="Target Ministry (e.g., bmwe, bmbf)",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Crawl ALL known ministries",
+    )
 
     args = parser.parse_args()
 
     output = Path("/home/enving/Dev/Bund-ZuwendungsGraph/data")
-    crawler = EasyCrawler(output, ministerium=args.ministry, limit_per_cat=args.limit)
-    asyncio.run(crawler.run())
+
+    if args.all:
+        asyncio.run(EasyCrawler.crawl_all(output, limit_per_cat=args.limit))
+    else:
+        crawler = EasyCrawler(
+            output, ministerium=args.ministry, limit_per_cat=args.limit
+        )
+        asyncio.run(crawler.run())

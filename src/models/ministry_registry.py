@@ -34,7 +34,32 @@ MINISTRY_REGISTRY = {
     "BMEL": {
         "id": "MIN_AGRICULTURE",
         "current_name": "Bundesministerium für Ernährung und Landwirtschaft",
-        "aliases": ["BMEL", "BML", "Ernährung und Landwirtschaft"],
+        "aliases": ["BMEL", "BML", "Ernährung und Landwirtschaft", "BMLEH"],
+    },
+    "BMUV": {
+        "id": "MIN_ENVIRONMENT",
+        "current_name": "Bundesministerium für Umwelt, Naturschutz, nukleare Sicherheit und Verbraucherschutz",
+        "aliases": ["BMUV", "BMU", "BMUKN", "Umwelt"],
+    },
+    "BMDV": {
+        "id": "MIN_TRANSPORT",
+        "current_name": "Bundesministerium für Digitales und Verkehr",
+        "aliases": ["BMDV", "BMVI", "BMVBS", "BMFTR", "Verkehr"],
+    },
+    "BISP": {
+        "id": "AGENCY_SPORTS",
+        "current_name": "Bundesinstitut für Sportwissenschaft",
+        "aliases": ["BISP", "Sportwissenschaft"],
+    },
+    "BLE": {
+        "id": "AGENCY_AGRICULTURE",
+        "current_name": "Bundesanstalt für Landwirtschaft und Ernährung",
+        "aliases": ["BLE"],
+    },
+    "BAFA": {
+        "id": "AGENCY_ECONOMY",
+        "current_name": "Bundesamt für Wirtschaft und Ausfuhrkontrolle",
+        "aliases": ["BAFA"],
     },
 }
 

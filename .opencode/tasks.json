@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.2.1",
-    "last_updated": "2026-01-18T12:00:00Z",
+    "version": "2.2.2",
+    "last_updated": "2026-01-18T11:45:00Z",
     "last_agent": "Antigravity",
     "project_phase": "Phase 1+2 Graph RAG: Complete ✅ | Phase 3: Verified ✅ | Unit Tests: 100% ✅"
   },
@@ -174,15 +174,15 @@
     {
       "id": "TASK-007",
       "title": "Full Crawler Implementation",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "category": "feature",
       "created": "2026-01-17",
-      "updated": "2026-01-17",
-      "assigned_agent": "pending",
+      "updated": "2026-01-18",
+      "assigned_agent": "Antigravity",
       "requires_review": false,
-      "reviewed_by": null,
-      "review_notes": null,
+      "reviewed_by": "opencode",
+      "review_notes": "Implemented EasyCrawler with global recursion, rate limiting, and robust retry logic. Verified with BMWE crawl.",
       "description": "Expand Easy-Online crawler to fetch all available documents from all ministries.",
       "acceptance_criteria": [
         "Recursive crawling of all ministry sub-pages",
@@ -194,7 +194,10 @@
       "blocks": [
         "TASK-008"
       ],
-      "docs_updated": false
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-18"
     },
     {
       "id": "TASK-008",

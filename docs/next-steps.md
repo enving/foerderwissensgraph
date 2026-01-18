@@ -38,8 +38,8 @@
 - [x] **API Documentation (TASK-015):** Detaillierte Dokumentation von `/api/search/advanced` in `docs/API.md`. (ERLEDIGT)
 
 ### Phase E: Data Completeness & Hosting - ⏳ IN ARBEIT
-- [ ] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand.
-- [x] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung).
+- [x] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand. (ERLEDIGT)
+- [x] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung). (ERLEDIGT)
 - [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting.
 
 ## 🚀 Kommende Ziele (Phase F)

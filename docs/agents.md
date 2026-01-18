@@ -35,6 +35,15 @@ Bevor du eine neue Aufgabe startest, lies:
 
 ## 🕒 Session Historie
 
+### Session 2026-01-18 (Antigravity - Crawler Implementation)
+- **Status:** Full Easy-Online Crawler implemented (v2.2.2).
+- **Erledigt:**
+    - `EasyCrawler` implementiert in `src/discovery/easy_crawler.py`.
+    - Recursion, Rate Limiting, und Global Crawl Modus hinzugefügt.
+    - `MinistryRegistry` mit fehlenden Ministerien (BISP, BLE, BAFA, etc.) aktualisiert.
+    - Erfolgreicher Testlauf mit BMWK (404-Handling verifiziert).
+- **Nächster Schritt:** Fokus auf TASK-009: Resource & Performance Profiling.
+
 ### Session 2026-01-18 (Antigravity - Checkpoint)
 - **Status:** Repository Checkpoint.
 - **Erledigt:**
