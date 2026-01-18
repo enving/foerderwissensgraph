@@ -307,6 +307,38 @@
             svg.transition().duration(750).call(zoom.transform, transform);
         }
 
+        function zoomToVisible() {
+            // Get bounding box of visible (non-dimmed) nodes
+            const visibleNodes = d3.selectAll(".node:not(.dimmed)");
+            if (visibleNodes.empty()) return; // Keep current view if nothing visible
+            
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            let count = 0;
+            
+            visibleNodes.each(d => {
+                count++;
+                if (d.x < minX) minX = d.x;
+                if (d.x > maxX) maxX = d.x;
+                if (d.y < minY) minY = d.y;
+                if (d.y > maxY) maxY = d.y;
+            });
+            
+            if (count === 0) return;
+
+            const dx = maxX - minX || 100, // Fallback width if single point
+                  dy = maxY - minY || 100,
+                  x = (minX + maxX) / 2,
+                  y = (minY + maxY) / 2,
+                  scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
+            
+            const transform = d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(scale)
+                .translate(-x, -y);
+                
+            svg.transition().duration(750).call(zoom.transform, transform);
+        }
+
         // Simulation
         const simulation = d3.forceSimulation()
             .force("link", d3.forceLink().id(d => d.id).distance(150))
@@ -581,6 +613,39 @@
             d3.selectAll(".node").classed("highlight-neighbor", n => n.id === d.id);
         }
 
+        function zoomToResults(ids) {
+            const idSet = new Set(ids);
+            const targetNodes = d3.selectAll(".node").filter(d => idSet.has(d.id));
+            
+            if (targetNodes.empty()) return;
+            
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            targetNodes.each(d => {
+                if (d.x < minX) minX = d.x;
+                if (d.x > maxX) maxX = d.x;
+                if (d.y < minY) minY = d.y;
+                if (d.y > maxY) maxY = d.y;
+            });
+            
+            const dx = maxX - minX || 100,
+                  dy = maxY - minY || 100,
+                  x = (minX + maxX) / 2,
+                  y = (minY + maxY) / 2,
+                  scale = Math.max(0.1, Math.min(2.5, 0.8 / Math.max(dx / width, dy / height))); // Max zoom 2.5
+            
+            const transform = d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(scale)
+                .translate(-x, -y);
+                
+            svg.transition().duration(1000).call(zoom.transform, transform);
+            
+            // Highlight these nodes visually
+            d3.selectAll(".node").classed("dimmed", true); // Dim all
+            targetNodes.classed("dimmed", false); // Undim targets
+            targetNodes.classed("highlight-neighbor", true); // Highlight
+        }
+
         async function performHybridSearch(query) {
             if (!query) {
                 applyFilters();
@@ -612,6 +677,11 @@
                     list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Keine Ergebnisse gefunden.</div>';
                     return;
                 }
+                
+                // Auto-Zoom to results
+                const resultIds = results.map(r => r.id);
+                // Also include neighbor IDs? Maybe too cluttered.
+                zoomToResults(resultIds);
 
                 let html = '';
                 if (answer) {
@@ -711,6 +781,60 @@
             }
         }
 
+        function updateFilterOptions() {
+            const currentMin = document.getElementById('filterMinistry').value.trim().toLowerCase();
+            const currentType = document.getElementById('filterType').value.trim().toLowerCase();
+            
+            // Sets of valid options given the OTHER filter
+            const validMinistries = new Set();
+            const validTypes = new Set();
+            
+            graphData.nodes.forEach(n => {
+                const nodeMin = (n.ministerium || "").trim();
+                const nodeIss = (n.herausgeber || "").trim();
+                const nodeType = (n.kuerzel || "").trim();
+                
+                const nodeMinLower = nodeMin.toLowerCase();
+                const nodeIssLower = nodeIss.toLowerCase();
+                const nodeTypeLower = nodeType.toLowerCase();
+                
+                // 1. Check if this node contributes to valid Types (i.e. matches current Ministry)
+                let matchesMin = true;
+                if (currentMin) {
+                    if (!nodeMinLower.includes(currentMin) && !nodeIssLower.includes(currentMin)) matchesMin = false;
+                }
+                if (matchesMin && nodeType) validTypes.add(nodeType);
+                
+                // 2. Check if this node contributes to valid Ministries (i.e. matches current Type)
+                let matchesType = true;
+                if (currentType) {
+                    if (!nodeTypeLower.includes(currentType)) matchesType = false;
+                }
+                if (matchesType) {
+                    if (nodeMin && nodeMin.toLowerCase() !== "unbekannt") validMinistries.add(nodeMin);
+                    if (nodeIss && nodeIss.toLowerCase() !== "unbekannt") validMinistries.add(nodeIss);
+                }
+            });
+            
+            // Update Ministry Options
+            const minSelect = document.getElementById('filterMinistry');
+            Array.from(minSelect.options).forEach(opt => {
+                if (opt.value === "") return;
+                const isValid = validMinistries.has(opt.value);
+                opt.disabled = !isValid;
+                opt.style.color = isValid ? '' : '#d1d5db'; // gray-300
+            });
+            
+            // Update Type Options
+            const typeSelect = document.getElementById('filterType');
+            Array.from(typeSelect.options).forEach(opt => {
+                if (opt.value === "") return;
+                const isValid = validTypes.has(opt.value);
+                opt.disabled = !isValid;
+                opt.style.color = isValid ? '' : '#d1d5db';
+            });
+        }
+
         function applyFilters() {
             const min = document.getElementById('filterMinistry').value.trim().toLowerCase();
             const type = document.getElementById('filterType').value.trim().toLowerCase();
@@ -728,6 +852,10 @@
                 if (date && n.stand && n.stand < date) match = false;
                 return !match;
             });
+            
+            // UX Improvements
+            updateFilterOptions();
+            zoomToVisible();
             
             // Re-run search if active
             const query = document.getElementById('hybridSearchInput').value;
