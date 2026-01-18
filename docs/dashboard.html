@@ -81,7 +81,8 @@
         }
 
         .dimmed {
-            opacity: 0.2;
+            opacity: 0.05;
+            pointer-events: none; /* Make dimmed nodes unclickable */
         }
 
         .sidebar-scroll::-webkit-scrollbar {
@@ -166,22 +167,27 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-sm pointer-events-auto flex flex-col gap-3">
-                    <div class="flex justify-between items-center">
-                        <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
-                        <button onclick="clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
+                <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-sm pointer-events-auto flex flex-col gap-3 transition-all duration-300" id="filterContainer">
+                    <div class="flex justify-between items-center cursor-pointer" onclick="toggleFilters()">
+                        <div class="flex items-center gap-2">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
+                            <svg id="filterArrow" class="w-3 h-3 text-federal-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <button onclick="event.stopPropagation(); clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
-                            <option value="">Alle Ressorts</option>
-                        </select>
-                        <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
-                            <option value="">Alle Typen</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[9px] font-bold text-gray-400 uppercase px-1">Zeitraum (Stand ab)</label>
-                        <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                    <div id="filterContent" class="flex flex-col gap-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                                <option value="">Alle Ressorts</option>
+                            </select>
+                            <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                                <option value="">Alle Typen</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-gray-400 uppercase px-1">Zeitraum (Stand ab)</label>
+                            <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                        </div>
                     </div>
                 </div>
 
@@ -706,18 +712,19 @@
         }
 
         function applyFilters() {
-            const min = document.getElementById('filterMinistry').value.toLowerCase();
-            const type = document.getElementById('filterType').value.toLowerCase();
+            const min = document.getElementById('filterMinistry').value.trim().toLowerCase();
+            const type = document.getElementById('filterType').value.trim().toLowerCase();
             const date = document.getElementById('filterDateStart').value;
             
             d3.selectAll(".node").classed("dimmed", n => {
                 let match = true;
                 if (min) {
-                    const nodeMin = (n.ministerium || "").toLowerCase();
-                    const nodeIss = (n.herausgeber || "").toLowerCase();
-                    if (nodeMin !== min && nodeIss !== min) match = false;
+                    const nodeMin = (n.ministerium || "").trim().toLowerCase();
+                    const nodeIss = (n.herausgeber || "").trim().toLowerCase();
+                    // Check if selected ministry is part of the node's ministry/issuer
+                    if (!nodeMin.includes(min) && !nodeIss.includes(min)) match = false;
                 }
-                if (type && (!n.kuerzel || !n.kuerzel.toLowerCase().includes(type))) match = false;
+                if (type && (!n.kuerzel || !n.kuerzel.trim().toLowerCase().includes(type))) match = false;
                 if (date && n.stand && n.stand < date) match = false;
                 return !match;
             });
@@ -746,6 +753,18 @@
                     zoom.transform,
                     d3.zoomIdentity.translate(width / 2, height / 2).scale(1.5).translate(-node.x, -node.y)
                 );
+            }
+        }
+
+        function toggleFilters() {
+            const content = document.getElementById('filterContent');
+            const arrow = document.getElementById('filterArrow');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('hidden');
+                arrow.style.transform = 'rotate(-90deg)';
             }
         }
 

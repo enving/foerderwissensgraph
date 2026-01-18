@@ -99,17 +99,23 @@ def run_comprehensive_test():
 
         # 4. Test Tooltips
         print("🧪 Testing Tooltips...")
-        # Hover over a node
-        node = page.locator(".node").nth(5)  # Pick random one
-        node.hover()
-        time.sleep(0.5)
+        # Hover over a visible node (not dimmed)
+        node = page.locator(".node:not(.dimmed)").nth(0)
+        if node.count() > 0:
+            # Dispatch events for D3 interaction
+            node.dispatch_event("mouseover")
+            time.sleep(0.5)
 
-        tooltip = page.locator("#tooltip")
-        if tooltip.is_visible():
-            print(f"✅ Tooltip visible: {tooltip.inner_text().replace('\n', ' - ')}")
-            page.screenshot(path=f"{SCREENSHOT_DIR}/tooltip.png")
+            tooltip = page.locator("#tooltip")
+            if tooltip.is_visible():
+                print(
+                    f"✅ Tooltip visible: {tooltip.inner_text().replace('\n', ' - ')}"
+                )
+                page.screenshot(path=f"{SCREENSHOT_DIR}/tooltip.png")
+            else:
+                print("❌ Tooltip not visible")
         else:
-            print("❌ Tooltip not visible")
+            print("⚠️ No visible nodes for tooltip test")
 
         # 5. Test Zoom Controls
         print("🧪 Testing Zoom...")
