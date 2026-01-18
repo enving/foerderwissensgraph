@@ -176,6 +176,11 @@
                         <button onclick="event.stopPropagation(); clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
                     </div>
                     <div id="filterContent" class="flex flex-col gap-3">
+                        <select id="filterCategory" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                            <option value="">Alle Kategorien</option>
+                            <option value="document">Formularschrank</option>
+                            <option value="law">Gesetze</option>
+                        </select>
                         <div class="grid grid-cols-2 gap-2">
                             <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
                                 <option value="">Alle Ressorts</option>
@@ -784,12 +789,24 @@
         function updateFilterOptions() {
             const currentMin = document.getElementById('filterMinistry').value.trim().toLowerCase();
             const currentType = document.getElementById('filterType').value.trim().toLowerCase();
+            const currentCat = document.getElementById('filterCategory').value;
             
             // Sets of valid options given the OTHER filter
             const validMinistries = new Set();
             const validTypes = new Set();
             
             graphData.nodes.forEach(n => {
+                // Check Category Filter for Dependency Logic
+                // If I have selected Category 'law', only show Ministries/Types that have laws
+                let matchesCat = true;
+                if (currentCat) {
+                    const isLaw = (n.type === 'law' || n.node_type === 'law');
+                    if (currentCat === 'law' && !isLaw) matchesCat = false;
+                    if (currentCat === 'document' && isLaw) matchesCat = false;
+                }
+                
+                if (!matchesCat) return;
+
                 const nodeMin = (n.ministerium || "").trim();
                 const nodeIss = (n.herausgeber || "").trim();
                 const nodeType = (n.kuerzel || "").trim();
@@ -798,14 +815,14 @@
                 const nodeIssLower = nodeIss.toLowerCase();
                 const nodeTypeLower = nodeType.toLowerCase();
                 
-                // 1. Check if this node contributes to valid Types (i.e. matches current Ministry)
+                // 1. Check if this node contributes to valid Types (matches current Min)
                 let matchesMin = true;
                 if (currentMin) {
                     if (!nodeMinLower.includes(currentMin) && !nodeIssLower.includes(currentMin)) matchesMin = false;
                 }
                 if (matchesMin && nodeType) validTypes.add(nodeType);
                 
-                // 2. Check if this node contributes to valid Ministries (i.e. matches current Type)
+                // 2. Check if this node contributes to valid Ministries (matches current Type)
                 let matchesType = true;
                 if (currentType) {
                     if (!nodeTypeLower.includes(currentType)) matchesType = false;
@@ -822,7 +839,7 @@
                 if (opt.value === "") return;
                 const isValid = validMinistries.has(opt.value);
                 opt.disabled = !isValid;
-                opt.style.color = isValid ? '' : '#d1d5db'; // gray-300
+                opt.style.color = isValid ? '' : '#d1d5db';
             });
             
             // Update Type Options
@@ -839,21 +856,19 @@
             const min = document.getElementById('filterMinistry').value.trim().toLowerCase();
             const type = document.getElementById('filterType').value.trim().toLowerCase();
             const date = document.getElementById('filterDateStart').value;
+            const cat = document.getElementById('filterCategory').value;
             
-            d3.selectAll(".node").classed("dimmed", n => !isNodeVisible(n, min, type, date));
+            d3.selectAll(".node").classed("dimmed", n => !isNodeVisible(n, min, type, date, cat));
             
-            // Update links: dim link if either source or target is dimmed
+            // Update links
             d3.selectAll(".link").classed("dimmed", function(d) {
-                // d.source and d.target are node objects after simulation starts
-                const sourceDimmed = !isNodeVisible(d.source, min, type, date);
-                const targetDimmed = !isNodeVisible(d.target, min, type, date);
+                const sourceDimmed = !isNodeVisible(d.source, min, type, date, cat);
+                const targetDimmed = !isNodeVisible(d.target, min, type, date, cat);
                 return sourceDimmed || targetDimmed;
             });
             
-            // UX Improvements
             updateFilterOptions();
             
-            // Re-run search if active, otherwise auto-zoom to visible nodes
             const query = document.getElementById('hybridSearchInput').value;
             if (query) {
                 performHybridSearch(query);
@@ -862,7 +877,12 @@
             }
         }
         
-        function isNodeVisible(n, min, type, date) {
+        function isNodeVisible(n, min, type, date, cat) {
+            if (cat) {
+                const isLaw = (n.type === 'law' || n.node_type === 'law');
+                if (cat === 'law' && !isLaw) return false;
+                if (cat === 'document' && isLaw) return false;
+            }
             if (min) {
                 const nodeMin = (n.ministerium || "").trim().toLowerCase();
                 const nodeIss = (n.herausgeber || "").trim().toLowerCase();
@@ -874,6 +894,7 @@
         }
 
         function clearFilters() {
+            document.getElementById('filterCategory').value = "";
             document.getElementById('filterMinistry').value = "";
             document.getElementById('filterType').value = "";
             document.getElementById('filterDateStart').value = "";
