@@ -467,7 +467,7 @@
                 .enter().append("circle")
                 .attr("class", "node")
                 .attr("r", d => (d.node_type === "law" || d.type === "law") ? 16 : 12)
-                .attr("fill", d => (d.node_type === "law" || d.type === "law") ? "#0055AA" : "#003366")
+                .attr("fill", d => (d.node_type === "law" || d.type === "law") ? "#f97316" : "#003366")
                 .on("mouseover", showTooltip)
                 .on("mouseout", hideTooltip)
                 .on("click", (e, d) => selectNode(d))
@@ -550,8 +550,8 @@
 
         function hideTooltip() {
             tooltip.style("display", "none");
-            d3.selectAll(".node").classed("dimmed", false);
-            d3.selectAll(".link").classed("dimmed", false);
+            // Restore filter state (don't clear dimmed blindly)
+            applyFilters(false); // false = don't zoom
         }
 
         // Sidebar & Interaction
@@ -835,31 +835,42 @@
             });
         }
 
-        function applyFilters() {
+        function applyFilters(shouldZoom = true) {
             const min = document.getElementById('filterMinistry').value.trim().toLowerCase();
             const type = document.getElementById('filterType').value.trim().toLowerCase();
             const date = document.getElementById('filterDateStart').value;
             
-            d3.selectAll(".node").classed("dimmed", n => {
-                let match = true;
-                if (min) {
-                    const nodeMin = (n.ministerium || "").trim().toLowerCase();
-                    const nodeIss = (n.herausgeber || "").trim().toLowerCase();
-                    // Check if selected ministry is part of the node's ministry/issuer
-                    if (!nodeMin.includes(min) && !nodeIss.includes(min)) match = false;
-                }
-                if (type && (!n.kuerzel || !n.kuerzel.trim().toLowerCase().includes(type))) match = false;
-                if (date && n.stand && n.stand < date) match = false;
-                return !match;
+            d3.selectAll(".node").classed("dimmed", n => !isNodeVisible(n, min, type, date));
+            
+            // Update links: dim link if either source or target is dimmed
+            d3.selectAll(".link").classed("dimmed", function(d) {
+                // d.source and d.target are node objects after simulation starts
+                const sourceDimmed = !isNodeVisible(d.source, min, type, date);
+                const targetDimmed = !isNodeVisible(d.target, min, type, date);
+                return sourceDimmed || targetDimmed;
             });
             
             // UX Improvements
             updateFilterOptions();
-            zoomToVisible();
             
-            // Re-run search if active
+            // Re-run search if active, otherwise auto-zoom to visible nodes
             const query = document.getElementById('hybridSearchInput').value;
-            if (query) performHybridSearch(query);
+            if (query) {
+                performHybridSearch(query);
+            } else if (shouldZoom) {
+                zoomToVisible();
+            }
+        }
+        
+        function isNodeVisible(n, min, type, date) {
+            if (min) {
+                const nodeMin = (n.ministerium || "").trim().toLowerCase();
+                const nodeIss = (n.herausgeber || "").trim().toLowerCase();
+                if (!nodeMin.includes(min) && !nodeIss.includes(min)) return false;
+            }
+            if (type && (!n.kuerzel || !n.kuerzel.trim().toLowerCase().includes(type))) return false;
+            if (date && n.stand && n.stand < date) return false;
+            return true;
         }
 
         function clearFilters() {
