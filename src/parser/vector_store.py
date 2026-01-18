@@ -7,18 +7,131 @@ from typing import Optional
 try:
     import chromadb
     from chromadb.config import Settings
-except ImportError:
-    # Fallback for lightweight client if full chromadb (with ONNX) fails to install
-    try:
-        import chromadb_client as chromadb
-        from chromadb_client.config import Settings
-    except ImportError:
-        chromadb = None
+except Exception:
+    # Catch ImportError AND RuntimeErrors from broken Pydantic/Python 3.14
+    chromadb = None
 
+import requests
 from src.parser.embedding_engine import EmbeddingEngine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+class RestChromaClient:
+    """Minimal REST client to bypass broken chromadb package on Python 3.14"""
+
+    def __init__(self, host: str, port: str):
+        self.base_url = f"http://{host}:{port}/api/v1"
+        # v2 API path for some operations
+        self.base_url_v2 = f"http://{host}:{port}/api/v2"
+
+    def get_or_create_collection(self, name: str, metadata: Optional[dict] = None):
+        # Ensure collection exists via REST
+
+        # 1. Try V1 GET (Legacy)
+        try:
+            resp = requests.get(f"{self.base_url}/collections/{name}")
+            if resp.status_code == 200:
+                return RestCollection(self, name, resp.json()["id"])
+        except Exception:
+            pass
+
+        # 2. Try V2 List to find by name
+        host = self.base_url.split("//")[1].split(":")[0]
+        port = self.base_url.split(":")[2].split("/")[0]
+        tenant_base = f"http://{host}:{port}/api/v2/tenants/default_tenant/databases/default_database"
+
+        try:
+            resp = requests.get(f"{tenant_base}/collections")
+            if resp.status_code == 200:
+                for col in resp.json():
+                    if col["name"] == name:
+                        return RestCollection(self, name, col["id"])
+        except Exception as e:
+            logger.warning(f"Failed to list V2 collections: {e}")
+
+        # 3. Create (V1)
+        resp = requests.post(
+            f"{self.base_url}/collections", json={"name": name, "metadata": metadata}
+        )
+        if resp.status_code == 200:
+            return RestCollection(self, name, resp.json()["id"])
+
+        # 4. Create (V2)
+        logger.warning(
+            "REST Client: v1 collection create failed, trying v2/tenant path..."
+        )
+        resp = requests.post(
+            f"{tenant_base}/collections", json={"name": name, "metadata": metadata}
+        )
+
+        if resp.status_code == 409:
+            resp_list = requests.get(f"{tenant_base}/collections")
+            if resp_list.status_code == 200:
+                for col in resp_list.json():
+                    if col["name"] == name:
+                        return RestCollection(self, name, col["id"])
+
+        resp.raise_for_status()
+        return RestCollection(self, name, resp.json()["id"])
+
+        # 4. Create (V2)
+        logger.warning(
+            "REST Client: v1 collection create failed, trying v2/tenant path..."
+        )
+        resp = requests.post(
+            f"{tenant_base}/collections", json={"name": name, "metadata": metadata}
+        )
+
+        if resp.status_code == 409:  # Conflict - already exists
+            # We should have found it in step 2, but maybe race condition or step 2 failed.
+            # Try listing again? Or maybe 409 response has ID? No.
+            # Retry listing one more time
+            resp_list = requests.get(f"{tenant_base}/collections")
+            if resp_list.status_code == 200:
+                for col in resp_list.json():
+                    if col["name"] == name:
+                        return RestCollection(self, name, col["id"])
+
+        resp.raise_for_status()
+        return RestCollection(self, name, resp.json()["id"])
+
+
+class RestCollection:
+    def __init__(self, client, name, id):
+        self.client = client
+        self.name = name
+        self.id = id
+
+    def query(
+        self, query_embeddings, n_results, where=None, where_document=None, include=None
+    ):
+        url = f"http://localhost:8001/api/v2/tenants/default_tenant/databases/default_database/collections/{self.id}/query"
+        payload = {
+            "query_embeddings": query_embeddings,
+            "n_results": n_results,
+            "include": include or ["documents", "metadatas", "distances"],
+        }
+        if where:
+            payload["where"] = where
+        if where_document:
+            payload["where_document"] = where_document
+
+        resp = requests.post(url, json=payload)
+        resp.raise_for_status()
+        return resp.json()
+
+    def upsert(self, ids, embeddings, documents, metadatas):
+        url = f"http://localhost:8001/api/v2/tenants/default_tenant/databases/default_database/collections/{self.id}/upsert"
+        payload = {
+            "ids": ids,
+            "embeddings": embeddings,
+            "documents": documents,
+            "metadatas": metadatas,
+        }
+        resp = requests.post(url, json=payload)
+        resp.raise_for_status()
 
 
 class VectorStore:
@@ -31,10 +144,22 @@ class VectorStore:
 
         if self.host:
             logger.info(f"Connecting to ChromaDB at {self.host}:{self.port}")
-            self.client = chromadb.HttpClient(host=self.host, port=self.port)
+            if chromadb:
+                try:
+                    self.client = chromadb.HttpClient(
+                        host=self.host, port=int(self.port)
+                    )
+                except Exception as e:
+                    logger.warning(
+                        f"Standard ChromaDB client failed ({e}), failing back to REST client"
+                    )
+                    self.client = RestChromaClient(host=self.host, port=self.port)
+            else:
+                logger.info("Using REST Client (chromadb package missing/broken)")
+                self.client = RestChromaClient(host=self.host, port=self.port)
         else:
             logger.info(f"Using local persistent ChromaDB at {db_path}")
-            if hasattr(chromadb, "PersistentClient"):
+            if chromadb and hasattr(chromadb, "PersistentClient"):
                 self.client = chromadb.PersistentClient(path=db_path)
             else:
                 raise ImportError(

@@ -17,10 +17,12 @@ import logging
 try:
     import spacy
     from spacy.lang.de import German
+
     SPACY_AVAILABLE = True
-except ImportError:
+except Exception as e:
+    # Catch both ImportError and RuntimeErrors (e.g. Pydantic v1 issues in Python 3.14)
     SPACY_AVAILABLE = False
-    logging.warning("SpaCy not available. Falling back to simple tokenization.")
+    logging.warning(f"SpaCy not available ({e}). Falling back to simple tokenization.")
 
 from rank_bm25 import BM25Okapi
 import networkx as nx
@@ -49,7 +51,7 @@ class BM25Index:
         graph_path: Path,
         index_path: Path,
         use_spacy: bool = True,
-        rebuild: bool = False
+        rebuild: bool = False,
     ):
         """
         Initialize BM25 index.
@@ -71,7 +73,9 @@ class BM25Index:
                 self.nlp = spacy.load("de_core_news_sm", disable=["parser", "ner"])
                 logger.info("SpaCy German model loaded successfully")
             except OSError:
-                logger.warning("SpaCy model 'de_core_news_sm' not found. Run: python -m spacy download de_core_news_sm")
+                logger.warning(
+                    "SpaCy model 'de_core_news_sm' not found. Run: python -m spacy download de_core_news_sm"
+                )
                 logger.warning("Falling back to simple tokenization")
                 self.use_spacy = False
                 self.nlp = None
@@ -116,11 +120,7 @@ class BM25Index:
             return tokens
         else:
             # Simple fallback: lowercase + split + filter short words
-            tokens = [
-                word.lower()
-                for word in text.split()
-                if len(word) > 2
-            ]
+            tokens = [word.lower() for word in text.split() if len(word) > 2]
             return tokens
 
     def _build_index(self):
@@ -146,13 +146,13 @@ class BM25Index:
         # Extract chunks
         chunks = []
         for node_id, node_data in graph.nodes(data=True):
-            if node_data.get("type") == "chunk" or node_data.get("node_type") == "chunk":
+            if (
+                node_data.get("type") == "chunk"
+                or node_data.get("node_type") == "chunk"
+            ):
                 text = node_data.get("text", "")
                 if text:
-                    chunks.append({
-                        "id": node_id,
-                        "text": text
-                    })
+                    chunks.append({"id": node_id, "text": text})
 
         logger.info(f"Found {len(chunks)} chunk nodes")
 
@@ -175,13 +175,15 @@ class BM25Index:
         data = {
             "chunk_ids": self.chunk_ids,
             "tokenized_corpus": self.tokenized_corpus,
-            "bm25_index": self.bm25_index
+            "bm25_index": self.bm25_index,
         }
 
         with open(self.index_path, "wb") as f:
             pickle.dump(data, f)
 
-        logger.info(f"BM25 index saved to {self.index_path} ({self.index_path.stat().st_size / 1024 / 1024:.2f} MB)")
+        logger.info(
+            f"BM25 index saved to {self.index_path} ({self.index_path.stat().st_size / 1024 / 1024:.2f} MB)"
+        )
 
     def _load_index(self):
         """Load BM25 index from disk."""
@@ -223,7 +225,9 @@ class BM25Index:
         scored_chunks.sort(key=lambda x: x[1], reverse=True)
 
         # Filter out zero scores
-        scored_chunks = [(chunk_id, score) for chunk_id, score in scored_chunks if score > 0]
+        scored_chunks = [
+            (chunk_id, score) for chunk_id, score in scored_chunks if score > 0
+        ]
 
         return scored_chunks[:k]
 
@@ -237,7 +241,9 @@ class BM25Index:
         if not self.bm25_index:
             return {"status": "not_initialized"}
 
-        avg_doc_len = sum(len(doc) for doc in self.tokenized_corpus) / len(self.tokenized_corpus)
+        avg_doc_len = sum(len(doc) for doc in self.tokenized_corpus) / len(
+            self.tokenized_corpus
+        )
 
         return {
             "status": "ready",
@@ -245,7 +251,9 @@ class BM25Index:
             "avg_tokens_per_chunk": round(avg_doc_len, 2),
             "tokenizer": "spacy" if self.use_spacy else "simple",
             "index_path": str(self.index_path),
-            "index_size_mb": round(self.index_path.stat().st_size / 1024 / 1024, 2) if self.index_path.exists() else 0
+            "index_size_mb": round(self.index_path.stat().st_size / 1024 / 1024, 2)
+            if self.index_path.exists()
+            else 0,
         }
 
 
@@ -253,7 +261,7 @@ class BM25Index:
 def rebuild_bm25_index(
     graph_path: Path = Path("data/knowledge_graph.json"),
     index_path: Path = Path("data/bm25_index.pkl"),
-    use_spacy: bool = True
+    use_spacy: bool = True,
 ) -> BM25Index:
     """
     Rebuild BM25 index from scratch.
@@ -274,10 +282,7 @@ def rebuild_bm25_index(
     logger.info("=" * 60)
 
     index = BM25Index(
-        graph_path=graph_path,
-        index_path=index_path,
-        use_spacy=use_spacy,
-        rebuild=True
+        graph_path=graph_path, index_path=index_path, use_spacy=use_spacy, rebuild=True
     )
 
     stats = index.get_stats()
@@ -296,7 +301,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
 
     graph_path = Path("data/knowledge_graph.json")
