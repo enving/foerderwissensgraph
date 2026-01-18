@@ -104,9 +104,14 @@ async def search_advanced(
     limit: int = Query(5, description="Maximale Anzahl der Ergebnisse"),
     ministerium: Optional[str] = Query(None, description="Filter nach Ministerium"),
     kuerzel: Optional[str] = Query(None, description="Filter nach Kürzel"),
-    stand_after: Optional[str] = Query(None, description="Filter nach Datum (Stand nach)"),
+    stand_after: Optional[str] = Query(
+        None, description="Filter nach Datum (Stand nach)"
+    ),
     use_bm25: bool = Query(True, description="BM25 Sparse Retrieval aktivieren"),
     use_reranking: bool = Query(True, description="Cross-Encoder Reranking aktivieren"),
+    use_query_enhancement: bool = Query(
+        False, description="LLM-basierte Query-Optimierung (HyDE) aktivieren (langsam!)"
+    ),
     multi_hop: bool = Query(True, description="Multi-Hop Graph Traversal aktivieren"),
     generate_answer: bool = Query(True, description="KI-Antwort generieren"),
 ):
@@ -142,6 +147,7 @@ async def search_advanced(
         multi_hop=multi_hop,
         use_bm25=use_bm25,
         use_reranking=use_reranking,
+        use_query_enhancement=use_query_enhancement,
         retrieval_candidates=20,
         rerank_top_k=10,
     )
@@ -176,11 +182,12 @@ async def search_advanced(
         "features_enabled": {
             "bm25": use_bm25,
             "reranking": use_reranking,
+            "query_enhancement": use_query_enhancement,
             "multi_hop": multi_hop,
             "answer_generation": generate_answer,
         },
         "api_version": "2.0.0",
-        "phase": "1"
+        "phase": "1",
     }
 
     # Generate RAG Answer if requested
@@ -205,16 +212,13 @@ async def search_advanced(
                 return {
                     "answer": answer,
                     "results": filtered_results,
-                    "metadata": metadata
+                    "metadata": metadata,
                 }
         except Exception as e:
             logger.error(f"Answer generation failed: {e}")
             metadata["answer_generation_error"] = str(e)
 
-    return {
-        "results": filtered_results,
-        "metadata": metadata
-    }
+    return {"results": filtered_results, "metadata": metadata}
 
 
 @app.get("/health")

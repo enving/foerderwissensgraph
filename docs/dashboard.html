@@ -148,6 +148,9 @@
                     <button onclick="resetZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Reset">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
                     </button>
+                    <button onclick="autoZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Fit to View">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                    </button>
                 </div>
             </div>
 
@@ -269,6 +272,34 @@
         function zoomIn() { svg.transition().call(zoom.scaleBy, 1.3); }
         function zoomOut() { svg.transition().call(zoom.scaleBy, 0.7); }
         function resetZoom() { svg.transition().call(zoom.transform, d3.zoomIdentity); }
+        
+        function autoZoom() {
+            // Get bounding box of all nodes
+            const nodes = d3.selectAll(".node");
+            if (nodes.empty()) return;
+            
+            // Calculate bounds
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            graphData.nodes.forEach(d => {
+                if (d.x < minX) minX = d.x;
+                if (d.x > maxX) maxX = d.x;
+                if (d.y < minY) minY = d.y;
+                if (d.y > maxY) maxY = d.y;
+            });
+            
+            const dx = maxX - minX,
+                  dy = maxY - minY,
+                  x = (minX + maxX) / 2,
+                  y = (minY + maxY) / 2,
+                  scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
+            
+            const transform = d3.zoomIdentity
+                .translate(width / 2, height / 2)
+                .scale(scale)
+                .translate(-x, -y);
+                
+            svg.transition().duration(750).call(zoom.transform, transform);
+        }
 
         // Simulation
         const simulation = d3.forceSimulation()
@@ -291,6 +322,9 @@
                 populateFilters();
                 processRules();
                 renderGraph();
+                
+                // Initial auto-zoom after simulation stabilizes a bit
+                setTimeout(autoZoom, 800);
             } catch (error) {
                 console.error("Error loading data:", error);
                 alert("Fehler beim Laden der Daten. Bitte stellen Sie sicher, dass Sie die Datei über einen Webserver öffnen.");
