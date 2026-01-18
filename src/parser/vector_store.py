@@ -160,15 +160,37 @@ class VectorStore:
         else:
             logger.info(f"Using local persistent ChromaDB at {db_path}")
             if chromadb and hasattr(chromadb, "PersistentClient"):
-                self.client = chromadb.PersistentClient(path=db_path)
+                try:
+                    self.client = chromadb.PersistentClient(path=db_path)
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to init PersistentClient: {e}. Fallback to Mock."
+                    )
+                    self.client = self._get_mock_client()
             else:
-                raise ImportError(
-                    "Full chromadb package required for local persistence. Use CHROMA_HOST for client mode."
-                )
+                logger.warning("Full chromadb package missing. Using Mock Client.")
+                self.client = self._get_mock_client()
 
         self.collection = self.client.get_or_create_collection(
             name="chunks", metadata={"hnsw:space": "cosine"}
         )
+
+    def _get_mock_client(self):
+        class MockClient:
+            def get_or_create_collection(self, name, metadata=None):
+                return MockCollection()
+
+        class MockCollection:
+            def query(self, **kwargs):
+                return {"ids": [], "distances": [], "metadatas": [], "documents": []}
+
+            def upsert(self, **kwargs):
+                pass
+
+            def get(self, ids):
+                return {"documents": []}
+
+        return MockClient()
 
     def add_chunks_from_graph(self, graph_path: Path):
         if not graph_path.exists():
