@@ -35,6 +35,18 @@ Bevor du eine neue Aufgabe startest, lies:
 
 ## 🕒 Session Historie
 
+### Session 2026-01-18 (Antigravity - UX Polish & Testing)
+- **Status:** UX Overhaul & Robust Testing.
+- **Erledigt:**
+    - **UX Features (TASK-013):**
+        - Auto-Focus bei Suche und Filter.
+        - Dynamische Filter-Optionen.
+        - Kategorie-Filter (Formularschrank/Gesetze).
+        - Visuelle Verbesserungen (Gesetze orange).
+    - **Bugfixes:** Filter-Reset bei Tooltip-Hide behoben.
+    - **Infrastructure:** Skill `webapp-testing` repariert.
+- **Nächster Schritt:** Docker Optimization.
+
 ### Session 2026-01-18 (Antigravity - Checkpoint)
 - **Status:** Repository Checkpoint & Phase E Completion.
 - **Erledigt:**

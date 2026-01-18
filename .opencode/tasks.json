@@ -1,12 +1,39 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.2.2",
-    "last_updated": "2026-01-18T12:00:00Z",
+    "version": "2.2.4",
+    "last_updated": "2026-01-18T13:30:00Z",
     "last_agent": "Antigravity",
-    "project_phase": "Phase 2 Graph RAG: Complete ✅ | Phase E Data: Complete ✅ | Next: Resource Optimization"
+    "project_phase": "Phase F: UX Polish & Resource Optimization"
   },
   "tasks": [
+    {
+      "id": "TASK-013",
+      "title": "UX Polish: Auto-Focus & Dynamic Filters",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-18",
+      "updated": "2026-01-18",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": "Implemented Auto-Zoom, Dynamic dependent filters, and Category filter. Verified manually and with Playwright script.",
+      "description": "Improve dashboard usability with auto-focus on results/filters and intelligent filter dependencies.",
+      "acceptance_criteria": [
+        "Auto-zoom on filter change and search",
+        "Dynamic disabling of invalid filter options",
+        "New Category filter (Law/Document)",
+        "Visual polish (Law color orange, Legend text)"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-18"
+    },
     {
       "id": "TASK-001",
       "title": "Citation Parser Implementation",

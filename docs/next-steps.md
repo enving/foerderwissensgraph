@@ -43,6 +43,7 @@
 
 ### Phase F: Resource Optimization & Cloud Scaling - ⏳ IN ARBEIT
 - [x] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting. (Peak Memory ~800MB, HyDE Bottleneck identified)
+- [x] **UX Polish (TASK-013):** Auto-Focus, Dynamische Filter, Kategorie-Filter ("Formularschrank").
 - [ ] **Docker Optimization:** Multi-stage builds verfeinern.
 
 ## 🚀 Kommende Ziele (Phase G)
