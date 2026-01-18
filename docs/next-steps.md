@@ -42,7 +42,7 @@
 - [x] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung). (ERLEDIGT)
 
 ### Phase F: Resource Optimization & Cloud Scaling - ⏳ IN ARBEIT
-- [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting. (PRIORITÄT)
+- [x] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting. (Peak Memory ~800MB, HyDE Bottleneck identified)
 - [ ] **Docker Optimization:** Multi-stage builds verfeinern.
 
 ## 🚀 Kommende Ziele (Phase G)
