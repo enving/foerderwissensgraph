@@ -176,7 +176,7 @@
                         <button onclick="event.stopPropagation(); clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
                     </div>
                     <div id="filterContent" class="flex flex-col gap-3">
-                        <select id="filterCategory" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                        <select id="filterCategory" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="handleCategoryChange()">
                             <option value="">Alle Kategorien</option>
                             <option value="document">Formularschrank</option>
                             <option value="law">Gesetze</option>
@@ -850,6 +850,16 @@
                 opt.disabled = !isValid;
                 opt.style.color = isValid ? '' : '#d1d5db';
             });
+        }
+
+        function handleCategoryChange() {
+            const cat = document.getElementById('filterCategory').value;
+            if (cat === 'law') {
+                document.getElementById('filterMinistry').value = "";
+                document.getElementById('filterType').value = "";
+                document.getElementById('filterDateStart').value = "";
+            }
+            applyFilters();
         }
 
         function applyFilters(shouldZoom = true) {
