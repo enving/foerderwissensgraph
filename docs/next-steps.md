@@ -1,12 +1,12 @@
-# Next Steps & Roadmap (v1.1.2)
+# Next Steps & Roadmap (v2.2.2)
 
-**Fokus:** Transformation vom Prototypen zum "High-Density Knowledge Graph". Siehe `../PRD.md`.
+**Fokus:** Transformation vom Prototypen zum "High-Density Knowledge Graph" & Cloud Readiness. Siehe `../PRD.md`.
 
-## 📍 Aktueller Status (v1.1.2)
+## 📍 Aktueller Status (v2.2.2)
 - [x] **Full Spectrum Graph:** 57+ Dokumente (BMWK, BMFSFJ) integriert.
 - [x] **Basis-Intelligenz:** Metadaten-Mapping und Versionierung (`SUPERSEDES`) funktionieren.
 - [x] **Visualisierung:** Dashboard (D3.js) live und mit API verbunden.
-- [x] **Repository Checkpoint:** Dokumentation und Struktur bereinigt.
+- [x] **Data Completeness:** Full Crawler & Embedding Sync implementiert (Phase E complete).
 
 ## 🛠️ Meilensteine & Tasks
 
@@ -37,15 +37,18 @@
 - [x] **Query Enhancement (TASK-012):** Implementierung von Multi-Query, HyDE und Query Decomposition. (ERLEDIGT)
 - [x] **API Documentation (TASK-015):** Detaillierte Dokumentation von `/api/search/advanced` in `docs/API.md`. (ERLEDIGT)
 
-### Phase E: Data Completeness & Hosting - ⏳ IN ARBEIT
+### Phase E: Data Completeness & Hosting - ✅ ERLEDIGT
 - [x] **Full Crawler (TASK-007):** Vollständige Implementierung des Easy-Online Crawlers für den gesamten Dokumentenbestand. (ERLEDIGT)
 - [x] **Embedding Sync (TASK-008):** Integration der Vektorisierung in die Haupt-Pipeline (Remote API + lokale Speicherung). (ERLEDIGT)
-- [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting.
 
-## 🚀 Kommende Ziele (Phase F)
+### Phase F: Resource Optimization & Cloud Scaling - ⏳ IN ARBEIT
+- [ ] **Resource Profiling (TASK-009):** Optimierung für 4 GB RAM VPS Hosting. (PRIORITÄT)
+- [ ] **Docker Optimization:** Multi-stage builds verfeinern.
+
+## 🚀 Kommende Ziele (Phase G)
 - [ ] **Multi-User:** Authentifizierung und Benutzerverwaltung.
 - [ ] **Advanced Graph Analytics:** Berechnung von Centrality Scores für Förderprogramme.
 
 
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase E (Data Completeness & Hosting)**. Starte mit der Crawler-Erweiterung."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase F (Resource Optimization)**. Starte mit TASK-009: Resource & Performance Profiling."

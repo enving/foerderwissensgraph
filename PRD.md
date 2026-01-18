@@ -1,10 +1,10 @@
 # Product Requirements Document (PRD): Bund-ZuwendungsGraph
 
-**Version:** 2.1.0
-**Status:** Phase 2 Graph RAG Complete ✅
+**Version:** 2.2.2
+**Status:** Phase 2 Graph RAG & Phase E Data Complete ✅
 **Vision:** Der fortschrittlichste, souveräne Knowledge Graph für den deutschen Förderdschungel. Wir verwandeln "totes PDF-Wissen" in einen lebendigen, abfragbaren Graphen für Sachbearbeiter und Antragsteller.
 
-**Update (2026-01-17):** Phase 2 implementiert - Personalized PageRank (PPR), smart k-hop expansion, temporal filtering (SUPERSEDES chain) und centrality-based scoring.
+**Update (2026-01-18):** Phase E (Full Crawler & Sync) implementiert. Phase 2 Graph RAG (PPR, Smart Expansion) aktiv.
 
 ## 1. Problemstellung
 - **Fragmentierung:** Verwaltungsvorschriften und Nebenbestimmungen (ANBest-P, BNBest-P, AZA, etc.) sind über hunderte PDFs und Ministeriums-Portale verstreut.
