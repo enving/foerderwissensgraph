@@ -1,10 +1,10 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.2.4",
-    "last_updated": "2026-01-18T13:30:00Z",
+    "version": "2.2.5",
+    "last_updated": "2026-01-18T13:40:00Z",
     "last_agent": "Antigravity",
-    "project_phase": "Phase F: UX Polish & Resource Optimization"
+    "project_phase": "Phase F: UX Polish & Deployment Prep"
   },
   "tasks": [
     {
@@ -34,6 +34,34 @@
       "verified_by": "Antigravity",
       "verified_date": "2026-01-18"
     },
+    {
+      "id": "TASK-014",
+      "title": "Deployment Preparation",
+      "status": "completed",
+      "priority": "high",
+      "category": "infrastructure",
+      "created": "2026-01-18",
+      "updated": "2026-01-18",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": "Repo cleaned, requirements.txt updated for production/Docker.",
+      "description": "Prepare repository for deployment on VPS/Raspberry Pi (cleanup, dependency freeze).",
+      "acceptance_criteria": [
+        "requirements.txt frozen and optimized",
+        "Repo free of artifacts (*.log, *.pid)",
+        "Docker/Podman ready"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-18"
+    }
+  ],
+  "features": [
     {
       "id": "TASK-001",
       "title": "Citation Parser Implementation",

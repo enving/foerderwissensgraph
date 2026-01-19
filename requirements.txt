@@ -1,39 +1,35 @@
 # Core Framework
-playwright>=1.40.0
-docling>=2.66.0
-networkx>=3.0
-pydantic>=2.0
-fastapi
-uvicorn
-python-dotenv
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-dotenv>=1.0.0
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
 
-# Web Scraping & Parsing
-lxml
-beautifulsoup4
-requests
+# HTTP & Async
+requests>=2.31.0
+httpx>=0.27.0
+playwright>=1.41.0
 
-# Vector Database (existing, now explicit)
-chromadb>=0.4.0
+# Data Structures & Graph
+networkx>=3.2.1
+numpy>=1.26.0
+scipy>=1.12.0
 
-# === GRAPH RAG ENHANCEMENTS ===
-
-# Phase 1: Sparse Retrieval & Reranking
+# NLP & Search
+spacy>=3.7.0
 rank-bm25>=0.2.2
-sentence-transformers>=2.2.0
+# sentence-transformers>=2.3.0 # Optional/Heavy - can be installed if local reranking is enabled
 
-# German NLP
-spacy>=3.5.0
+# Vector Database Client
+# We use chromadb-client to keep the API container lightweight 
+# and avoid ONNX/HNSW compilation issues.
+chromadb-client>=0.4.0
 
-# Phase 2: Graph Algorithms
-python-louvain>=0.16
+# Document Parsing
+docling>=1.0.0
+lxml>=5.1.0
+beautifulsoup4>=4.12.0
 
-# Scientific Computing
-scipy>=1.10.0
-numpy>=1.24.0
-
-# Phase 6: Evaluation
-scikit-learn>=1.3.0
-rouge-score>=0.1.2
-
-# Optional: Better performance
-# psutil>=5.9.0  # Memory monitoring
+# Utilities
+python-multipart>=0.0.9
+jinja2>=3.1.0
