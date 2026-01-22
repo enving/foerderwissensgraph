@@ -968,6 +968,15 @@
             // Optional: add transition to hide sidebar
         }
 
+        function toggleInfo() {
+            const modal = document.getElementById('infoModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
         // Initialize
         loadData();
 
