@@ -1,26 +1,27 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use official Playwright image (includes Python + Browsers + System Deps)
+# This avoids building/installing browsers on the small VPS
+FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements file into the container
+# Install basic tools
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    wget \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
+# Install dependencies (Playwright is already in base image, so we skip it if in requirements)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
 COPY src/ ./src/
 COPY config/ ./config/
-COPY data/knowledge_graph.json ./data/
-COPY data/d3_graph_documents.json ./data/
-COPY data/chroma_db/ ./data/chroma_db/
 
-# Expose the port the app runs on
 EXPOSE 5001
 
-# Define environment variables
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 

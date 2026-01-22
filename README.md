@@ -1,34 +1,48 @@
-# Bund-ZuwendungsGraph
+# Bund-ZuwendungsGraph 🕸️
 
-**Vision:** Ein 'Sovereign Knowledge Source' Werkzeug, das den Bundes-Formularschrank (Easy-Online) in einen maschinenlesbaren, versionierten Knowledge Graph überführt.
+**Sovereign Knowledge Source** für den Bundes-Formularschrank (Easy-Online). Transformiert unstrukturierte Förderrichtlinien in einen maschinenlesbaren Knowledge Graph mit Hybrid Search (Vector + Graph-RAG).
 
-👉 **[Siehe PRD.md für die detaillierte Produktvision und Roadmap.](PRD.md)**
+## 🚀 Live Demo
+**Dashboard:** [http://217.154.164.31/](http://217.154.164.31/)  
+**API-Docs:** [http://217.154.164.31/api/docs](http://217.154.164.31/api/docs)
 
-## Status: v1.0.0-rc4 (Stable Prototype)
-Dieses Repository baut einen Graphen aus Förderrichtlinien (BMWK, BMFSFJ, etc.), der nicht nur Text speichert, sondern **Beziehungen** (z.B. "Ersetzt Vorversion", "Gehört zu Programm X").
+## ✨ Kernfunktionen
+- **Automatisierter Crawl:** Monatliche Erfassung neuer Richtlinien aus Easy-Online.
+- **Deep Parsing:** Strukturierte Extraktion von Inhalten mit Docling.
+- **Hybrid Search:** Kombination aus BM25 (Keyword) und Vektorsuche (Semantik).
+- **Graph-RAG:** Kontextuelle Erweiterung von Suchergebnissen durch Beziehungen (z.B. "Ersetzt durch", "Verweist auf").
 
-## Kernfunktionen
-- **Discovery:** Automatischer Crawl des Easy-Online Formularschranks.
-- **Extraction:** Hierarchisches Parsing von PDF-Richtlinien mit Docling.
-- **Knowledge Graph:** Vernetzung von Programmen, Richtlinien und Regeln.
-- **Graph-RAG:** Verbindung von strukturellem Wissen mit semantischer Suche.
+## 🛠️ Architektur
+- **Frontend:** D3.js visualisiertes Dashboard (Nginx).
+- **Backend:** FastAPI (Python 3.11) für Suche und RAG-Logik.
+- **Vector DB:** ChromaDB.
+- **Deployment:** Docker Compose mit Nginx Reverse Proxy.
 
-## Architektur
-- **Frontend:** D3.js Dashboard zur Visualisierung (Port 8000)
-- **Backend:** Flask API für Hybrid Search (Port 5001)
-- **Data:** ChromaDB (Vector Store) + NetworkX (Graph Logic)
+## 📦 Deployment & Betrieb
 
-## Quickstart
+### Voraussetzungen
+- Docker & Docker Compose
+- API Keys (IONOS Cloud oder Mistral) in `.env`
 
+### Starten
 ```bash
-# 1. Installieren
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-playwright install chromium
-
-# 2. Server starten (API + Frontend)
-# (Aktuell noch manuell, siehe docs/next-steps.md für Docker-Pläne)
-python src/api/search_api.py &
-python -m http.server 8000 --directory docs
+docker compose up -d --build
 ```
+
+### Daten-Update (Manuell)
+Um neue Dokumente zu crawlen und den Index zu aktualisieren:
+```bash
+# 1. Neue Dokumente crawlen
+docker exec app-backend-1 python src/crawler/easy_online_crawler.py
+# 2. Ingest in Vector Store
+docker exec app-backend-1 python src/parser/vector_store.py
+```
+
+## 📅 Automatisierung
+Auf dem Server ist ein monatlicher Update-Zyklus vorgesehen:
+1. `easy_online_crawler.py` (Suche nach neuen PDFs)
+2. `docling_parser.py` (Extraktion & Graph-Update)
+3. `vector_store.py` (Embedding & Index-Update)
+
+---
+*Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*

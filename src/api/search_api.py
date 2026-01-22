@@ -14,7 +14,9 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="Bund-ZuwendungsGraph API",
     description="API für Hybrid Search und Graph-RAG über Förderrichtlinien.",
-    version="2.0.0",  # Updated: Phase 1 Graph RAG enhancements
+    version="2.0.0",
+    docs_url="/docs",
+    openapi_url="/openapi.json",
 )
 
 # Enable CORS
@@ -34,7 +36,7 @@ engine = HybridSearchEngine(
 answer_engine = RuleExtractor()
 
 
-@app.get("/api/search")
+@app.get("/search")
 async def search(
     q: str = Query(..., description="Die Suchanfrage"),
     limit: int = Query(5, description="Maximale Anzahl der Ergebnisse"),
@@ -98,7 +100,7 @@ async def search(
     return filtered_results
 
 
-@app.get("/api/search/advanced")
+@app.get("/search/advanced")
 async def search_advanced(
     q: str = Query(..., description="Die Suchanfrage"),
     limit: int = Query(5, description="Maximale Anzahl der Ergebnisse"),
