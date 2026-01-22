@@ -1,4 +1,4 @@
-# KI-Agenten und Skills: Bund-ZuwendungsGraph
+# KI-Agenten und Skills: Förderwissensgraph
 
 Dieser Guide definiert die Rollen und Erwartungen für KI-Agenten, die an diesem Repository arbeiten.
 

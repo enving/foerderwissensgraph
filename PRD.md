@@ -1,4 +1,4 @@
-# Product Requirements Document (PRD): Bund-ZuwendungsGraph
+# Product Requirements Document (PRD): Förderwissensgraph
 
 **Version:** 2.2.2
 **Status:** Phase 2 Graph RAG & Phase E Data Complete ✅
