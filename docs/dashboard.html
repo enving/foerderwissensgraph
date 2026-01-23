@@ -122,6 +122,77 @@
                 </button>
             </div>
 
+            <!-- Info Modal -->
+            <div id="infoModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-federal-900/40 backdrop-blur-sm p-4 transition-opacity duration-300">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full relative overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
+                    
+                    <!-- Decor element -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-accent-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                    
+                    <div class="p-8 pb-4 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
+                        <div>
+                            <h2 class="text-2xl font-serif text-federal-900 mb-1">Über den Förderwissensgraph</h2>
+                            <p class="text-sm text-gray-500 font-sans">Ein Projekt zur Digitalisierung des Fördermittel-Managements</p>
+                        </div>
+                        <button onclick="toggleInfo()" class="text-gray-400 hover:text-federal-900 transition-colors p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
+                    </div>
+                    
+                    <div class="p-8 overflow-y-auto space-y-8 font-sans">
+                        <!-- Section 1: The Graph -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-federal-100 flex items-center justify-center text-federal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-federal-800 mb-2">High-Density Knowledge Graph</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    Dieses Dashboard visualisiert nicht nur Dokumente, sondern deren <strong>Beziehungen</strong>. Es erkennt automatisch Referenzen (z.B. "siehe BNBest-P") und Versionierungen ("ersetzt durch"). 
+                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: NetworkX, D3.js, Docling PDF Parser</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Hybrid Search -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-federal-800 mb-2">Graph-Guided RAG</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    Unsere Suche nutzt <strong>Hybrid Retrieval</strong> (Vektor + Keyword) und erweitert den Kontext über den Graphen ("Multi-Hop"). So kann die KI Fragen beantworten, die Wissen aus mehreren verknüpften Dokumenten erfordern.
+                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: ChromaDB, BM25, Cross-Encoder Reranking</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: API -->
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-federal-800 mb-2">Open API Schnittstelle</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    Das gesamte System ist "API-First" gebaut. Entwickler können den Graphen, die Suche und die KI-Antworten direkt in eigene Anwendungen integrieren.
+                                </p>
+                                <a href="/api/docs" target="_blank" class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-federal-600 hover:text-federal-800 border border-federal-200 px-3 py-1.5 rounded-lg hover:bg-federal-50 transition-colors">
+                                    API Dokumentation öffnen
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-400">
+                        <span>Version 2.2.4</span>
+                        <button onclick="toggleInfo()" class="px-4 py-2 bg-federal-900 text-white rounded-lg hover:bg-federal-800 font-bold transition-colors">Schließen</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Controls Overlay -->
             <div class="absolute bottom-8 left-8 z-10 flex flex-col gap-4">
                 <div class="bg-white/80 backdrop-blur-md p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-3 pointer-events-auto">
@@ -668,7 +739,7 @@
             list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Suche läuft...</div>';
             
             try {
-                let url = `http://localhost:5001/api/search?q=${encodeURIComponent(query)}`;
+                let url = `/api/search?q=${encodeURIComponent(query)}`;
                 const min = document.getElementById('filterMinistry').value;
                 const type = document.getElementById('filterType').value;
                 const date = document.getElementById('filterDateStart').value;
