@@ -102,7 +102,10 @@ class EasyCrawler:
     async def run(self):
         async with async_playwright() as p:
             print(f"🚀 Starte Crawler für Ministerium: {self.ministerium}")
-            browser = await p.chromium.launch(headless=True)
+            browser = await p.chromium.launch(
+                headless=True,
+                executable_path="/ms-playwright/chromium_headless_shell-1200/chrome-headless-shell-linux64/chrome-headless-shell",
+            )
             user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             context = await browser.new_context(user_agent=user_agent)
             page = await context.new_page()

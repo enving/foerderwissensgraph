@@ -3,8 +3,9 @@
 **Sovereign Knowledge Source** für den Bundes-Formularschrank (Easy-Online). Transformiert unstrukturierte Förderrichtlinien in einen maschinenlesbaren Knowledge Graph mit Hybrid Search (Vector + Graph-RAG).
 
 ## 🚀 Live Demo
-**Dashboard:** [http://217.154.164.31/](http://217.154.164.31/)  
-**API-Docs:** [http://217.154.164.31/api/docs](http://217.154.164.31/api/docs)
+**Dashboard:** [https://förderwissensgraph.digitalalchemisten.de](https://förderwissensgraph.digitalalchemisten.de)  
+**API-Docs:** [https://förderwissensgraph.digitalalchemisten.de/api/docs](https://förderwissensgraph.digitalalchemisten.de/api/docs)  
+**API-Index:** [https://förderwissensgraph.digitalalchemisten.de/api/](https://förderwissensgraph.digitalalchemisten.de/api/)
 
 ## ✨ Kernfunktionen
 - **Automatisierter Crawl:** Monatliche Erfassung neuer Richtlinien aus Easy-Online.

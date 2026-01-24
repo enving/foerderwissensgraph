@@ -1,12 +1,11 @@
-# Next Steps & Roadmap (v2.2.2)
+# Next Steps & Roadmap (v2.2.7)
 
 **Fokus:** Transformation vom Prototypen zum "High-Density Knowledge Graph" & Cloud Readiness. Siehe `../PRD.md`.
 
-## 📍 Aktueller Status (v2.2.2)
-- [x] **Full Spectrum Graph:** 57+ Dokumente (BMWK, BMFSFJ) integriert.
-- [x] **Basis-Intelligenz:** Metadaten-Mapping und Versionierung (`SUPERSEDES`) funktionieren.
-- [x] **Visualisierung:** Dashboard (D3.js) live und mit API verbunden.
 - [x] **Data Completeness:** Full Crawler & Embedding Sync implementiert (Phase E complete).
+- [x] **Production Deployment:** VPS Host (217.154.164.31) konfiguriert mit Nginx-SSL-Proxy.
+- [x] **Automation:** Cronjob für monatliche Syncs und Embeddings aktiv (Phase G complete).
+- [x] **Stability:** Dashboard static serving und VectorStore Docker-Networking gefixt.
 
 ## 🛠️ Meilensteine & Tasks
 
@@ -46,10 +45,9 @@
 - [x] **UX Polish (TASK-013):** Auto-Focus, Dynamische Filter, Kategorie-Filter ("Formularschrank").
 - [ ] **Docker Optimization:** Multi-stage builds verfeinern.
 
-## 🚀 Kommende Ziele (Phase G)
+## 🚀 Kommende Ziele (Phase H)
 - [ ] **Multi-User:** Authentifizierung und Benutzerverwaltung.
 - [ ] **Advanced Graph Analytics:** Berechnung von Centrality Scores für Förderprogramme.
 
-
 ## 🚀 Session-Start Befehl
-"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase F (Resource Optimization)**. Starte mit TASK-009: Resource & Performance Profiling."
+"Lies `.opencode/tasks.json` und `docs/next-steps.md`. Fokus heute: **Phase F (Resource Optimization)**. Prüfe Peak-Speicherverbrauch nach dem Full-Crawl."

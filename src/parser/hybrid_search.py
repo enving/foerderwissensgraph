@@ -88,9 +88,22 @@ class HybridSearchEngine:
             logger.error(f"Graph file not found: {self.graph_path}")
             return nx.MultiDiGraph()
 
-        with open(self.graph_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return nx.node_link_graph(data)
+        try:
+            with open(self.graph_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+                # Fix for NetworkX node_link_graph strictness
+                if "links" not in data and "edges" not in data:
+                    logger.warning(
+                        "Graph JSON missing 'links' or 'edges'. Using empty edge list."
+                    )
+                    data["links"] = []
+
+                return nx.node_link_graph(data)
+        except Exception as e:
+            logger.error(f"Failed to load graph from {self.graph_path}: {e}")
+            logger.warning("Initializing with empty graph.")
+            return nx.MultiDiGraph()
 
     def search(
         self,

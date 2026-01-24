@@ -4,6 +4,7 @@ from pathlib import Path
 from src.parser.docling_engine import DoclingEngine
 from src.graph.graph_builder import GraphBuilder
 from src.discovery.law_crawler import LawCrawler
+from src.parser.vector_store import VectorStore
 from src.config_loader import settings
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -177,6 +178,16 @@ def main():
     logger.info(
         f"Successfully processed {processed_count} new documents. Graph saved to {output_graph_path}"
     )
+
+    # Validate/Populate Embeddings from Graph
+    if output_graph_path.exists():
+        logger.info("Starting Embedding Sync to ChromaDB...")
+        try:
+            store = VectorStore()
+            store.add_chunks_from_graph(output_graph_path)
+            logger.info("Embedding Sync completed.")
+        except Exception as e:
+            logger.error(f"Embedding Sync failed: {e}")
 
 
 if __name__ == "__main__":

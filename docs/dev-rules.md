@@ -53,6 +53,25 @@ Dieser Guide ist für alle Agenten VERPFLICHTEND. Er sichert die Qualität und K
 - Dann: TASK-008 (Automated Embedding Sync) ausführen
 - Erst dann: Full E2E Testing mit echten Queries
 
+## 🐳 VPS & Deployment Rules
+
+1. **User `graph` vs. `root`:**
+   - Nutze für alle Dateiübertragungen und Docker-Operationen den User `graph`.
+   - `root` nur für System-Level Änderungen (z.B. System-Nginx stoppen).
+   - Der SSH-Key liegt unter `ssl/private.keys` (Lokal).
+
+2. **Docker-Networking:**
+   - Innerhalb der Container: Nutze `http://backend:5001` und `http://chroma:8000`.
+   - Von außen: Nutze den Nginx-Proxy auf Port 80/443.
+
+3. **Nginx-Proxy (nginx-subdomain):**
+   - Jede Routing-Änderung MUSS in `nginx_ssl.conf` gemacht werden.
+   - Nutze Variablen (`set $backend_upstream ...`) in der Proxy-Konfiguration, um DNS-Startup-Race-Conditions im Docker-Netzwerk zu vermeiden.
+
+4. **SSL Management:**
+   - Zertifikate liegen auf dem Server unter `/home/graph/bund-zuwendungsgraph/ssl/`.
+   - Zum Re-mapping: `docker compose restart nginx-subdomain` ausführen.
+
 ## 📋 PFLICHT: Status-Check vor Session-Ende
 
 Bevor du die Session beendest, aktualisiere:

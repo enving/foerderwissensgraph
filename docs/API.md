@@ -4,11 +4,16 @@
 
 The Bund-ZuwendungsGraph API provides access to the knowledge graph of German funding regulations. It supports hybrid search (vector + graph), sparse retrieval (BM25), semantic reranking, and LLM-based answer generation.
 
-**Base URL:** `http://localhost:5001`
+**Base URL:** `https://förderwissensgraph.digitalalchemisten.de/api`
 
 ---
 
 ## Endpoints
+
+### 0. API Index
+`GET /api/`
+
+Returns a JSON index of available endpoints and documentation links.
 
 ### 1. Advanced Search
 `GET /api/search/advanced`
@@ -90,15 +95,7 @@ Legacy endpoint for backward compatibility. Uses a simpler search pipeline.
 
 ---
 
-### 3. Health Check
-`GET /health`
-
-Returns the service status.
-
-#### Response
-```json
-{
-  "status": "healthy",
-  "service": "Bund-ZuwendungsGraph"
-}
-```
+### 4. API Documentation
+*   **Swagger UI:** `GET /api/docs`
+*   **ReDoc:** `GET /api/redoc`
+*   **OpenAPI Spec:** `GET /api/openapi.json`

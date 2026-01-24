@@ -22,6 +22,7 @@ try:
 except Exception as e:
     # Catch both ImportError and RuntimeErrors (e.g. Pydantic v1 issues in Python 3.14)
     SPACY_AVAILABLE = False
+    spacy = None
     logging.warning(f"SpaCy not available ({e}). Falling back to simple tokenization.")
 
 from rank_bm25 import BM25Okapi

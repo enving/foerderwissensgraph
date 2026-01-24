@@ -107,7 +107,7 @@ class RestCollection:
     def query(
         self, query_embeddings, n_results, where=None, where_document=None, include=None
     ):
-        url = f"http://localhost:8001/api/v2/tenants/default_tenant/databases/default_database/collections/{self.id}/query"
+        url = f"{self.client.base_url_v2}/tenants/default_tenant/databases/default_database/collections/{self.id}/query"
         payload = {
             "query_embeddings": query_embeddings,
             "n_results": n_results,
@@ -123,7 +123,7 @@ class RestCollection:
         return resp.json()
 
     def upsert(self, ids, embeddings, documents, metadatas):
-        url = f"http://localhost:8001/api/v2/tenants/default_tenant/databases/default_database/collections/{self.id}/upsert"
+        url = f"{self.client.base_url_v2}/tenants/default_tenant/databases/default_database/collections/{self.id}/upsert"
         payload = {
             "ids": ids,
             "embeddings": embeddings,

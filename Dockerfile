@@ -1,6 +1,6 @@
 # Use official Playwright image (includes Python + Browsers + System Deps)
 # This avoids building/installing browsers on the small VPS
-FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
+FROM mcr.microsoft.com/playwright/python:v1.57.0-jammy
 
 WORKDIR /app
 
@@ -26,4 +26,4 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
 # Command to run the application
-CMD ["uvicorn", "src.api.search_api:app", "--host", "0.0.0.0", "--port", "5001"]
+CMD ["uvicorn", "src.api.search_api:app", "--host", "0.0.0.0", "--port", "5001", "--proxy-headers"]

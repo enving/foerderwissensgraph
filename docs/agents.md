@@ -35,6 +35,20 @@ Bevor du eine neue Aufgabe startest, lies:
 
 ## 🕒 Session Historie
 
+### Session 2026-01-24 (Antigravity - VPS Deployment & SSL Fixes)
+- **Status:** Production Deployment & Automation Complete.
+- **Erledigt:**
+    - **Deployment Fixes (TASK-015):**
+        - Nginx Konfiguration korrigiert (Domain punycode, http2 Deprecation, Docker Resolver).
+        - SSL Zertifikat-Mapping in Docker-Compose repariert.
+        - Dashboard Static-File Serving via Nginx-Proxy gefixt.
+        - VectorStore Bug behoben (Verbindung zum Chroma-Container via Hostname).
+    - **Automatisierung:**
+        - `setup_cron.sh` für monatliche Updates (Crawl + Embedding) implementiert.
+        - `quick_deploy.sh` für automatisierten Transfer und Neustart via SSH/User graph erstellt.
+    - **API:** Version auf 2.2.x (RRF + Reranking aktiv).
+- **Nächster Schritt:** Monitoring und Initialisierung einer größeren Datenmenge (Full Crawl).
+
 ### Session 2026-01-18 (Antigravity - UX Polish & Testing)
 - **Status:** UX Overhaul & Robust Testing.
 - **Erledigt:**

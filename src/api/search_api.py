@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 from src.parser.hybrid_search import HybridSearchEngine
@@ -12,11 +13,30 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="Bund-ZuwendungsGraph API",
-    description="API für Hybrid Search und Graph-RAG über Förderrichtlinien.",
-    version="2.0.0",
+    title="Bund-ZuwendungsGraph API 🕸️",
+    description="""
+**Sovereign Knowledge Source** für den Bundes-Formularschrank.
+
+Diese API ermöglicht den programmatischen Zugriff auf den Knowledge Graph der deutschen Förderrichtlinien. 
+Sie kombiniert semantische Vektorsuche mit Graph-RAG (Beziehungen zwischen Dokumenten) und bietet 
+automatisierte Regel-Extraktion via LLM.
+
+### Kernfunktionen:
+- **Hybrid Search**: BM25 + Vector Embeddings (IONOS/Mistral).
+- **Graph Traversal**: Auflösung von Dokumenten-Beziehungen (REFERENCES, SUPERSEDES).
+- **Deep Parsing**: Strukturierte Extraktion aus PDFs via Docling.
+- **RAG Answer Engine**: Kontextbezogene Antworten basierend auf offiziellen Richtlinien.
+
+*Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*
+""",
+    version="2.2.2",
     docs_url="/docs",
+    redoc_url="/redoc",
     openapi_url="/openapi.json",
+    contact={
+        "name": "DigitalAlchemisten Team",
+        "url": "https://digitalalchemisten.de",
+    },
 )
 
 # Enable CORS
@@ -34,6 +54,30 @@ engine = HybridSearchEngine(
     db_path=settings.get("paths.chroma_db"),
 )
 answer_engine = RuleExtractor()
+
+
+@app.get("/", include_in_schema=False)
+async def api_root():
+    """
+    API Root with links to documentation.
+    """
+    return {
+        "message": "Bund-ZuwendungsGraph API 🕸️",
+        "version": "2.2.2",
+        "docs": "/api/docs",
+        "redoc": "/api/redoc",
+        "health": "/api/health",
+        "search": "/api/search",
+        "advanced_search": "/api/search/advanced",
+    }
+
+
+@app.get("/health", include_in_schema=False)
+async def health_check():
+    """
+    Health-Check Endpoint
+    """
+    return {"status": "healthy", "service": "Bund-ZuwendungsGraph"}
 
 
 @app.get("/search")
@@ -223,8 +267,8 @@ async def search_advanced(
     return {"results": filtered_results, "metadata": metadata}
 
 
-@app.get("/health")
-async def health():
+@app.get("/health-raw")
+async def health_raw():
     """Health check endpoint."""
     return {"status": "healthy", "service": "Bund-ZuwendungsGraph"}
 
