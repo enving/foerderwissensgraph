@@ -16,10 +16,10 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     && rm -rf /var/lib/apt/lists/*
 
-# Add non-root user
-RUN useradd -m -u 1000 graph && \
+# Add non-root user (use UID 1001 to avoid conflict with existing UID 1000)
+RUN useradd -m -u 1001 graph || true && \
     mkdir -p /app/data /app/logs /app/docs && \
-    chown -R graph:graph /app
+    chown -R 1001:1001 /app
 
 # Install Python dependencies separately to cache layers
 COPY requirements/requirements.txt requirements.txt
