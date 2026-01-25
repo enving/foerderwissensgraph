@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 from src.parser.hybrid_search import HybridSearchEngine
@@ -30,6 +31,7 @@ automatisierte Regel-Extraktion via LLM.
 *Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*
 """,
     version="2.2.2",
+    root_path="/api",
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
@@ -56,8 +58,45 @@ engine = HybridSearchEngine(
 answer_engine = RuleExtractor()
 
 
+# Serve UI (Dashboard) at the very root of the domain
 @app.get("/", include_in_schema=False)
-async def api_root():
+async def serve_ui():
+    """
+    Serves the dashboard.html at the root of the application.
+    """
+    # Try multiple common paths (local dev vs docker)
+    paths = [
+        Path("docs/dashboard.html"),
+        Path("/app/docs/dashboard.html"),
+        Path("index.html")
+    ]
+    for p in paths:
+        if p.exists():
+            return FileResponse(p)
+    
+    return HTMLResponse(content="<h1>Bund-ZuwendungsGraph</h1><p>Dashboard not found.</p>", status_code=404)
+
+
+# Mount Data and Docs for static access
+# These will be available at /static/... and /data/...
+app.mount("/static", StaticFiles(directory="docs"), name="static")
+app.mount("/data", StaticFiles(directory="data"), name="data")
+
+
+@app.get("/api-info", tags=["System"])
+async def api_info():
+    """
+    Returns API metadata and links.
+    """
+    return {
+        "message": "Bund-ZuwendungsGraph API 🕸️",
+        "version": "2.2.7",
+        "docs": "/api/docs",
+        "redoc": "/api/redoc",
+        "health": "/api/health",
+        "search": "/api/search",
+        "advanced_search": "/api/search/advanced",
+    }
     """
     API Root with links to documentation.
     """

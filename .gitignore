@@ -2,19 +2,72 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 venv/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / Secrets
 .env
+.env.*
+!.env.example
+ssl/private.key
 
-# Logs and PIDs
+# Logs
 *.log
-*.pid
+logs/
+pip-log.txt
+cron.log
 
-# Data (Optional - keeping raw data, but maybe ignoring large binary stores if desired)
-# data/chroma_db/
-# data/knowledge_graph.json
+# Data & Large Files
 data/raw/
+data/chroma_db/
+data/chroma_db_container/
+# data/knowledge_graph.json 
+# data/bm25_index.pkl
 
-# Temporary
+# IDEs & System
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Temporary / Agent Workspace
 tmp/
+.agent/
 docs/screenshots/
 bmbf_dump.html
+.ruff_cache/
+.ipynb_checkpoints/
+.opencode/tasks.schema.json
+
+# Internal Development Docs (Hidden from main repo view)
+PRD.md
+docs/agents.md
+docs/archive/
+docs/internal/
+scripts/profile_resources.py
+scripts/test_ui_comprehensive.py
+tests/
+test_env/

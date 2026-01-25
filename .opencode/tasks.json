@@ -2,7 +2,7 @@
   "$schema": "./tasks.schema.json",
   "meta": {
     "version": "2.2.7",
-    "last_updated": "2026-01-24T21:30:00Z",
+    "last_updated": "2026-01-24T22:45:00Z",
     "last_agent": "Antigravity",
     "project_phase": "production"
   },
@@ -450,6 +450,28 @@
       "verified": true,
       "verified_by": "Antigravity",
       "verified_date": "2026-01-24"
+    },
+    {
+      "id": "TASK-016",
+      "title": "Apify Actor Development for Monetization",
+      "status": "pending",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-25",
+      "updated": "2026-01-25",
+      "assigned_agent": null,
+      "requires_review": false,
+      "description": "Develop and publish an Apify Actor to provide the Graph-RAG capabilities as a paid service, ensuring long-term sustainability.",
+      "acceptance_criteria": [
+        "Create actor.json and input_schema.json",
+        "Implement main.py wrapper for search logic",
+        "Publish to Apify Store"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false
     }
   ],
   "features": [

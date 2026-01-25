@@ -52,14 +52,14 @@ scp -i "$KEY" -o StrictHostKeyChecking=no app.tar.gz $USER@$SERVER:$PROJECT_DIR/
 echo "🐳 Deploying on Server..."
 ssh -i "$KEY" -o StrictHostKeyChecking=no $USER@$SERVER "cd $PROJECT_DIR && \
     tar -xzf app.tar.gz && \
-    chmod +x setup_cron.sh SERVER_SETUP.sh && \
+    chmod +x deploy/*.sh && \
     
     # Ensure Docker is running (try with sudo if needed, assuming user in docker group)
     docker compose down && \
     docker compose up -d --build && \
     
     # Setup Cron (might fail if no sudo, but try)
-    ./setup_cron.sh && \
+    ./deploy/setup_cron.sh && \
 
     echo '✅ Deployment successful!' && \
     echo 'Server: https://$DOMAIN' && \

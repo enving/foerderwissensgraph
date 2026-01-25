@@ -93,13 +93,19 @@ class HybridSearchEngine:
                 data = json.load(f)
 
                 # Fix for NetworkX node_link_graph strictness
-                if "links" not in data and "edges" not in data:
-                    logger.warning(
-                        "Graph JSON missing 'links' or 'edges'. Using empty edge list."
-                    )
-                    data["links"] = []
-
-                return nx.node_link_graph(data)
+            # Fix for NetworkX node_link_graph strictness
+            try:
+                # Try different formats (edges vs links)
+                try:
+                    return nx.node_link_graph(data, edges="links")
+                except:
+                    try:
+                        return nx.node_link_graph(data, edges="edges")
+                    except:
+                        return nx.node_link_graph(data)
+            except Exception as e:
+                logger.error(f"Failed to load graph nodes: {e}")
+                return nx.MultiDiGraph()
         except Exception as e:
             logger.error(f"Failed to load graph from {self.graph_path}: {e}")
             logger.warning("Initializing with empty graph.")
