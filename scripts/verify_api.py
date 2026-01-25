@@ -7,7 +7,7 @@ async def run():
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         
-        url = "https://xn--frderwissensgraph-zzb.digitalalchemisten.de/api/docs"
+        url = "https://foerderwissensgraph.digitalalchemisten.de/api/docs"
         print(f"Navigating to {url}...")
         try:
             await page.goto(url, wait_until="networkidle", timeout=30000)

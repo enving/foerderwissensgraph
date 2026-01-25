@@ -14,7 +14,7 @@ case $ACTION in
     start)
         echo "🚀 Starte Services..."
         docker compose up -d --build
-        echo "✅ Services gestartet. Dashboard: https://förderwissensgraph.digitalalchemisten.de"
+        echo "✅ Services gestartet. Dashboard: https://foerderwissensgraph.digitalalchemisten.de"
         ;;
     
     stop)
@@ -27,7 +27,7 @@ case $ACTION in
         echo "🔄 Starte Services neu..."
         docker compose down
         docker compose up -d --build
-        echo "✅ Services neu gestartet. Dashboard: https://förderwissensgraph.digitalalchemisten.de"
+        echo "✅ Services neu gestartet. Dashboard: https://foerderwissensgraph.digitalalchemisten.de"
         ;;
     
     update)
@@ -54,7 +54,7 @@ case $ACTION in
             docker compose exec backend python src/parser/vector_store.py
         fi
         
-        echo "✅ Update abgeschlossen. Dashboard: https://förderwissensgraph.digitalalchemisten.de"
+        echo "✅ Update abgeschlossen. Dashboard: https://foerderwissensgraph.digitalalchemisten.de"
         ;;
     
     logs)

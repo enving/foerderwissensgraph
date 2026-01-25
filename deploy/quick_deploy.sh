@@ -7,7 +7,7 @@ SERVER="217.154.164.31"
 USER="graph"
 KEY="ssl/private.key"
 PROJECT_DIR="/home/graph/bund-zuwendungsgraph"
-DOMAIN="förderwissensgraph.digitalalchemisten.de"
+DOMAIN="foerderwissensgraph.digitalalchemisten.de"
 
 echo "🚀 SMART DEPLOY (User: $USER)"
 echo "======================================="

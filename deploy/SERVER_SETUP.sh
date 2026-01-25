@@ -65,7 +65,7 @@ chmod +x setup_cron.sh
 
 echo ""
 echo "✅ Server Setup abgeschlossen!"
-echo "🌐 Anwendung sollte laufen unter: https://förderwissensgraph.digitalalchemisten.de"
+echo "🌐 Anwendung sollte laufen unter: https://foerderwissensgraph.digitalalchemisten.de"
 echo ""
 echo "Prüfe mit:"
 echo "   docker compose ps"

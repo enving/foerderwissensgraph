@@ -9,7 +9,7 @@
 - **13 ministries** processed (BMWK, BMBF, Bafa, etc.)
 
 ### 🌐 **Infrastructure Setup**
-- **Subdomain:** `https://förderwissensgraph.digitalalchemisten.de`
+- **Subdomain:** `https://foerderwissensgraph.digitalalchemisten.de`
 - **SSL Ready:** Wildcard certificate configuration prepared
 - **Docker:** Multi-service container setup with persistent volumes
 - **Nginx:** Reverse proxy with HTTP→HTTPS redirection
@@ -65,7 +65,7 @@
 ## 🔧 **Next Steps**
 
 ### For SSL Certificate (IONOS Dashboard):
-1. **Domain Setup:** Add `förderwissensgraph.digitalalchemisten.de` as A-record
+1. **Domain Setup:** Add `foerderwissensgraph.digitalalchemisten.de` as A-record
 2. **Usage:** Set as "Webserver" or "Application" usage
 3. **Validation:** Domain validation will be automatic
 
@@ -76,8 +76,8 @@
 ```
 
 ## 🌍 **Live URLs**
-- **Dashboard:** https://förderwissensgraph.digitalalchemisten.de
-- **API Docs:** https://förderwissensgraph.digitalalchemisten.de/api/docs
+- **Dashboard:** https://foerderwissensgraph.digitalalchemisten.de
+- **API Docs:** https://foerderwissensgraph.digitalalchemisten.de/api/docs
 - **Health:** Check via `/health` endpoint
 
 ## 🔐 **Security**

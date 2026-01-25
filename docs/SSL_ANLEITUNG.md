@@ -47,7 +47,7 @@ netstat -tlnp | grep :443
 
 ## Ergebnis:
 Die Anwendung läuft unter:
-- **Dashboard:** https://förderwissensgraph.digitalalchemisten.de
-- **API:** https://förderwissensgraph.digitalalchemisten.de/api/docs
+- **Dashboard:** https://foerderwissensgraph.digitalalchemisten.de
+- **API:** https://foerderwissensgraph.digitalalchemisten.de/api/docs
 
 **WICHTIG:** Ohne Certificate Bundle Datei funktioniert SSL nicht!

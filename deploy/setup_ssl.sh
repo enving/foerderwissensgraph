@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# SSL Certificate Setup Script for förderrwissensgraph.digitalalchemisten.de
+# SSL Certificate Setup Script for foerderwissensgraph.digitalalchemisten.de
 # This script helps set up the SSL certificate bundle
 
 echo "🔐 SSL Certificate Setup - Bund-ZuwendungsGraph"
@@ -47,4 +47,4 @@ echo "🚀 SSL-Setup abgeschlossen! Du kannst nun die Services starten:"
 echo "   ./deploy/deploy.sh"
 echo ""
 echo "The application will be available at:"
-echo "   https://förderwissensgraph.digitalalchemisten.de"
+echo "   https://foerderwissensgraph.digitalalchemisten.de"

@@ -4,7 +4,7 @@
 
 The Bund-ZuwendungsGraph API provides access to the knowledge graph of German funding regulations. It supports hybrid search (vector + graph), sparse retrieval (BM25), semantic reranking, and LLM-based answer generation.
 
-**Base URL:** `https://förderwissensgraph.digitalalchemisten.de/api`
+**Base URL:** `https://foerderwissensgraph.digitalalchemisten.de/api`
 
 ---
 

@@ -49,9 +49,9 @@ graph LR
 ## 🛸 Schnellstart
 
 ### 🌐 Direkter Zugriff
-- **Dashboard**: [förderwissensgraph.digitalalchemisten.de](https://förderwissensgraph.digitalalchemisten.de)
-- **API-Docs**: [/api/docs](https://förderwissensgraph.digitalalchemisten.de/api/docs)
-- **Status**: [/api/health](https://förderwissensgraph.digitalalchemisten.de/api/health)
+- **Dashboard**: [foerderwissensgraph.digitalalchemisten.de](https://foerderwissensgraph.digitalalchemisten.de)
+- **API-Docs**: [/api/docs](https://foerderwissensgraph.digitalalchemisten.de/api/docs)
+- **Status**: [/api/health](https://foerderwissensgraph.digitalalchemisten.de/api/health)
 
 ### 🐳 Lokale Installation
 Das gesamte System startet in unter 2 Minuten:
