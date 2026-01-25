@@ -34,8 +34,6 @@ COPY --chown=graph:graph src/ ./src/
 COPY --chown=graph:graph config/ ./config/
 COPY --chown=graph:graph docs/ ./docs/
 COPY --chown=graph:graph scripts/ ./scripts/
-# We also need some files at the root
-COPY --chown=graph:graph index.html .
 
 EXPOSE 5001
 
