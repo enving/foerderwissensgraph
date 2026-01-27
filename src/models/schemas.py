@@ -50,3 +50,14 @@ class ExpandContextResponse(BaseModel):
     compliance_context_id: str
     mapped_regulations: List[MappedRegulation]
 
+
+class ChatMessage(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+
+
+class ChatRequest(BaseModel):
+    message: str
+    history: List[ChatMessage] = []
+    uploaded_doc_id: Optional[str] = None
+
