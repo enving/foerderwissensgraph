@@ -431,8 +431,8 @@
         async function loadData() {
             try {
                 const [docsResponse, knowledgeResponse] = await Promise.all([
-                    fetch('../data/d3_graph_documents.json'),
-                    fetch('../data/knowledge_graph.json')
+                    fetch('/data/d3_graph_documents.json'),
+                    fetch('/data/knowledge_graph.json')
                 ]);
 
                 graphData = await docsResponse.json();

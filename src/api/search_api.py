@@ -32,8 +32,7 @@ automatisierte Regel-Extraktion via LLM.
 
 *Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*
 """,
-    version="2.3.0",
-    root_path="/api",
+    version="2.3.1",
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
@@ -53,7 +52,9 @@ app.add_middleware(
 )
 
 # Initialize Engines
-logger.info("Initializing Bund-ZuwendungsGraph Engines (v2.3.0)...")
+logger.info("Initializing Bund-ZuwendungsGraph Engines (v2.3.1)...")
+logger.info(f"Working directory: {Path.cwd()}")
+logger.info(f"Data directory: {Path('data').absolute()}")
 engine = HybridSearchEngine(
     graph_path=Path(settings.get("paths.knowledge_graph")),
     db_path=settings.get("paths.chroma_db"),
@@ -85,8 +86,8 @@ async def serve_ui():
 
 # Mount Data and Docs for static access
 # These will be available at /static/... and /data/...
-app.mount("/static", StaticFiles(directory="docs"), name="static")
-app.mount("/data", StaticFiles(directory="data"), name="data")
+app.mount("/static", StaticFiles(directory=str(Path("docs").absolute())), name="static")
+app.mount("/data", StaticFiles(directory=str(Path("data").absolute())), name="data")
 
 
 @app.get("/api-info", tags=["System"])
