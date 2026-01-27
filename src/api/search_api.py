@@ -95,24 +95,13 @@ async def api_info():
     """
     return {
         "message": "Bund-ZuwendungsGraph API 🕸️",
-        "version": "2.2.7",
+        "version": "2.3.0",
         "docs": "/api/docs",
         "redoc": "/api/redoc",
         "health": "/api/health",
         "search": "/api/search",
         "advanced_search": "/api/search/advanced",
-    }
-    """
-    API Root with links to documentation.
-    """
-    return {
-        "message": "Bund-ZuwendungsGraph API 🕸️",
-        "version": "2.2.2",
-        "docs": "/api/docs",
-        "redoc": "/api/redoc",
-        "health": "/api/health",
-        "search": "/api/search",
-        "advanced_search": "/api/search/advanced",
+        "graph_expansion": "/api/graph/expand-context",
     }
 
 
