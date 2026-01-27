@@ -338,6 +338,7 @@ from src.models.schemas import ChatRequest, ChatMessage
 import uuid
 from pypdf import PdfReader
 import io
+import docx  # Support for .docx
 
 # Simple in-memory storage for uploaded docs (Session -> Text)
 # In production, use Redis or a proper DB/Vector Store
@@ -346,30 +347,54 @@ UPLOAD_CACHE: Dict[str, str] = {}
 @app.post("/chat/upload")
 async def upload_document(file: UploadFile = File(...)):
     """
-    Uploads a PDF document for ad-hoc RAG chat.
+    Uploads a document (PDF, DOCX, TXT, MD) for ad-hoc RAG chat.
     Returns a session ID (uploaded_doc_id).
     """
-    if file.content_type != "application/pdf":
-        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
+    logger.info(f"Received upload: {file.filename} ({file.content_type})")
+    
+    # Support more types
+    filename = file.filename.lower()
+    is_pdf = filename.endswith(".pdf") or file.content_type == "application/pdf"
+    is_docx = filename.endswith(".docx") or file.content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    is_text = filename.endswith((".txt", ".md")) or file.content_type in ["text/plain", "text/markdown"]
+    
+    if not (is_pdf or is_docx or is_text):
+        raise HTTPException(status_code=400, detail="Unsupported file type. Please upload PDF, DOCX, TXT, or MD.")
     
     try:
         content = await file.read()
-        pdf = PdfReader(io.BytesIO(content))
         text = ""
-        for page in pdf.pages:
-            text += page.extract_text() + "\n"
         
+        if is_pdf:
+            pdf = PdfReader(io.BytesIO(content))
+            for page in pdf.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    text += extracted + "\n"
+                    
+        elif is_docx:
+            doc = docx.Document(io.BytesIO(content))
+            text = "\n".join([para.text for para in doc.paragraphs])
+            
+        elif is_text:
+            text = content.decode("utf-8", errors="ignore")
+            
         # Store text in memory with a unique ID
         doc_id = str(uuid.uuid4())
-        UPLOAD_CACHE[doc_id] = text[:100000] # Limit to ~100k chars for memory safety
+        # Parse basic metadata if possible? For now just text.
         
-        logger.info(f"Uploaded document {file.filename} with ID {doc_id} (Length: {len(text)})")
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="Document appears to be empty or unreadable.")
+
+        UPLOAD_CACHE[doc_id] = text[:150000] # Increased limit
+        
+        logger.info(f"Processed document {file.filename} with ID {doc_id} (Length: {len(text)})")
         
         return {"uploaded_doc_id": doc_id, "filename": file.filename, "status": "processed"}
         
     except Exception as e:
-        logger.error(f"Upload failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Upload processing failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
 
 
 @app.post("/chat/query")
