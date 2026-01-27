@@ -21,6 +21,7 @@ services:
     environment:
       - CHROMA_HOST=chroma
       - CHROMA_PORT=8000
+      - DEPLOY_VERSION=2.3.0_force_update
     depends_on:
       - chroma
     volumes:
