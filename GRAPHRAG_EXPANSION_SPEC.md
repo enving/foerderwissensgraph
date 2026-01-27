@@ -6,9 +6,9 @@ Der **Knowledge Graph (KG)** fungiert als aktiver Compliance-Partner. Er erhält
 
 ## 2. Der Neue Workflow
 
-1.  **Input**: Die FAPS-App sendet die **Förderrichtlinie** (als Text/Chunks) an den KG.
-2.  **Mapping & Expansion**: Der KG analysiert den Text und identifiziert Konzepte.
-3.  **Output**: Der KG liefert ein **strukturiertes Regel-Paket** zurück, das spezifisch für *diese* Richtlinie gilt.
+1.  **Input**: Die FAPS-App sendet die **Förderrichtlinie** (als Text/Chunks) an den Förderwissensgraph.
+2.  **Mapping & Expansion**: Der Förderwissensgraph analysiert den Text und identifiziert Konzepte.
+3.  **Output**: Der Förderwissensgraph  liefert ein **strukturiertes Regel-Paket** zurück, das spezifisch für *diese* Richtlinie gilt.
 
 ## 3. Technische Spezifikation: API Endpoint
 

@@ -1,0 +1,9 @@
+{
+    "actorSpecification": 1,
+    "name": "bund-zuwendungsgraph-rag",
+    "title": "Bund-ZuwendungsGraph RAG",
+    "description": "Graph-powered RAG for German Federal Funding guidelines. Supports hybrid search and compliance mapping.",
+    "version": "1.0.0",
+    "dockerfile": "Dockerfile",
+    "input": "input_schema.json"
+}

@@ -1,0 +1,47 @@
+{
+    "title": "Bund-ZuwendungsGraph RAG Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "mode": {
+            "title": "Operation Mode",
+            "type": "string",
+            "description": "Select whether to perform a Search or a Context Expansion (Compliance Mapping).",
+            "enum": [
+                "search",
+                "expand"
+            ],
+            "default": "search"
+        },
+        "query": {
+            "title": "Search Query",
+            "type": "string",
+            "description": "The search query (natural language) for 'search' mode.",
+            "editor": "textfield"
+        },
+        "context_label": {
+            "title": "Context Label",
+            "type": "string",
+            "description": "Label for the context in 'expand' mode.",
+            "editor": "textfield"
+        },
+        "text_chunks": {
+            "title": "Text Chunks",
+            "type": "array",
+            "description": "List of text chunks to analyze in 'expand' mode.",
+            "items": {
+                "type": "string"
+            },
+            "editor": "stringlist"
+        },
+        "generate_answer": {
+            "title": "Generate AI Answer",
+            "type": "boolean",
+            "description": "Whether to generate an LLM-based answer.",
+            "default": true
+        }
+    },
+    "required": [
+        "mode"
+    ]
+}
