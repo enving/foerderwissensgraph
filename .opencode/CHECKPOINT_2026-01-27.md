@@ -104,3 +104,39 @@ docker compose restart backend nginx-ssl
 - **Knowledge Graph:** 11.490 Nodes geladen
 - **BM25 Index:** 11.370 Chunks
 - **Deployment-Zeit:** ~4 Stunden (inkl. Debugging)
+
+---
+
+## 🚀 Update 22:00 Uhr: UI Overhaul & Chat Assistant (v2.4)
+
+### 1. Feature: Conversational UI
+- **Status Quo**: Suchleiste entfernt.
+- **Neu**: Interaktiver Chat-Assistent ("Graph Assistant") am rechten Rand.
+- **Features**:
+  - Persistenter Chat-Verlauf.
+  - Integration von Graph-Suchergebnisse in den Chat (mit Zoom-Funktion).
+  - "Answer Engine" generiert Antworten basierend auf Kontext.
+
+### 2. Feature: "Chat with your Policy" (Upload)
+- **Funktion**: Drag & Drop von PDF-Dateien in den Chat.
+- **Ad-hoc RAG**:
+  - Upload an `POST /api/chat/upload`.
+  - In-Memory Parsing mit `pypdf`.
+  - Kombinierte Prompting: User-Frage + Graph-Wissen + PDF-Inhalt.
+  - Ermöglicht Abgleich von *eigenen Entwürfen* gegen den *Bestands-Graphen*.
+
+### 3. Domain & SSL Finalisierung
+- Alle Referenzen auf `xn--frder...` entfernt.
+- **Primary Domain**: `https://foerderwissensgraph.digitalalchemisten.de`
+- Deployment-Skripte und Doku angepasst.
+
+### 4. Backend Anpassungen
+- `src/api/search_api.py`: Neue Endpoints implementiert.
+- `requirements.txt`: `pypdf` ergänzt.
+- `docs/dashboard.html`: Komplettumbau des Overlays (Vanilla JS + Tailwind).
+
+### 🌐 Neue Live-Endpunkte (v2.4)
+| URL | Funktion | Status |
+|-----|----------|--------|
+| `.../api/chat/query` | Conversational Search | ✅ Neu |
+| `.../api/chat/upload` | PDF In-Memory Upload | ✅ Neu |
