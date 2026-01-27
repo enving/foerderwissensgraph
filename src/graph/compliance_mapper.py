@@ -167,77 +167,132 @@ class ComplianceMapper:
     def expand_context(self, request: ExpandContextRequest) -> ExpandContextResponse:
         """
         Main entry point for Context-Aware Compliance Mapping.
+        Implements server-side deduplication and score aggregation across text chunks.
         """
-        logger.info(f"Expanding context for: {request.context_label}")
+        logger.info(f"Expanding context for: {request.context_label} with {len(request.text_chunks)} chunks")
         
         context_id = f"ctx_{uuid.uuid4().hex[:8]}"
-        mapped_regs = []
-        seen_docs = set()
-        locked_families = set() # Families where a specific version was cited
+        
+        # Aggregation Registry
+        # Key: source_doc_title -> values
+        aggregated_regs = {}
+        # Track explicitly finding families to block implicit matches
+        explicit_families = set()
 
+        def register_match(doc_id: str, target_name: str, category: str, chunk_idx: int):
+            if not self.graph.has_node(doc_id):
+                return
+
+            doc_data = self.graph.nodes[doc_id]
+            doc_title = doc_data.get("doc_title", doc_data.get("title", target_name))
+            
+            # Initialize if new
+            if doc_title not in aggregated_regs:
+                aggregated_regs[doc_title] = {
+                    "doc_id": doc_id,
+                    "target_name": target_name,
+                    "category": category,
+                    "priority": 10 if "Explizit" in category else 1,
+                    "hit_count": 0,
+                    "found_in_chunks": set(),
+                    "rules": {}
+                }
+            
+            entry = aggregated_regs[doc_title]
+            
+            # Update params
+            entry["hit_count"] += 1
+            entry["found_in_chunks"].add(chunk_idx)
+            
+            # Prioritize category (Explicit > Implicit)
+            current_priority = 10 if "Explizit" in category else 1
+            if current_priority > entry["priority"]:
+                entry["category"] = category
+                entry["priority"] = current_priority
+        
         # Step A: Hard Citation Matching (Priority 1)
-        for chunk in request.text_chunks:
+        for i, chunk in enumerate(request.text_chunks):
             citations = self.extractor.extract(chunk)
             for cit in citations:
                 target = cit["target"]
                 doc_node_id = self._find_document_by_kuerzel(target)
                 
-                if doc_node_id and doc_node_id not in seen_docs:
-                    seen_docs.add(doc_node_id)
-                    locked_families.update(self._get_family_set(doc_node_id))
+                if doc_node_id:
+                    # Mark family as explicitly found
+                    explicit_families.update(self._get_family_set(doc_node_id))
                     
-                    doc_data = self.graph.nodes[doc_node_id]
-                    doc_rules = self._get_rules_for_document(doc_node_id)
-                    
-                    if not doc_rules:
-                        doc_rules = [MappedRule(
-                            rule_id=f"cite_{doc_node_id}",
-                            content=f"Regelwerk {doc_data.get('title', target)} wurde explizit im Text referenziert.",
-                            relevance_reason="Explizite Zitation"
-                        )]
-
-                    mapped_regs.append(MappedRegulation(
+                    register_match(
+                        doc_id=doc_node_id,
+                        target_name=target,
                         category="Explizite Bestimmungen (Zitiert)",
-                        source_doc=doc_data.get("doc_title", doc_data.get("title", target)),
-                        rules=doc_rules
-                    ))
+                        chunk_idx=i
+                    )
 
-        # Step B & C: Concept & Implicit Expansion (Fallback to Latest)
-        for chunk in request.text_chunks:
+        # Step B: Implicit Expansion (Fallback)
+        for i, chunk in enumerate(request.text_chunks):
             chunk_lower = chunk.lower()
             for keyword, target_doc_name in self.CONCEPT_MAP.items():
-                if keyword in chunk_lower or f": {keyword}" in chunk_lower: # Support "Art: Anteilsfinanzierung"
+                if keyword in chunk_lower or f": {keyword}" in chunk_lower:
                     doc_node_id = self._find_document_by_kuerzel(target_doc_name)
                     if not doc_node_id:
                         continue
                         
                     family = self._get_family_set(doc_node_id)
                     
-                    # BLOCKING LOGIC: If any version of this family is already cited or added, skip
-                    if any(f_id in seen_docs for f_id in family):
+                    # BLOCKING: If family already explicitly cited, skip implicit
+                    if any(f_id in explicit_families for f_id in family):
                         continue
                     
-                    # Find LATEST version for the keyword expansion
+                    # Find LATEST version for implicit expansion
                     latest_id = self._find_latest_version(doc_node_id)
                     
-                    if latest_id not in seen_docs:
-                        seen_docs.add(latest_id)
-                        doc_data = self.graph.nodes[latest_id]
-                        doc_rules = self._get_rules_for_document(latest_id)
-                        
-                        if not doc_rules:
-                            doc_rules = [MappedRule(
-                                rule_id=f"ref_{latest_id}",
-                                content=f"Regelwerk {doc_data.get('title', target_doc_name)} ist für den Kontext '{keyword}' relevant.",
-                                relevance_reason="Expertise-basierte Ergänzung"
-                            )]
+                    register_match(
+                        doc_id=latest_id,
+                        target_name=target_doc_name,
+                        category="Implizite Erweiterung (Expertise)",
+                        chunk_idx=i
+                    )
 
-                        mapped_regs.append(MappedRegulation(
-                            category="Implizite Erweiterung (Expertise)",
-                            source_doc=doc_data.get("doc_title", doc_data.get("title", target_doc_name)),
-                            rules=doc_rules
-                        ))
+        # Finalize and fetch rules
+        mapped_regs = []
+        
+        for doc_title, entry in aggregated_regs.items():
+            doc_id = entry["doc_id"]
+            
+            # Get rules (deduplicated by definition of _get_rules_for_document)
+            # We fetch rules once per document
+            raw_rules = self._get_rules_for_document(doc_id)
+            
+            # Apply Boosting / Annotations
+            final_rules = []
+            if not raw_rules:
+                final_rules.append(MappedRule(
+                    rule_id=f"ref_{doc_id}",
+                    content=f"Regelwerk {doc_title} ist relevant.",
+                    relevance_reason=entry["category"]
+                ))
+            else:
+                # Add context info to relevance reason if found in multiple chunks
+                chunk_count = len(entry["found_in_chunks"])
+                suffix = ""
+                if chunk_count > 1:
+                    suffix = f" (Gefunden in {chunk_count} Textsegmenten)"
+                
+                for r in raw_rules:
+                    # Cloning rule to modify relevance reason without affecting cache if we had one
+                    final_rules.append(MappedRule(
+                        rule_id=r.rule_id,
+                        content=r.content,
+                        relevance_reason=r.relevance_reason + suffix
+                    ))
 
+            mapped_regs.append(MappedRegulation(
+                category=entry["category"],
+                source_doc=doc_title,
+                rules=final_rules
+            ))
+
+        # Fallback if empty
         if not mapped_regs:
              mapped_regs.append(
                 MappedRegulation(
