@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 from src.parser.hybrid_search import HybridSearchEngine
 from src.parser.rule_extractor import RuleExtractor
+from src.graph.compliance_mapper import ComplianceMapper
+from src.models.schemas import ExpandContextRequest, ExpandContextResponse
 from src.config_loader import settings
 import logging
 
@@ -56,6 +58,9 @@ engine = HybridSearchEngine(
     db_path=settings.get("paths.chroma_db"),
 )
 answer_engine = RuleExtractor()
+compliance_mapper = ComplianceMapper(
+    graph_path=Path(settings.get("paths.knowledge_graph"))
+)
 
 
 # Serve UI (Dashboard) at the very root of the domain
@@ -304,6 +309,29 @@ async def search_advanced(
             metadata["answer_generation_error"] = str(e)
 
     return {"results": filtered_results, "metadata": metadata}
+
+
+@app.post("/graph/expand-context", response_model=ExpandContextResponse, tags=["Graph Logic"])
+async def expand_context_endpoint(request: ExpandContextRequest):
+    """
+    **Context-Aware Compliance Mapping**
+    
+    Analysiert übergebene Text-Chunks (z.B. aus einer neuen Förderrichtlinie) und expandiert 
+    diese gegen den Knowledge Graph.
+    
+    Prozess:
+    1. **Citation Matching**: Findet harte Referenzen (z.B. "NKBF 98").
+    2. **Concept Expansion**: Findet implizite Regeln für erkannte Konzepte (z.B. "Reisekosten" -> "BRKG").
+    
+    Returns:
+        Ein strukturiertes Regel-Paket (`mapped_regulations`), das für den Prüfagenten optimiert ist.
+    """
+    try:
+        return compliance_mapper.expand_context(request)
+    except Exception as e:
+        logger.error(f"Error in expand_context: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 @app.get("/health-raw")

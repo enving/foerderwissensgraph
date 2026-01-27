@@ -78,20 +78,41 @@ PHASE 1 GRAPH RAG: Advanced Hybrid Search with BM25 + RRF + Reranking.
 
 ---
 
-### 2. Basic Search (Legacy)
-`GET /api/search`
+### 3. Context-Aware Compliance Mapping
+`POST /api/graph/expand-context`
 
-Legacy endpoint for backward compatibility. Uses a simpler search pipeline.
+Analyzes provided text chunks (e.g., from a new funding guideline) and expands them against the Knowledge Graph to find applicable rules.
 
-#### Parameters
+#### Request Body
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `q` | string | **Required** | The search query. |
-| `limit` | integer | `5` | Maximum number of results. |
-| `ministerium` | string | - | Filter by ministry. |
-| `kuerzel` | string | - | Filter by kuerzel. |
-| `stand_after` | string | - | Filter by date. |
+```json
+{
+  "context_label": "string",
+  "text_chunks": ["string"],
+  "metadata": { "key": "value" }
+}
+```
+
+#### Response Format
+
+```json
+{
+  "compliance_context_id": "ctx_...",
+  "mapped_regulations": [
+    {
+      "category": "string",
+      "source_doc": "string",
+      "rules": [
+        {
+          "rule_id": "string",
+          "content": "string",
+          "relevance_reason": "string"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ---
 

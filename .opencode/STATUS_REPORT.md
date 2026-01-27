@@ -1,19 +1,19 @@
 # Project Status Report - Bund-ZuwendungsGraph
 
-**Generated:** 2026-01-18 10:30 UTC
-**Version:** 2.3.2
+**Generated:** 2026-01-26 19:30 UTC
+**Version:** 2.3.0
 **Quality Review:** PASSED ✅
 
 ---
 
 ## 🎯 Executive Summary
 
-In der aktuellen Session (Phase F) wurde das **Resource Profiling** (TASK-009) durchgeführt und die **Cloud-Readiness** bestätigt. Zusätzlich wurde ein kritischer UX-Bug behoben (404 Fehler) und die UI umfassend getestet.
+In der aktuellen Session (Expansion Phase) wurde das **Context-Aware Compliance Mapping** (TASK-017 bis TASK-020) implementiert. Dies ermöglicht die Expansion neuer Guidelines gegen den Knowledge Graph.
 
-- ✅ **Infrastructure Validated** - System verbraucht ~800MB RAM im Peak (sicher für 4GB).
-- ❌ **Latency Critical** - HyDE (Query Enhancement) verursacht ~9s Verzögerung.
-- ✅ **UX Fixed** - Dashboard jetzt korrekt erreichbar, Redirect eingerichtet.
-- ✅ **UI Verified** - Umfassender Playwright-Test (Filter, Graph, Suche, Sidebar) erfolgreich.
+- ✅ **Compliance Mapping Live** - Neuer Endpoint `/api/graph/expand-context` implementiert.
+- ✅ **Perfect Expansion Logic** - Citation Locking (feste Bindung an Dokumente wie 'NKBF 98') integriert.
+- ✅ **Auto-Versioning** - Automatische Traversierung von `SUPERSEDES`-Ketten zur Ermittlung der aktuellsten Regelwerke.
+- ✅ **Expert Knowledge** - Mappings für Konzepte wie 'Reisekosten' (BRKG) und 'Anteilsfinanzierung' (VV-BHO) hinterlegt.
 
 ---
 

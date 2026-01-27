@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.2.7",
-    "last_updated": "2026-01-24T22:45:00Z",
+    "version": "2.3.1",
+    "last_updated": "2026-01-26T20:30:00Z",
     "last_agent": "Antigravity",
     "project_phase": "production"
   },
@@ -454,12 +454,12 @@
     {
       "id": "TASK-016",
       "title": "Apify Actor Development for Monetization",
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "category": "feature",
       "created": "2026-01-25",
-      "updated": "2026-01-25",
-      "assigned_agent": null,
+      "updated": "2026-01-26",
+      "assigned_agent": "Antigravity",
       "requires_review": false,
       "description": "Develop and publish an Apify Actor to provide the Graph-RAG capabilities as a paid service, ensuring long-term sustainability.",
       "acceptance_criteria": [
@@ -470,8 +470,120 @@
       "subtasks": [],
       "blocked_by": [],
       "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-26"
+    },
+    {
+      "id": "TASK-017",
+      "title": "API Endpoint: Context Expansion",
+      "status": "completed",
+      "priority": "critical",
+      "category": "feature",
+      "created": "2026-01-26",
+      "updated": "2026-01-26",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Implement POST /api/graph/expand-context endpoint accepting context chunks for compliance mapping.",
+      "acceptance_criteria": [
+        "Endpoint definition in main.py",
+        "Pydantic models for Request/Response",
+        "Basic controller structure returns defined schema"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [
+        "TASK-018",
+        "TASK-019"
+      ],
       "docs_updated": false,
-      "verified": false
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-26"
+    },
+    {
+      "id": "TASK-018",
+      "title": "Graph Logic: Hard Citation Matching",
+      "status": "completed",
+      "priority": "critical",
+      "category": "feature",
+      "created": "2026-01-26",
+      "updated": "2026-01-26",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Implement Step A: Scan text for concrete citations (e.g., 'NKBF 98') and lock to specific graph nodes.",
+      "acceptance_criteria": [
+        "Regex/Matcher for citations in input text",
+        "Lookup logic for specific document nodes",
+        "Blocking of generic searches when specific citation found"
+      ],
+      "subtasks": [],
+      "blocked_by": [
+        "TASK-017"
+      ],
+      "blocks": [
+        "TASK-020"
+      ],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-26"
+    },
+    {
+      "id": "TASK-019",
+      "title": "Graph Logic: Concept & Implicit Expansion",
+      "status": "completed",
+      "priority": "critical",
+      "category": "feature",
+      "created": "2026-01-26",
+      "updated": "2026-01-26",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Implement Step B (Concept traversal) and Step C (Implicit deductive logic) for rule expansion.",
+      "acceptance_criteria": [
+        "Traversal from concepts to current standard regulations",
+        "Implementation of IMPLIES edge logic (e.g. Anteilsfinanzierung -> Rules)",
+        "Fallback mechanism when no citation is found"
+      ],
+      "subtasks": [],
+      "blocked_by": [
+        "TASK-017"
+      ],
+      "blocks": [
+        "TASK-020"
+      ],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-26"
+    },
+    {
+      "id": "TASK-020",
+      "title": "Expansion Integration & Validation",
+      "status": "completed",
+      "priority": "critical",
+      "category": "testing",
+      "created": "2026-01-26",
+      "updated": "2026-01-26",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Combine matching logic into final response package and validate with tests.",
+      "acceptance_criteria": [
+        "Full response payload matches spec",
+        "Unit tests for all mapping logic",
+        "Integration test for /api/graph/expand-context"
+      ],
+      "subtasks": [],
+      "blocked_by": [
+        "TASK-018",
+        "TASK-019"
+      ],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-26"
     }
   ],
   "features": [
