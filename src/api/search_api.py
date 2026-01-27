@@ -32,7 +32,7 @@ automatisierte Regel-Extraktion via LLM.
 
 *Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*
 """,
-    version="2.2.2",
+    version="2.3.0",
     root_path="/api",
     docs_url="/docs",
     redoc_url="/redoc",
@@ -53,6 +53,7 @@ app.add_middleware(
 )
 
 # Initialize Engines
+logger.info("Initializing Bund-ZuwendungsGraph Engines (v2.3.0)...")
 engine = HybridSearchEngine(
     graph_path=Path(settings.get("paths.knowledge_graph")),
     db_path=settings.get("paths.chroma_db"),
