@@ -331,6 +331,120 @@ async def health_raw():
     return {"status": "healthy", "service": "Bund-ZuwendungsGraph"}
 
 
+# --- Chat & Upload Features (v2.3) ---
+
+from fastapi import File, UploadFile, Form
+from src.models.schemas import ChatRequest, ChatMessage
+import uuid
+from pypdf import PdfReader
+import io
+
+# Simple in-memory storage for uploaded docs (Session -> Text)
+# In production, use Redis or a proper DB/Vector Store
+UPLOAD_CACHE: Dict[str, str] = {}
+
+@app.post("/chat/upload")
+async def upload_document(file: UploadFile = File(...)):
+    """
+    Uploads a PDF document for ad-hoc RAG chat.
+    Returns a session ID (uploaded_doc_id).
+    """
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
+    
+    try:
+        content = await file.read()
+        pdf = PdfReader(io.BytesIO(content))
+        text = ""
+        for page in pdf.pages:
+            text += page.extract_text() + "\n"
+        
+        # Store text in memory with a unique ID
+        doc_id = str(uuid.uuid4())
+        UPLOAD_CACHE[doc_id] = text[:100000] # Limit to ~100k chars for memory safety
+        
+        logger.info(f"Uploaded document {file.filename} with ID {doc_id} (Length: {len(text)})")
+        
+        return {"uploaded_doc_id": doc_id, "filename": file.filename, "status": "processed"}
+        
+    except Exception as e:
+        logger.error(f"Upload failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/chat/query")
+async def chat_query(request: ChatRequest):
+    """
+    Conversational endpoint. Combines Graph-RAG with uploaded document context.
+    """
+    query = request.message
+    history = request.history
+    doc_id = request.uploaded_doc_id
+    
+    # 1. Search in Knowledge Graph (Hybrid)
+    graph_results = engine.search(query, limit=3)
+    
+    # 2. Add Uploaded Doc Context if available
+    context_chunks = []
+    
+    if doc_id and doc_id in UPLOAD_CACHE:
+        doc_text = UPLOAD_CACHE[doc_id]
+        # Naive: Just take the first 4000 chars or search simplisticly
+        # For a "Smart" feature, we'd chunk and vector search this too.
+        # Here we just prepend the document content as context.
+        # If text is huge, we might truncate.
+        preview = doc_text[:3000] + "..." if len(doc_text) > 3000 else doc_text
+        context_chunks.append(f"[UPLOADED_DOCUMENT]\n{preview}\n[/UPLOADED_DOCUMENT]")
+    
+    # 3. Add Graph Context
+    for r in graph_results:
+        context_chunks.append(
+            f"Titel: {r.get('doc_title', 'Unbekannt')}\nText: {r.get('text', '')}"
+        )
+        for neighbor in r.get("neighbor_context", []):
+             n_type = neighbor.get("type", "reference").upper()
+             context_chunks.append(
+                f"[{n_type}] Quelle: {neighbor.get('breadcrumbs', 'Verknüpftes Dokument')}\nText: {neighbor.get('text', '')}"
+             )
+
+    # 4. Construct Prompt with History
+    # We format history here since the RuleExtractor doesn't natively handle it yet
+    history_str = "\n".join([f"{msg.role.upper()}: {msg.content}" for msg in history[-5:]]) # Limit history
+    
+    combined_context = "\n\n".join(context_chunks)
+    
+    # Use the existing answer engine but bypass generate_answer for custom prompt
+    if not answer_engine.provider:
+        return {"answer": "Entschuldigung, die KI-Engine ist derzeit nicht verfügbar.", "sources": []}
+
+    system_prompt = f"""
+    Du bist der KI-Assistent für den Förderwissensgraph.
+    Nutze den folgenden Kontext (Graph-Wissen und evtl. hochgeladene Dokumente), um die Frage zu beantworten.
+    
+    Verlauf:
+    {history_str}
+    
+    Kontext:
+    {combined_context}
+    
+    Frage: {query}
+    
+    Antwort (hilfreich, präzise, auf Deutsch):
+    """
+    
+    try:
+        response = answer_engine.provider.generate(system_prompt, max_tokens=500)
+        answer = response.content
+        return {
+            "answer": answer, 
+            "results": graph_results, 
+            "used_upload": bool(doc_id)
+        }
+    except Exception as e:
+        logger.error(f"Chat generation failed: {e}")
+        return {"answer": "Es gab einen Fehler bei der Antwortgenerierung.", "results": []}
+
+
 if __name__ == "__main__":
     import uvicorn
 

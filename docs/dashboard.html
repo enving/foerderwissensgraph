@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- D3.js -->
@@ -48,6 +51,7 @@
         .graph-container {
             cursor: grab;
         }
+
         .graph-container:active {
             cursor: grabbing;
         }
@@ -57,6 +61,7 @@
             stroke-width: 2px;
             transition: all 0.2s ease;
         }
+
         .node:hover {
             stroke: #000;
             stroke-width: 3px;
@@ -82,15 +87,18 @@
 
         .dimmed {
             opacity: 0.05;
-            pointer-events: none; /* Make dimmed nodes unclickable */
+            pointer-events: none;
+            /* Make dimmed nodes unclickable */
         }
 
         .sidebar-scroll::-webkit-scrollbar {
             width: 4px;
         }
+
         .sidebar-scroll::-webkit-scrollbar-track {
             background: transparent;
         }
+
         .sidebar-scroll::-webkit-scrollbar-thumb {
             background: #e2e8f0;
             border-radius: 10px;
@@ -106,6 +114,7 @@
         }
     </style>
 </head>
+
 <body class="h-screen overflow-hidden text-federal-900 selection:bg-federal-100">
 
     <div class="flex h-full">
@@ -115,87 +124,144 @@
             <div class="absolute top-6 left-8 z-10 pointer-events-none flex items-start gap-3">
                 <div>
                     <h1 class="text-4xl font-serif italic mb-1">Förderwissensgraph</h1>
-                    <p class="text-accent-slate text-sm font-sans tracking-wide uppercase">Interactive Document Intelligence Dashboard</p>
+                    <p class="text-accent-slate text-sm font-sans tracking-wide uppercase">Interactive Document
+                        Intelligence Dashboard</p>
                 </div>
-                <button onclick="toggleInfo()" class="pointer-events-auto mt-2 p-1.5 bg-white/50 backdrop-blur rounded-full text-federal-600 hover:text-federal-900 hover:bg-white transition-all shadow-sm border border-federal-100" title="Über das Projekt">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <button onclick="toggleInfo()"
+                    class="pointer-events-auto mt-2 p-1.5 bg-white/50 backdrop-blur rounded-full text-federal-600 hover:text-federal-900 hover:bg-white transition-all shadow-sm border border-federal-100"
+                    title="Über das Projekt">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
                 </button>
             </div>
 
             <!-- Info Modal -->
-            <div id="infoModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-federal-900/40 backdrop-blur-sm p-4 transition-opacity duration-300">
-                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full relative overflow-hidden flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
-                    
+            <div id="infoModal"
+                class="hidden fixed inset-0 z-50 flex items-center justify-center bg-federal-900/40 backdrop-blur-sm p-4 transition-opacity duration-300">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full relative overflow-hidden flex flex-col max-h-[90vh]"
+                    onclick="event.stopPropagation()">
+
                     <!-- Decor element -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-accent-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-                    
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-accent-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
+                    </div>
+
                     <div class="p-8 pb-4 border-b border-gray-100 flex justify-between items-start bg-gray-50/50">
                         <div>
                             <h2 class="text-2xl font-serif text-federal-900 mb-1">Über den Förderwissensgraph</h2>
-                            <p class="text-sm text-gray-500 font-sans">Ein Projekt zur Digitalisierung des Fördermittel-Managements</p>
+                            <p class="text-sm text-gray-500 font-sans">Ein Projekt zur Digitalisierung des
+                                Fördermittel-Managements</p>
                         </div>
-                        <button onclick="toggleInfo()" class="text-gray-400 hover:text-federal-900 transition-colors p-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <button onclick="toggleInfo()"
+                            class="text-gray-400 hover:text-federal-900 transition-colors p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
                         </button>
                     </div>
-                    
+
                     <div class="p-8 overflow-y-auto space-y-8 font-sans">
                         <!-- Section 1: The Graph -->
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-federal-100 flex items-center justify-center text-federal-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                            <div
+                                class="flex-shrink-0 w-10 h-10 rounded-full bg-federal-100 flex items-center justify-center text-federal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
                             </div>
                             <div>
                                 <h3 class="font-bold text-federal-800 mb-2">High-Density Knowledge Graph</h3>
                                 <p class="text-sm text-gray-600 leading-relaxed">
-                                    Dieses Dashboard visualisiert nicht nur Dokumente, sondern deren <strong>Beziehungen</strong>. Es erkennt automatisch Referenzen (z.B. "siehe BNBest-P") und Versionierungen ("ersetzt durch"). 
-                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: NetworkX, D3.js, Docling PDF Parser</span>
+                                    Dieses Dashboard visualisiert nicht nur Dokumente, sondern deren
+                                    <strong>Beziehungen</strong>. Es erkennt automatisch Referenzen (z.B. "siehe
+                                    BNBest-P") und Versionierungen ("ersetzt durch").
+                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: NetworkX, D3.js,
+                                        Docling PDF Parser</span>
                                 </p>
                             </div>
                         </div>
 
                         <!-- Section 2: Hybrid Search -->
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <div
+                                class="flex-shrink-0 w-10 h-10 rounded-full bg-accent-gold/10 flex items-center justify-center text-accent-gold">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
                             </div>
                             <div>
                                 <h3 class="font-bold text-federal-800 mb-2">Graph-Guided RAG</h3>
                                 <p class="text-sm text-gray-600 leading-relaxed">
-                                    Unsere Suche nutzt <strong>Hybrid Retrieval</strong> (Vektor + Keyword) und erweitert den Kontext über den Graphen ("Multi-Hop"). So kann die KI Fragen beantworten, die Wissen aus mehreren verknüpften Dokumenten erfordern.
-                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: ChromaDB, BM25, Cross-Encoder Reranking</span>
+                                    Unsere Suche nutzt <strong>Hybrid Retrieval</strong> (Vektor + Keyword) und
+                                    erweitert den Kontext über den Graphen ("Multi-Hop"). So kann die KI Fragen
+                                    beantworten, die Wissen aus mehreren verknüpften Dokumenten erfordern.
+                                    <br><span class="text-xs text-federal-500 mt-1 block">Technologie: ChromaDB, BM25,
+                                        Cross-Encoder Reranking</span>
                                 </p>
                             </div>
                         </div>
 
                         <!-- Section 3: API -->
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                            <div
+                                class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
                             </div>
                             <div>
                                 <h3 class="font-bold text-federal-800 mb-2">Open API Schnittstelle</h3>
                                 <p class="text-sm text-gray-600 leading-relaxed">
-                                    Das gesamte System ist "API-First" gebaut. Entwickler können den Graphen, die Suche und die KI-Antworten direkt in eigene Anwendungen integrieren.
+                                    Das gesamte System ist "API-First" gebaut. Entwickler können den Graphen, die Suche
+                                    und die KI-Antworten direkt in eigene Anwendungen integrieren.
                                 </p>
-                                <a href="/api/docs" target="_blank" class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-federal-600 hover:text-federal-800 border border-federal-200 px-3 py-1.5 rounded-lg hover:bg-federal-50 transition-colors">
+                                <a href="/api/docs" target="_blank"
+                                    class="inline-flex items-center gap-1 mt-2 text-xs font-bold text-federal-600 hover:text-federal-800 border border-federal-200 px-3 py-1.5 rounded-lg hover:bg-federal-50 transition-colors">
                                     API Dokumentation öffnen
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-400">
+
+                    <div
+                        class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-400">
                         <span>Version 2.2.4</span>
-                        <button onclick="toggleInfo()" class="px-4 py-2 bg-federal-900 text-white rounded-lg hover:bg-federal-800 font-bold transition-colors">Schließen</button>
+                        <button onclick="toggleInfo()"
+                            class="px-4 py-2 bg-federal-900 text-white rounded-lg hover:bg-federal-800 font-bold transition-colors">Schließen</button>
                     </div>
                 </div>
             </div>
 
             <!-- Controls Overlay -->
             <div class="absolute bottom-8 left-8 z-10 flex flex-col gap-4">
-                <div class="bg-white/80 backdrop-blur-md p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-3 pointer-events-auto">
+                <div
+                    class="bg-white/80 backdrop-blur-md p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-3 pointer-events-auto">
                     <div class="text-xs font-semibold text-federal-700 uppercase tracking-tighter">Legend</div>
                     <div class="flex items-center gap-2 text-sm">
                         <span class="w-3 h-3 rounded-full bg-federal-700"></span>
@@ -214,98 +280,207 @@
                         <span>REFERENZ</span>
                     </div>
                 </div>
-                
-                <div class="bg-white/80 backdrop-blur-md p-2 rounded-xl border border-gray-200 shadow-sm flex gap-2 pointer-events-auto">
-                    <button onclick="zoomIn()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Zoom In">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+
+                <div
+                    class="bg-white/80 backdrop-blur-md p-2 rounded-xl border border-gray-200 shadow-sm flex gap-2 pointer-events-auto">
+                    <button onclick="zoomIn()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Zoom In">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                     </button>
-                    <button onclick="zoomOut()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Zoom Out">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <button onclick="zoomOut()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Zoom Out">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
                     </button>
-                    <button onclick="resetZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Reset">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                    <button onclick="resetZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Reset">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <polyline points="3 3 3 8 8 8"></polyline>
+                        </svg>
                     </button>
-                    <button onclick="autoZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Fit to View">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                    <button onclick="autoZoom()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Fit to View">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3">
+                            </path>
+                        </svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Search Overlay -->
-            <div class="absolute top-6 right-8 z-10 w-96 flex flex-col gap-4">
-                <div class="relative group pointer-events-auto">
-                    <input type="text" id="hybridSearchInput" placeholder="Hybrid Search (ChromaDB + Graph)..." 
-                        class="w-full bg-white/90 backdrop-blur-md border border-gray-200 rounded-full px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-federal-500 focus:border-transparent shadow-sm transition-all group-hover:shadow-md"
-                        onkeydown="if(event.key === 'Enter') performHybridSearch(this.value)">
-                    <button onclick="performHybridSearch(document.getElementById('hybridSearchInput').value)" class="absolute right-4 top-1/2 -translate-y-1/2 text-federal-600 hover:text-federal-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </button>
-                </div>
+            <!-- Chat Interface (Replaces Search Overlay) -->
+            <div class="absolute top-6 right-8 bottom-8 z-10 w-[400px] flex flex-col pointer-events-none">
+                <div class="flex-1 bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-2xl overflow-hidden flex flex-col pointer-events-auto transition-all duration-300 transform"
+                    id="chatContainer">
 
-                <!-- Filters -->
-                <div class="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-gray-200 shadow-sm pointer-events-auto flex flex-col gap-3 transition-all duration-300" id="filterContainer">
-                    <div class="flex justify-between items-center cursor-pointer" onclick="toggleFilters()">
-                        <div class="flex items-center gap-2">
-                            <div class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Filter</div>
-                            <svg id="filterArrow" class="w-3 h-3 text-federal-400 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    <!-- Chat Header -->
+                    <div class="p-4 border-b border-gray-100 bg-gray-50/80 flex justify-between items-center">
+                        <div>
+                            <h2 class="text-sm font-bold uppercase tracking-widest text-federal-800">Graph Assistant
+                            </h2>
+                            <div class="flex items-center gap-1.5 mt-0.5">
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                <span class="text-[10px] text-gray-500 font-medium">Online • RAG Ready</span>
+                            </div>
                         </div>
-                        <button onclick="event.stopPropagation(); clearFilters()" class="text-[9px] text-federal-500 hover:text-federal-800 font-bold uppercase tracking-tighter">Zurücksetzen</button>
-                    </div>
-                    <div id="filterContent" class="flex flex-col gap-3">
-                        <select id="filterCategory" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="handleCategoryChange()">
-                            <option value="">Alle Kategorien</option>
-                            <option value="document">Formularschrank</option>
-                            <option value="law">Gesetze</option>
-                        </select>
-                        <div class="grid grid-cols-2 gap-2">
-                            <select id="filterMinistry" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
-                                <option value="">Alle Ressorts</option>
-                            </select>
-                            <select id="filterType" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
-                                <option value="">Alle Typen</option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-1">
-                            <label class="text-[9px] font-bold text-gray-400 uppercase px-1">Zeitraum (Stand ab)</label>
-                            <input type="month" id="filterDateStart" class="text-xs p-2 rounded-lg border border-gray-100 bg-white focus:outline-none focus:ring-1 focus:ring-federal-500 shadow-sm" onchange="applyFilters()">
+                        <div class="flex gap-2">
+                            <button onclick="clearChat()"
+                                class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Chat leeren">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <div id="searchResults" class="hidden bg-white/95 backdrop-blur-md rounded-2xl border border-gray-200 shadow-xl overflow-hidden pointer-events-auto max-h-[60vh] flex flex-col">
-                    <div class="p-3 bg-federal-50 border-b border-gray-100 flex justify-between items-center">
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-federal-700">Suchergebnisse</span>
-                        <button onclick="document.getElementById('searchResults').classList.add('hidden')" class="text-gray-400 hover:text-federal-900">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    <!-- Chat Messages -->
+                    <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-white/50 scroll-smooth">
+                        <!-- Welcome Message -->
+                        <div class="flex gap-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-federal-100 flex items-center justify-center flex-shrink-0 text-federal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="space-y-1">
+                                <div
+                                    class="bg-gray-100 p-3 rounded-2xl rounded-tl-none text-sm text-gray-700 shadow-sm border border-gray-200/50">
+                                    Hallo! Ich bin dein Assistent für Förderrichtlinien. <br>
+                                    Stelle mir Fragen zum Bestand oder <strong>lade eigene Dokumente hoch</strong>, um
+                                    sie zu analysieren.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upload State -->
+                    <div id="uploadPreview"
+                        class="hidden px-4 py-3 bg-blue-50/80 border-t border-blue-100 flex justify-between items-center backdrop-blur-sm">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <div
+                                class="w-6 h-6 rounded bg-blue-100 flex items-center justify-center text-blue-600 flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                                </svg>
+                            </div>
+                            <span class="text-xs text-blue-800 font-medium truncate max-w-[200px]"
+                                id="uploadFilename">document.pdf</span>
+                        </div>
+                        <button onclick="clearUpload()" class="text-blue-400 hover:text-blue-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
                         </button>
                     </div>
-                    <div id="resultsList" class="overflow-y-auto sidebar-scroll p-4 space-y-4">
-                        <!-- Results injected here -->
+
+                    <!-- Input Area -->
+                    <div class="p-3 bg-white border-t border-gray-100 relative">
+                        <!-- Drop Zone Overlay -->
+                        <div id="dropZone"
+                            class="absolute inset-0 bg-federal-50/90 backdrop-blur z-20 hidden flex-col items-center justify-center border-2 border-dashed border-federal-300 m-2 rounded-xl text-federal-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mb-1">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span class="text-xs font-bold text-federal-700">PDF hier ablegen</span>
+                        </div>
+
+                        <form onsubmit="event.preventDefault(); sendMessage();" class="flex gap-2">
+                            <label
+                                class="cursor-pointer p-2.5 text-gray-400 hover:text-federal-600 hover:bg-federal-50 rounded-xl transition-colors"
+                                title="PDF hochladen">
+                                <input type="file" id="fileInput" class="hidden" accept="application/pdf"
+                                    onchange="handleFileUpload(this.files[0])">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                                    </path>
+                                </svg>
+                            </label>
+
+                            <input type="text" id="chatInput" placeholder="Frage stellen..."
+                                class="flex-1 bg-gray-50 border-0 focus:ring-0 text-sm placeholder-gray-400 py-2.5 px-1 focus:outline-none"
+                                autocomplete="off">
+
+                            <button type="submit"
+                                class="p-2.5 bg-federal-900 text-white rounded-xl hover:bg-federal-700 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                                id="sendBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <!-- SVG Container -->
             <svg id="graph" class="w-full h-full graph-container"></svg>
-            
+
             <!-- Tooltip -->
-            <div id="tooltip" class="absolute hidden bg-federal-900 text-white px-3 py-2 rounded-lg text-xs shadow-xl max-w-xs transition-opacity duration-200"></div>
+            <div id="tooltip"
+                class="absolute hidden bg-federal-900 text-white px-3 py-2 rounded-lg text-xs shadow-xl max-w-xs transition-opacity duration-200">
+            </div>
         </main>
 
         <!-- Right Sidebar -->
         <aside id="sidebar" class="w-1/3 bg-white border-l border-gray-200 shadow-2xl flex flex-col z-20">
             <div class="p-8 border-b border-gray-100 bg-gray-50/50">
                 <div class="flex justify-between items-start mb-4">
-                    <span id="docCategory" class="text-[10px] font-bold tracking-widest uppercase text-federal-500 px-2 py-1 bg-federal-50 rounded">Kategorie</span>
+                    <span id="docCategory"
+                        class="text-[10px] font-bold tracking-widest uppercase text-federal-500 px-2 py-1 bg-federal-50 rounded">Kategorie</span>
                     <button onclick="closeSidebar()" class="text-gray-400 hover:text-federal-900 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                     </button>
                 </div>
                 <h2 id="docTitle" class="text-2xl font-serif leading-tight mb-2">Wählen Sie ein Dokument aus</h2>
                 <div id="docKuerzel" class="text-xs text-federal-600 font-bold mb-4"></div>
                 <div class="flex flex-wrap gap-2 mb-6">
-                    <a id="docLink" href="#" target="_blank" class="text-xs flex items-center gap-1.5 text-federal-600 hover:text-federal-800 font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    <a id="docLink" href="#" target="_blank"
+                        class="text-xs flex items-center gap-1.5 text-federal-600 hover:text-federal-800 font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
                         PDF Dokument öffnen
                     </a>
                 </div>
@@ -324,7 +499,14 @@
             <!-- Sidebar Content -->
             <div class="flex-1 overflow-y-auto sidebar-scroll p-8">
                 <h3 class="text-sm font-bold uppercase tracking-widest text-federal-800 mb-6 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
                     Extrahierte Regeln
                 </h3>
                 <div id="rulesList" class="space-y-6">
@@ -346,9 +528,9 @@
         const svg = d3.select("#graph");
         const width = window.innerWidth * 0.66;
         const height = window.innerHeight;
-        
+
         const g = svg.append("g");
-        
+
         // Zoom behavior
         const zoom = d3.zoom()
             .scaleExtent([0.1, 4])
@@ -359,12 +541,12 @@
         function zoomIn() { svg.transition().call(zoom.scaleBy, 1.3); }
         function zoomOut() { svg.transition().call(zoom.scaleBy, 0.7); }
         function resetZoom() { svg.transition().call(zoom.transform, d3.zoomIdentity); }
-        
+
         function autoZoom() {
             // Get bounding box of all nodes
             const nodes = d3.selectAll(".node");
             if (nodes.empty()) return;
-            
+
             // Calculate bounds
             let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
             graphData.nodes.forEach(d => {
@@ -373,18 +555,18 @@
                 if (d.y < minY) minY = d.y;
                 if (d.y > maxY) maxY = d.y;
             });
-            
+
             const dx = maxX - minX,
-                  dy = maxY - minY,
-                  x = (minX + maxX) / 2,
-                  y = (minY + maxY) / 2,
-                  scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
-            
+                dy = maxY - minY,
+                x = (minX + maxX) / 2,
+                y = (minY + maxY) / 2,
+                scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
+
             const transform = d3.zoomIdentity
                 .translate(width / 2, height / 2)
                 .scale(scale)
                 .translate(-x, -y);
-                
+
             svg.transition().duration(750).call(zoom.transform, transform);
         }
 
@@ -392,10 +574,10 @@
             // Get bounding box of visible (non-dimmed) nodes
             const visibleNodes = d3.selectAll(".node:not(.dimmed)");
             if (visibleNodes.empty()) return; // Keep current view if nothing visible
-            
+
             let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
             let count = 0;
-            
+
             visibleNodes.each(d => {
                 count++;
                 if (d.x < minX) minX = d.x;
@@ -403,20 +585,20 @@
                 if (d.y < minY) minY = d.y;
                 if (d.y > maxY) maxY = d.y;
             });
-            
+
             if (count === 0) return;
 
             const dx = maxX - minX || 100, // Fallback width if single point
-                  dy = maxY - minY || 100,
-                  x = (minX + maxX) / 2,
-                  y = (minY + maxY) / 2,
-                  scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
-            
+                dy = maxY - minY || 100,
+                x = (minX + maxX) / 2,
+                y = (minY + maxY) / 2,
+                scale = Math.max(0.1, Math.min(4, 0.9 / Math.max(dx / width, dy / height)));
+
             const transform = d3.zoomIdentity
                 .translate(width / 2, height / 2)
                 .scale(scale)
                 .translate(-x, -y);
-                
+
             svg.transition().duration(750).call(zoom.transform, transform);
         }
 
@@ -441,7 +623,7 @@
                 populateFilters();
                 processRules();
                 renderGraph();
-                
+
                 // Initial auto-zoom after simulation stabilizes a bit
                 setTimeout(autoZoom, 800);
             } catch (error) {
@@ -493,7 +675,7 @@
                 if (node.type === 'chunk' && node.rules && node.rules.length > 0) {
                     const docId = node.id.split('_')[0];
                     if (!documentRules[docId]) documentRules[docId] = [];
-                    
+
                     node.rules.forEach(rule => {
                         documentRules[docId].push({
                             ...rule,
@@ -570,8 +752,8 @@
             simulation.nodes(nodes).on("tick", () => {
                 linkElements.attr("d", d => {
                     const dx = d.target.x - d.source.x,
-                          dy = d.target.y - d.source.y,
-                          dr = Math.sqrt(dx * dx + dy * dy);
+                        dy = d.target.y - d.source.y,
+                        dr = Math.sqrt(dx * dx + dy * dy);
                     // Use arcs for superseded links to distinguish
                     if (d.relation === "SUPERSEDES") {
                         return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
@@ -582,7 +764,7 @@
                 nodeElements
                     .attr("cx", d => d.x)
                     .attr("cy", d => d.y);
-                
+
                 labels
                     .attr("x", d => d.x)
                     .attr("y", d => d.y);
@@ -617,7 +799,7 @@
                     <div class="font-bold mb-1">${d.title}</div>
                     <div class="opacity-70">${d.category}</div>
                 `);
-            
+
             // Highlight neighbors
             const neighbors = new Set();
             graphData.links.forEach(l => {
@@ -646,7 +828,7 @@
 
             const rules = documentRules[d.id] || [];
             document.getElementById('ruleCount').innerText = rules.length;
-            
+
             // Add Stand info if available
             const statsGrid = document.getElementById('docStats');
             const standDivId = 'docStandContainer';
@@ -697,9 +879,9 @@
         function zoomToResults(ids) {
             const idSet = new Set(ids);
             const targetNodes = d3.selectAll(".node").filter(d => idSet.has(d.id));
-            
+
             if (targetNodes.empty()) return;
-            
+
             let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
             targetNodes.each(d => {
                 if (d.x < minX) minX = d.x;
@@ -707,170 +889,230 @@
                 if (d.y < minY) minY = d.y;
                 if (d.y > maxY) maxY = d.y;
             });
-            
+
             const dx = maxX - minX || 100,
-                  dy = maxY - minY || 100,
-                  x = (minX + maxX) / 2,
-                  y = (minY + maxY) / 2,
-                  scale = Math.max(0.1, Math.min(2.5, 0.8 / Math.max(dx / width, dy / height))); // Max zoom 2.5
-            
+                dy = maxY - minY || 100,
+                x = (minX + maxX) / 2,
+                y = (minY + maxY) / 2,
+                scale = Math.max(0.1, Math.min(2.5, 0.8 / Math.max(dx / width, dy / height))); // Max zoom 2.5
+
             const transform = d3.zoomIdentity
                 .translate(width / 2, height / 2)
                 .scale(scale)
                 .translate(-x, -y);
-                
+
             svg.transition().duration(1000).call(zoom.transform, transform);
-            
+
             // Highlight these nodes visually
             d3.selectAll(".node").classed("dimmed", true); // Dim all
             targetNodes.classed("dimmed", false); // Undim targets
             targetNodes.classed("highlight-neighbor", true); // Highlight
         }
 
-        async function performHybridSearch(query) {
-            if (!query) {
-                applyFilters();
-                return;
-            }
-            
-            const resultsDiv = document.getElementById('searchResults');
-            const list = document.getElementById('resultsList');
-            resultsDiv.classList.remove('hidden');
-            list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Suche läuft...</div>';
-            
+        // --- Chat Logic ---
+        let chatHistory = [];
+        let currentUploadId = null;
+
+        async function handleFileUpload(file) {
+            if (!file) return;
+
+            // UI Update
+            document.getElementById('uploadPreview').classList.remove('hidden');
+            document.getElementById('uploadFilename').innerText = file.name;
+            document.getElementById('dropZone').classList.add('hidden'); // Hide drop zone if visible
+
+            // Upload API Call
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Add loading indicator to upload (optional)
+            document.getElementById('uploadFilename').innerText = `Uploading ${file.name}...`;
+
             try {
-                let url = `/api/search?q=${encodeURIComponent(query)}`;
-                const min = document.getElementById('filterMinistry').value;
-                const type = document.getElementById('filterType').value;
-                const date = document.getElementById('filterDateStart').value;
-                
-                if (min) url += `&ministerium=${min}`;
-                if (type) url += `&kuerzel=${type}`;
-                if (date) url += `&stand_after=${date}`;
+                const response = await fetch('/api/chat/upload', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                const response = await fetch(url);
+                if (!response.ok) throw new Error("Upload failed");
+
                 const data = await response.json();
-                
-                const results = Array.isArray(data) ? data : (data.results || []);
-                const answer = data.answer || null;
-                
-                if (results.length === 0) {
-                    list.innerHTML = '<div class="text-center py-4 font-serif italic text-gray-500">Keine Ergebnisse gefunden.</div>';
-                    return;
-                }
-                
-                // Auto-Zoom to results
-                const resultIds = results.map(r => r.id);
-                // Also include neighbor IDs? Maybe too cluttered.
-                zoomToResults(resultIds);
+                currentUploadId = data.uploaded_doc_id;
+                document.getElementById('uploadFilename').innerText = file.name + " (Bereit zur Analyse)";
 
-                let html = '';
-                if (answer) {
-                    html += `
-                        <div class="p-4 bg-federal-900 text-white rounded-2xl mb-4 shadow-lg border-l-4 border-accent-gold">
-                            <div class="flex items-center gap-2 mb-2">
-                                <svg class="w-4 h-4 text-accent-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 10-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.536 13.536a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM6.464 16.464a1 1 0 10-1.414-1.414l-.707.707a1 1 0 101.414 1.414l.707-.707z"></path></svg>
-                                <span class="text-[10px] font-bold uppercase tracking-widest">Answer Engine</span>
-                            </div>
-                            <p class="text-sm font-serif italic">${answer}</p>
-                        </div>
-                    `;
-                }
-                
-                html += results.map(res => `
-                    <div class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-federal-300 transition-all cursor-pointer group shadow-sm hover:shadow-md"
-                         onclick="highlightResult('${res.id}')">
-                        <div class="flex justify-between items-start mb-2">
-                            <div class="flex flex-col">
-                                <span class="text-[10px] font-bold text-federal-500 uppercase tracking-tight">${res.herausgeber ? res.herausgeber.toUpperCase() : (res.ministerium ? res.ministerium.toUpperCase() : 'Unbekannt')}</span>
-                                <span class="text-[10px] text-gray-400 font-sans">${res.doc_title || 'Unbekannt'}</span>
-                            </div>
-                            <div class="flex flex-col items-end">
-                                <span class="text-[10px] font-bold text-accent-gold bg-gold/10 px-2 py-0.5 rounded-full">${Math.round(res.score * 100)}% Match</span>
-                                ${res.stand ? `<span class="text-[9px] text-gray-400 mt-1">Stand: ${res.stand}</span>` : ''}
-                            </div>
-                        </div>
-                        <h4 class="text-base font-semibold text-federal-900 mb-2 leading-tight">
-                            ${res.kuerzel ? `<span class="text-federal-700">[${res.kuerzel}]</span> ` : ''}
-                            ${res.breadcrumbs || 'Hauptdokument'}
-                        </h4>
-                        <p class="text-sm text-gray-600 line-clamp-3 font-sans mb-4">${res.text}</p>
-                        
-                        ${res.rules && res.rules.length > 0 ? `
-                            <div class="space-y-2 mt-4 pt-4 border-t border-gray-50">
-                                <div class="text-[10px] font-bold text-federal-400 uppercase tracking-widest mb-2">Extrahierte Regeln</div>
-                                ${res.rules.map(rule => `
-                                    <div class="p-3 bg-federal-50/50 rounded-xl border border-federal-100/50 rule-card">
-                                        <div class="flex justify-between items-center mb-1">
-                                            <span class="text-[9px] font-bold text-federal-700 uppercase px-1.5 py-0.5 bg-federal-100 rounded">${rule.category}</span>
-                                            ${rule.value ? `<span class="text-[9px] font-semibold text-federal-600">${rule.value}</span>` : ''}
-                                        </div>
-                                        <p class="text-xs text-federal-800 leading-snug">${rule.rule}</p>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-
-                        ${res.neighbor_context && res.neighbor_context.length > 0 ? `
-                            <div class="mt-4 pt-4 border-t border-gray-50">
-                                <details class="group/context">
-                                    <summary class="text-[10px] font-bold text-federal-400 uppercase tracking-widest cursor-pointer hover:text-federal-600 flex items-center gap-1 list-none">
-                                        <svg class="w-3 h-3 transition-transform group-open/context:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="3" d="M9 5l7 7-7 7"/></svg>
-                                        Graph-Kontext (+${res.neighbor_context.length} Nachbarn)
-                                    </summary>
-                                    <div class="mt-2 space-y-2">
-                                        ${res.neighbor_context.slice(0, 5).map(nb => {
-                                            let containerClass = "text-[10px] p-2.5 rounded-lg border-l-2 transition-all hover:shadow-sm ";
-                                            let icon = '';
-                                            let typeLabel = '';
-                                            
-                                            if (nb.type === 'warning') {
-                                                containerClass += "bg-red-50/80 border-red-500 text-red-900";
-                                                icon = `<svg class="w-3 h-3 text-red-600 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
-                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-red-600 mb-1 block flex items-center gap-1">Achtung: Dokument überholt</span>';
-                                            } else if (nb.type === 'reference') {
-                                                containerClass += "bg-amber-50/80 border-accent-gold text-federal-800";
-                                                icon = `<svg class="w-3 h-3 text-accent-gold inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>`;
-                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-accent-gold mb-1 block flex items-center gap-1">Verknüpfte Referenz</span>';
-                                            } else {
-                                                containerClass += "bg-gray-50/50 border-gray-200 text-gray-500 italic";
-                                                typeLabel = '<span class="text-[8px] font-bold uppercase tracking-tighter text-gray-400 mb-1 block">Zugehöriger Kontext</span>';
-                                            }
-
-                                            return `
-                                                <div class="${containerClass}">
-                                                    ${typeLabel}
-                                                    <span class="font-semibold block mb-0.5 text-federal-900 not-italic flex items-center gap-1">
-                                                        ${icon}
-                                                        ${nb.breadcrumbs || 'Unbekannter Abschnitt'}
-                                                    </span>
-                                                    <div class="line-clamp-2 leading-snug">${nb.text}</div>
-                                                </div>
-                                            `;
-                                        }).join('')}
-                                    </div>
-                                </details>
-                            </div>
-                        ` : ''}
-                    </div>
-                `).join('');
-                
-                list.innerHTML = html;
-            } catch (error) {
-                console.error("Hybrid search error:", error);
-                list.innerHTML = '<div class="text-center py-4 text-red-500 text-xs">Fehler bei der Suche. Ist die API gestartet?</div>';
+            } catch (e) {
+                console.error(e);
+                document.getElementById('uploadFilename').innerText = "Fehler beim Upload";
+                setTimeout(clearUpload, 2000);
             }
         }
+
+        function clearUpload() {
+            currentUploadId = null;
+            document.getElementById('fileInput').value = "";
+            document.getElementById('uploadPreview').classList.add('hidden');
+        }
+
+        function clearChat() {
+            chatHistory = [];
+            // Reset to default welcome message
+            document.getElementById('chatMessages').innerHTML = `
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-full bg-federal-100 flex items-center justify-center flex-shrink-0 text-federal-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none text-sm text-gray-700 shadow-sm border border-gray-200/50">
+                                    Hallo! Ich bin dein Assistent für Förderrichtlinien. <br>
+                                    Stelle mir Fragen zum Bestand oder <strong>lade eigene Dokumente hoch</strong>, um sie zu analysieren.
+                                </div>
+                            </div>
+                        </div>
+            `;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            input.value = "";
+
+            // Append User Message
+            appendMessage('user', msg);
+
+            // Loading State
+            const loadingId = appendLoadingMessage();
+
+            try {
+                const response = await fetch('/api/chat/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: msg,
+                        history: chatHistory,
+                        uploaded_doc_id: currentUploadId
+                    })
+                });
+
+                const data = await response.json();
+
+                // Remove Loading
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+
+                // Append Bot Answer
+                appendMessage('assistant', data.answer);
+
+                // Update History
+                chatHistory.push({ role: 'user', content: msg });
+                chatHistory.push({ role: 'assistant', content: data.answer });
+
+                // Highlight Graph Results if any
+                if (data.results && data.results.length > 0) {
+                    const ids = data.results.map(r => r.id);
+                    // Filter out non-existent IDs to avoid errors
+                    const validIds = ids.filter(id => {
+                        const docId = id.split('_')[0];
+                        return graphData.nodes.some(n => n.id === docId);
+                    });
+                    if (validIds.length > 0) zoomToResults(validIds);
+                }
+
+            } catch (e) {
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+                appendMessage('assistant', "Entschuldigung, es ist ein Fehler aufgetreten.");
+                console.error(e);
+            }
+        }
+
+        function appendMessage(role, text) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = "flex gap-3 " + (role === 'user' ? "flex-row-reverse" : "");
+
+            const avatar = role === 'user'
+                ? `<div class="w-8 h-8 rounded-full bg-federal-900 flex items-center justify-center flex-shrink-0 text-white">Ich</div>`
+                : `<div class="w-8 h-8 rounded-full bg-federal-100 flex items-center justify-center flex-shrink-0 text-federal-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>`;
+
+            const bubbleClass = role === 'user'
+                ? "bg-federal-900 text-white rounded-2xl rounded-tr-none"
+                : "bg-gray-100 text-gray-700 rounded-2xl rounded-tl-none border border-gray-200/50";
+
+            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            div.innerHTML = `
+                ${avatar}
+                <div class="space-y-1 max-w-[85%]">
+                    <div class="${bubbleClass} p-3 text-sm shadow-sm whitespace-pre-wrap leading-relaxed">${formattedText}</div>
+                </div>
+            `;
+
+            container.appendChild(div);
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function appendLoadingMessage() {
+            const id = "loading-" + Date.now();
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = "flex gap-3";
+            div.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-federal-100 flex items-center justify-center flex-shrink-0 text-federal-600">
+                   <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+                </div>
+                <div class="bg-gray-100 p-3 rounded-2xl rounded-tl-none text-sm text-gray-500 shadow-sm border border-gray-200/50 flex gap-2">
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></span>
+                    <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        // Drag and Drop
+        const chatContainer = document.getElementById('chatContainer');
+        const dropZone = document.getElementById('dropZone');
+
+        window.addEventListener('dragenter', (e) => {
+            if (dropZone && dropZone.classList.contains('hidden')) {
+                dropZone.classList.remove('hidden');
+                dropZone.classList.add('flex');
+            }
+        });
+        dropZone.addEventListener('dragleave', (e) => {
+            dropZone.classList.add('hidden');
+            dropZone.classList.remove('flex');
+        });
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('hidden');
+            dropZone.classList.remove('flex');
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === "application/pdf") {
+                handleFileUpload(files[0]);
+            } else {
+                alert("Bitte nur PDF-Dateien hochladen.");
+            }
+        });
 
         function updateFilterOptions() {
             const currentMin = document.getElementById('filterMinistry').value.trim().toLowerCase();
             const currentType = document.getElementById('filterType').value.trim().toLowerCase();
             const currentCat = document.getElementById('filterCategory').value;
-            
+
             // Sets of valid options given the OTHER filter
             const validMinistries = new Set();
             const validTypes = new Set();
-            
+
             graphData.nodes.forEach(n => {
                 // Check Category Filter for Dependency Logic
                 // If I have selected Category 'law', only show Ministries/Types that have laws
@@ -880,24 +1122,24 @@
                     if (currentCat === 'law' && !isLaw) matchesCat = false;
                     if (currentCat === 'document' && isLaw) matchesCat = false;
                 }
-                
+
                 if (!matchesCat) return;
 
                 const nodeMin = (n.ministerium || "").trim();
                 const nodeIss = (n.herausgeber || "").trim();
                 const nodeType = (n.kuerzel || "").trim();
-                
+
                 const nodeMinLower = nodeMin.toLowerCase();
                 const nodeIssLower = nodeIss.toLowerCase();
                 const nodeTypeLower = nodeType.toLowerCase();
-                
+
                 // 1. Check if this node contributes to valid Types (matches current Min)
                 let matchesMin = true;
                 if (currentMin) {
                     if (!nodeMinLower.includes(currentMin) && !nodeIssLower.includes(currentMin)) matchesMin = false;
                 }
                 if (matchesMin && nodeType) validTypes.add(nodeType);
-                
+
                 // 2. Check if this node contributes to valid Ministries (matches current Type)
                 let matchesType = true;
                 if (currentType) {
@@ -908,7 +1150,7 @@
                     if (nodeIss && nodeIss.toLowerCase() !== "unbekannt") validMinistries.add(nodeIss);
                 }
             });
-            
+
             // Update Ministry Options
             const minSelect = document.getElementById('filterMinistry');
             Array.from(minSelect.options).forEach(opt => {
@@ -917,7 +1159,7 @@
                 opt.disabled = !isValid;
                 opt.style.color = isValid ? '' : '#d1d5db';
             });
-            
+
             // Update Type Options
             const typeSelect = document.getElementById('filterType');
             Array.from(typeSelect.options).forEach(opt => {
@@ -943,26 +1185,23 @@
             const type = document.getElementById('filterType').value.trim().toLowerCase();
             const date = document.getElementById('filterDateStart').value;
             const cat = document.getElementById('filterCategory').value;
-            
+
             d3.selectAll(".node").classed("dimmed", n => !isNodeVisible(n, min, type, date, cat));
-            
+
             // Update links
-            d3.selectAll(".link").classed("dimmed", function(d) {
+            d3.selectAll(".link").classed("dimmed", function (d) {
                 const sourceDimmed = !isNodeVisible(d.source, min, type, date, cat);
                 const targetDimmed = !isNodeVisible(d.target, min, type, date, cat);
                 return sourceDimmed || targetDimmed;
             });
-            
+
             updateFilterOptions();
-            
-            const query = document.getElementById('hybridSearchInput').value;
-            if (query) {
-                performHybridSearch(query);
-            } else if (shouldZoom) {
+
+            if (shouldZoom) {
                 zoomToVisible();
             }
         }
-        
+
         function isNodeVisible(n, min, type, date, cat) {
             if (cat) {
                 const isLaw = (n.type === 'law' || n.node_type === 'law');
@@ -1065,4 +1304,5 @@
         });
     </script>
 </body>
+
 </html>
