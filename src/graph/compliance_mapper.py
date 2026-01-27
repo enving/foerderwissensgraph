@@ -51,7 +51,11 @@ class ComplianceMapper:
             try:
                 with open(self.graph_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                    self.graph = nx.node_link_graph(data)
+                    # Try standard loading, handle NetworkX version naming divergence
+                    try:
+                        self.graph = nx.node_link_graph(data)
+                    except Exception:
+                        self.graph = nx.node_link_graph(data, edges="edges")
                 logger.info(f"Loaded {len(self.graph.nodes)} nodes from graph.")
             except Exception as e:
                 logger.error(f"Failed to load graph: {e}")
