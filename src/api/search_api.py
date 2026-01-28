@@ -75,13 +75,16 @@ async def serve_ui():
     paths = [
         Path("docs/dashboard.html"),
         Path("/app/docs/dashboard.html"),
-        Path("index.html")
+        Path("index.html"),
     ]
     for p in paths:
         if p.exists():
             return FileResponse(p)
-    
-    return HTMLResponse(content="<h1>Bund-ZuwendungsGraph</h1><p>Dashboard not found.</p>", status_code=404)
+
+    return HTMLResponse(
+        content="<h1>Bund-ZuwendungsGraph</h1><p>Dashboard not found.</p>",
+        status_code=404,
+    )
 
 
 # Mount Data and Docs for static access
@@ -302,18 +305,20 @@ async def search_advanced(
     return {"results": filtered_results, "metadata": metadata}
 
 
-@app.post("/graph/expand-context", response_model=ExpandContextResponse, tags=["Graph Logic"])
+@app.post(
+    "/graph/expand-context", response_model=ExpandContextResponse, tags=["Graph Logic"]
+)
 async def expand_context_endpoint(request: ExpandContextRequest):
     """
     **Context-Aware Compliance Mapping**
-    
-    Analysiert übergebene Text-Chunks (z.B. aus einer neuen Förderrichtlinie) und expandiert 
+
+    Analysiert übergebene Text-Chunks (z.B. aus einer neuen Förderrichtlinie) und expandiert
     diese gegen den Knowledge Graph.
-    
+
     Prozess:
     1. **Citation Matching**: Findet harte Referenzen (z.B. "NKBF 98").
     2. **Concept Expansion**: Findet implizite Regeln für erkannte Konzepte (z.B. "Reisekosten" -> "BRKG").
-    
+
     Returns:
         Ein strukturiertes Regel-Paket (`mapped_regulations`), das für den Prüfagenten optimiert ist.
     """
@@ -322,7 +327,6 @@ async def expand_context_endpoint(request: ExpandContextRequest):
     except Exception as e:
         logger.error(f"Error in expand_context: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-
 
 
 @app.get("/health-raw")
@@ -334,7 +338,8 @@ async def health_raw():
 # --- Chat & Upload Features (v2.3) ---
 
 from fastapi import File, UploadFile, Form
-from src.models.schemas import ChatRequest, ChatMessage
+from src.models.schemas import ChatRequest, ChatMessage, ExpandContextRequest
+from pydantic import BaseModel
 import uuid
 from pypdf import PdfReader
 import io
@@ -344,6 +349,7 @@ import docx  # Support for .docx
 # In production, use Redis or a proper DB/Vector Store
 UPLOAD_CACHE: Dict[str, str] = {}
 
+
 @app.post("/chat/upload")
 async def upload_document(file: UploadFile = File(...)):
     """
@@ -351,50 +357,111 @@ async def upload_document(file: UploadFile = File(...)):
     Returns a session ID (uploaded_doc_id).
     """
     logger.info(f"Received upload: {file.filename} ({file.content_type})")
-    
+
     # Support more types
-    filename = file.filename.lower()
+    filename = file.filename.lower() if file.filename else "unknown"
     is_pdf = filename.endswith(".pdf") or file.content_type == "application/pdf"
-    is_docx = filename.endswith(".docx") or file.content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    is_text = filename.endswith((".txt", ".md")) or file.content_type in ["text/plain", "text/markdown"]
-    
+    is_docx = (
+        filename.endswith(".docx")
+        or file.content_type
+        == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+    is_text = filename.endswith((".txt", ".md")) or file.content_type in [
+        "text/plain",
+        "text/markdown",
+    ]
+
     if not (is_pdf or is_docx or is_text):
-        raise HTTPException(status_code=400, detail="Unsupported file type. Please upload PDF, DOCX, TXT, or MD.")
-    
+        raise HTTPException(
+            status_code=400,
+            detail="Unsupported file type. Please upload PDF, DOCX, TXT, or MD.",
+        )
+
     try:
         content = await file.read()
         text = ""
-        
+
         if is_pdf:
             pdf = PdfReader(io.BytesIO(content))
             for page in pdf.pages:
                 extracted = page.extract_text()
                 if extracted:
                     text += extracted + "\n"
-                    
+
         elif is_docx:
             doc = docx.Document(io.BytesIO(content))
             text = "\n".join([para.text for para in doc.paragraphs])
-            
+
         elif is_text:
             text = content.decode("utf-8", errors="ignore")
-            
+
         # Store text in memory with a unique ID
         doc_id = str(uuid.uuid4())
         # Parse basic metadata if possible? For now just text.
-        
-        if not text.strip():
-            raise HTTPException(status_code=400, detail="Document appears to be empty or unreadable.")
 
-        UPLOAD_CACHE[doc_id] = text[:150000] # Increased limit
-        
-        logger.info(f"Processed document {file.filename} with ID {doc_id} (Length: {len(text)})")
-        
-        return {"uploaded_doc_id": doc_id, "filename": file.filename, "status": "processed"}
-        
+        if not text.strip():
+            raise HTTPException(
+                status_code=400, detail="Document appears to be empty or unreadable."
+            )
+
+        UPLOAD_CACHE[doc_id] = text[:150000]  # Increased limit
+
+        logger.info(
+            f"Processed document {file.filename} with ID {doc_id} (Length: {len(text)})"
+        )
+
+        return {
+            "uploaded_doc_id": doc_id,
+            "filename": file.filename,
+            "status": "processed",
+        }
+
     except Exception as e:
         logger.error(f"Upload processing failed: {e}")
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+
+
+class DocumentAnalysisRequest(BaseModel):
+    uploaded_doc_id: str
+
+
+@app.post("/chat/analyze-document", response_model=ExpandContextResponse, tags=["Chat"])
+async def analyze_document(request: DocumentAnalysisRequest):
+    """
+    Graph-Guided Analysis (Inverse Search).
+    Scans the uploaded document for known entities (Laws, Regulations) from the Knowledge Graph.
+    Returns a structured list of detected regulations and relevant rules.
+    """
+    doc_id = request.uploaded_doc_id
+
+    if doc_id not in UPLOAD_CACHE:
+        raise HTTPException(
+            status_code=404, detail="Document session not found or expired."
+        )
+
+    text = UPLOAD_CACHE[doc_id]
+
+    # Simple Chunking
+    chunk_size = 3000
+    overlap = 500
+    chunks = []
+    start = 0
+    while start < len(text):
+        chunks.append(text[start : start + chunk_size])
+        start += chunk_size - overlap
+
+    # Call Compliance Mapper
+    try:
+        expand_req = ExpandContextRequest(
+            context_label=f"User Upload {doc_id}",
+            text_chunks=chunks,
+            metadata={"source": "user_upload"},
+        )
+        return compliance_mapper.expand_context(expand_req)
+
+    except Exception as e:
+        logger.error(f"Analysis failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/chat/query")
@@ -405,13 +472,13 @@ async def chat_query(request: ChatRequest):
     query = request.message
     history = request.history
     doc_id = request.uploaded_doc_id
-    
+
     # 1. Search in Knowledge Graph (Hybrid)
     graph_results = engine.search(query, limit=3)
-    
+
     # 2. Add Uploaded Doc Context if available
     context_chunks = []
-    
+
     if doc_id and doc_id in UPLOAD_CACHE:
         doc_text = UPLOAD_CACHE[doc_id]
         # Naive: Just take the first 4000 chars or search simplisticly
@@ -420,27 +487,32 @@ async def chat_query(request: ChatRequest):
         # If text is huge, we might truncate.
         preview = doc_text[:3000] + "..." if len(doc_text) > 3000 else doc_text
         context_chunks.append(f"[UPLOADED_DOCUMENT]\n{preview}\n[/UPLOADED_DOCUMENT]")
-    
+
     # 3. Add Graph Context
     for r in graph_results:
         context_chunks.append(
             f"Titel: {r.get('doc_title', 'Unbekannt')}\nText: {r.get('text', '')}"
         )
         for neighbor in r.get("neighbor_context", []):
-             n_type = neighbor.get("type", "reference").upper()
-             context_chunks.append(
+            n_type = neighbor.get("type", "reference").upper()
+            context_chunks.append(
                 f"[{n_type}] Quelle: {neighbor.get('breadcrumbs', 'Verknüpftes Dokument')}\nText: {neighbor.get('text', '')}"
-             )
+            )
 
     # 4. Construct Prompt with History
     # We format history here since the RuleExtractor doesn't natively handle it yet
-    history_str = "\n".join([f"{msg.role.upper()}: {msg.content}" for msg in history[-5:]]) # Limit history
-    
+    history_str = "\n".join(
+        [f"{msg.role.upper()}: {msg.content}" for msg in history[-5:]]
+    )  # Limit history
+
     combined_context = "\n\n".join(context_chunks)
-    
+
     # Use the existing answer engine but bypass generate_answer for custom prompt
     if not answer_engine.provider:
-        return {"answer": "Entschuldigung, die KI-Engine ist derzeit nicht verfügbar.", "sources": []}
+        return {
+            "answer": "Entschuldigung, die KI-Engine ist derzeit nicht verfügbar.",
+            "sources": [],
+        }
 
     system_prompt = f"""
     Du bist der KI-Assistent für den Förderwissensgraph.
@@ -456,18 +528,22 @@ async def chat_query(request: ChatRequest):
     
     Antwort (hilfreich, präzise, auf Deutsch):
     """
-    
+
     try:
         response = answer_engine.provider.generate(system_prompt, max_tokens=500)
         answer = response.content
-        return {
-            "answer": answer, 
-            "results": graph_results, 
-            "used_upload": bool(doc_id)
-        }
+        return {"answer": answer, "results": graph_results, "used_upload": bool(doc_id)}
     except Exception as e:
         logger.error(f"Chat generation failed: {e}")
-        return {"answer": "Es gab einen Fehler bei der Antwortgenerierung.", "results": []}
+        with open("debug_error.log", "a") as f:
+            f.write(f"Chat Error: {str(e)}\n")
+            import traceback
+
+            traceback.print_exc(file=f)
+        return {
+            "answer": f"Es gab einen Fehler bei der Antwortgenerierung: {str(e)}",
+            "results": [],
+        }
 
 
 if __name__ == "__main__":

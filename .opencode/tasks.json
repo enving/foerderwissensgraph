@@ -1,9 +1,9 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.3.1",
-    "last_updated": "2026-01-26T20:30:00Z",
-    "last_agent": "Antigravity",
+    "version": "2.3.2",
+    "last_updated": "2026-01-28T10:00:00Z",
+    "last_agent": "opencode",
     "project_phase": "production"
   },
   "tasks": [
@@ -584,6 +584,81 @@
       "verified": true,
       "verified_by": "Antigravity",
       "verified_date": "2026-01-26"
+    },
+    {
+      "id": "TASK-021",
+      "title": "Debug Chat Assistant Error",
+      "status": "completed",
+      "priority": "critical",
+      "category": "bugfix",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "opencode",
+      "requires_review": false,
+      "reviewed_by": null,
+      "review_notes": "Fixed Pydantic validation error in src/llm/openai_provider.py when LLM returns null content (e.g. truncated reasoning).",
+      "description": "Investigate and fix the \"Fehler bei der Antwortgenerierung\" in the Graph Assistant chat window.",
+      "acceptance_criteria": [
+        "Identify the root cause of the generation error",
+        "Fix the API/logic responsible for the failure",
+        "Verify chat functionality with complex queries"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false,
+      "verified_by": null,
+      "verified_date": null
+    },
+    {
+      "id": "TASK-022",
+      "title": "Graph-Guided Document Analysis (Inverse Search)",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "opencode",
+      "requires_review": true,
+      "reviewed_by": null,
+      "review_notes": "Implemented /chat/analyze-document endpoint in src/api/search_api.py. Uses ComplianceMapper to scan uploaded text against the Graph.",
+      "description": "Implement logic to scan uploaded documents using the Knowledge Graph's glossary/entity list to proactively identify relevant regulations and requirements.",
+      "acceptance_criteria": [
+        "Extract key entities (Regulations, Laws, Concepts) from Graph",
+        "Scan uploaded document for these entities",
+        "Return structured list of detected regulations and their rules",
+        "Integrate into Chat flow"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false,
+      "verified_by": null,
+      "verified_date": null
+    },
+    {
+      "id": "TASK-023",
+      "title": "Enable Empty Message with Attachment",
+      "status": "completed",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "opencode",
+      "requires_review": false,
+      "description": "Allow sending chat messages without text if a file is attached. Defaults to an analysis request.",
+      "acceptance_criteria": [
+        "Send button works when text is empty but file is uploaded",
+        "Default message is inserted for the backend",
+        "UI displays the default intent"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false
     }
   ],
   "features": [

@@ -33,7 +33,7 @@ class OpenAIProvider(BaseLLMProvider):
         model: str,
         api_url: str = "https://api.openai.com/v1",
         timeout: int = 30,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(api_key, model, **kwargs)
         self.api_url = api_url.rstrip("/")
@@ -44,21 +44,16 @@ class OpenAIProvider(BaseLLMProvider):
             self.api_url += "/chat/completions"
 
     def generate(
-        self,
-        prompt: str,
-        max_tokens: int = 500,
-        temperature: float = 0.7,
-        **kwargs
+        self, prompt: str, max_tokens: int = 500, temperature: float = 0.7, **kwargs
     ) -> LLMResponse:
         """Generate text completion from prompt."""
         messages = [Message(role="user", content=prompt)]
-        return self.chat(messages, max_tokens=max_tokens, temperature=temperature, **kwargs)
+        return self.chat(
+            messages, max_tokens=max_tokens, temperature=temperature, **kwargs
+        )
 
     def generate_json(
-        self,
-        prompt: str,
-        max_tokens: int = 1000,
-        **kwargs
+        self, prompt: str, max_tokens: int = 1000, **kwargs
     ) -> Dict[str, Any]:
         """Generate JSON-structured output."""
         headers = {
@@ -71,15 +66,12 @@ class OpenAIProvider(BaseLLMProvider):
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": max_tokens,
             "response_format": {"type": "json_object"},
-            **kwargs
+            **kwargs,
         }
 
         try:
             response = requests.post(
-                self.api_url,
-                headers=headers,
-                json=payload,
-                timeout=self.timeout
+                self.api_url, headers=headers, json=payload, timeout=self.timeout
             )
             response.raise_for_status()
 
@@ -100,7 +92,7 @@ class OpenAIProvider(BaseLLMProvider):
         messages: List[Message],
         max_tokens: int = 500,
         temperature: float = 0.7,
-        **kwargs
+        **kwargs,
     ) -> LLMResponse:
         """Chat completion with message history."""
         headers = {
@@ -109,36 +101,35 @@ class OpenAIProvider(BaseLLMProvider):
         }
 
         # Convert Message objects to dict
-        messages_dict = [
-            {"role": msg.role, "content": msg.content}
-            for msg in messages
-        ]
+        messages_dict = [{"role": msg.role, "content": msg.content} for msg in messages]
 
         payload = {
             "model": self.model,
             "messages": messages_dict,
             "max_tokens": max_tokens,
             "temperature": temperature,
-            **kwargs
+            **kwargs,
         }
 
         try:
             response = requests.post(
-                self.api_url,
-                headers=headers,
-                json=payload,
-                timeout=self.timeout
+                self.api_url, headers=headers, json=payload, timeout=self.timeout
             )
             response.raise_for_status()
 
             result = response.json()
             choice = result["choices"][0]
 
+            # Handle cases where content is None (e.g. reasoning models cut off or tool calls)
+            content = choice["message"].get("content")
+            if content is None:
+                content = ""
+
             return LLMResponse(
-                content=choice["message"]["content"],
+                content=content,
                 model=result.get("model", self.model),
                 tokens_used=result.get("usage", {}).get("total_tokens"),
-                finish_reason=choice.get("finish_reason")
+                finish_reason=choice.get("finish_reason"),
             )
 
         except requests.exceptions.RequestException as e:
@@ -161,7 +152,7 @@ class IONOSProvider(OpenAIProvider):
         api_key: str,
         model: str = "openai/gpt-oss-120b",
         api_url: str = "https://openai.inference.de-txl.ionos.com/v1",
-        **kwargs
+        **kwargs,
     ):
         super().__init__(api_key=api_key, model=model, api_url=api_url, **kwargs)
         logger.info(f"Initialized IONOS provider with model: {model}")

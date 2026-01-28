@@ -1052,13 +1052,107 @@
 
                 const data = await response.json();
                 currentUploadId = data.uploaded_doc_id;
-                document.getElementById('uploadFilename').innerText = file.name + " (Bereit zur Analyse)";
+                document.getElementById('uploadFilename').innerText = file.name + " (Wird analysiert...)";
+
+                // Trigger Inverse Search Analysis
+                await performDocumentAnalysis(currentUploadId, file.name);
 
             } catch (e) {
                 console.error(e);
                 document.getElementById('uploadFilename').innerText = "Fehler beim Upload";
                 setTimeout(clearUpload, 2000);
             }
+        }
+
+        async function performDocumentAnalysis(docId, filename) {
+            const loadingId = appendLoadingMessage();
+            
+            try {
+                const response = await fetch('/api/chat/analyze-document', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ uploaded_doc_id: docId })
+                });
+
+                // Remove loading
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+
+                if (!response.ok) throw new Error("Analyse fehlgeschlagen");
+
+                const result = await response.json();
+                const regs = result.mapped_regulations || [];
+
+                document.getElementById('uploadFilename').innerText = filename + " (Analysiert)";
+
+                if (regs.length === 0) {
+                    appendMessage('assistant', `Ich habe das Dokument "${filename}" gescannt, aber keine bekannten Förderrichtlinien oder Gesetze darin gefunden.`);
+                    return;
+                }
+
+                // Format the analysis result as a structured message
+                let analysisHtml = `<div class="font-bold mb-2">Analyseergebnis für "${filename}":</div>`;
+                analysisHtml += `<div class="space-y-3">`;
+                
+                let foundIds = [];
+
+                regs.forEach(reg => {
+                    // Collect IDs for graph highlighting
+                    // Assuming source_doc might match a title in the graph, but better if we had IDs.
+                    // The backend maps it to titles mainly. We can try to match titles to nodes.
+                    const node = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc);
+                    if (node) foundIds.push(node.id);
+
+                    analysisHtml += `
+                        <div class="bg-white p-3 rounded-lg border border-federal-100 shadow-sm">
+                            <div class="text-[10px] uppercase font-bold text-federal-500 mb-1">${reg.category}</div>
+                            <div class="font-serif text-federal-900 font-bold mb-2 flex items-center gap-1">
+                                ${reg.source_doc}
+                                ${node ? `<span class="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded cursor-pointer" onclick="highlightResult('${node.id}')">Graph</span>` : ''}
+                            </div>
+                            <ul class="text-xs space-y-1 text-gray-600 pl-4 list-disc">
+                                ${reg.rules.slice(0, 3).map(r => `<li>${r.content} <span class="text-gray-400 italic">(${r.relevance_reason})</span></li>`).join('')}
+                                ${reg.rules.length > 3 ? `<li class="italic text-gray-400">+ ${reg.rules.length - 3} weitere Regeln</li>` : ''}
+                            </ul>
+                        </div>
+                    `;
+                });
+                analysisHtml += `</div>`;
+                analysisHtml += `<div class="mt-3 text-xs text-gray-500">Ich habe diese Vorschriften im Knowledge Graph markiert. Stellen Sie mir jetzt Fragen dazu!</div>`;
+
+                appendHtmlMessage('assistant', analysisHtml);
+
+                // Highlight in Graph
+                if (foundIds.length > 0) {
+                    zoomToResults(foundIds);
+                }
+
+            } catch (e) {
+                console.error(e);
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+                appendMessage('assistant', `Dokument hochgeladen, aber die automatische Analyse ist fehlgeschlagen.`);
+                document.getElementById('uploadFilename').innerText = filename + " (Upload OK)";
+            }
+        }
+
+        function appendHtmlMessage(role, htmlContent) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = "flex gap-3";
+
+            const avatar = `<div class="w-8 h-8 rounded-full bg-federal-100 flex items-center justify-center flex-shrink-0 text-federal-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>`;
+
+            div.innerHTML = `
+                ${avatar}
+                <div class="space-y-1 max-w-[90%]">
+                    <div class="bg-gray-50 text-gray-700 rounded-2xl rounded-tl-none border border-gray-200/50 p-3 text-sm shadow-sm leading-relaxed">
+                        ${htmlContent}
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
 
         function clearUpload() {
@@ -1088,12 +1182,17 @@
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
-            if (!msg) return;
+            
+            // Allow sending if there is a message OR a file uploaded
+            if (!msg && !currentUploadId) return;
 
             input.value = "";
+            
+            // If empty message but file exists, define a default intent
+            const effectiveMsg = msg || "Bitte analysiere das hochgeladene Dokument.";
 
             // Append User Message
-            appendMessage('user', msg);
+            appendMessage('user', effectiveMsg);
 
             // Loading State
             const loadingId = appendLoadingMessage();
@@ -1103,7 +1202,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        message: msg,
+                        message: effectiveMsg,
                         history: chatHistory,
                         uploaded_doc_id: currentUploadId
                     })
