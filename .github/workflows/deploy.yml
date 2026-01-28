@@ -62,13 +62,21 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
             PROJECT_DIR=${{ secrets.PROJECT_DIR || '/home/graph/bund-zuwendungsgraph' }}
+            mkdir -p $PROJECT_DIR
             cd $PROJECT_DIR
             
+            # Initialize Git if missing (Fix for 'fatal: not a git repository')
+            if [ ! -d ".git" ]; then
+              echo "⚠️ .git not found. Cloning repository..."
+              git clone https://github.com/${{ github.repository }} . || echo "Clone failed (directory might be non-empty)"
+            fi
+
             # Update codebase (FORCE sync)
             git fetch --all
             git reset --hard origin/master
 
-            # Pull latest images from registry
+            # Pull latest images from registry (with increased timeout tolerance via keepalive)
+            echo "🐳 Pulling images..."
             docker compose pull
             
             # Restart services (FORCE RECREATE)
