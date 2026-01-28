@@ -71,9 +71,9 @@ jobs:
               git clone https://github.com/${{ github.repository }} . || echo "Clone failed (directory might be non-empty)"
             fi
 
-            # Update codebase (FORCE sync)
-            git fetch --all
-            git reset --hard origin/master
+            # Update codebase (FORCE sync) - tolerate failure if permissions are broken
+            git fetch --all || echo "⚠️ Git fetch failed (Check permissions)"
+            git reset --hard origin/master || echo "⚠️ Git reset failed (Check permissions)"
 
             # Inject Secrets into .env file
             echo "Generating .env file from Secrets..."
