@@ -75,6 +75,18 @@ jobs:
             git fetch --all
             git reset --hard origin/master
 
+            # Inject Secrets into .env file
+            echo "Generating .env file from Secrets..."
+            cat <<EOF > .env
+            IONOS_API_KEY=${{ secrets.IONOS_API_KEY }}
+            MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            LLM_PROVIDER=ionos
+            CHROMA_HOST=chroma
+            CHROMA_PORT=8000
+            DEPLOY_VERSION=$(date +%s)
+            EOF
+
             # Prune old images to free up space/bandwidth potential
             echo "🧹 Pruning old docker resources..."
             docker system prune -f || true
