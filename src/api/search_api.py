@@ -57,11 +57,26 @@ logger.info(
 )
 logger.info(f"Working directory: {Path.cwd()}")
 logger.info(f"Data directory: {Path('data').absolute()}")
+
+# Startup Check for Environment Variables
+import os
+
+ionos_key = os.getenv("IONOS_API_KEY")
+if ionos_key:
+    logger.info(f"IONOS_API_KEY found (Length: {len(ionos_key)})")
+else:
+    logger.warning(
+        "CRITICAL: IONOS_API_KEY not found in environment! LLM features will fail."
+    )
+
 engine = HybridSearchEngine(
     graph_path=Path(settings.get("paths.knowledge_graph")),
     db_path=settings.get("paths.chroma_db"),
 )
 answer_engine = RuleExtractor()
+if not answer_engine.provider:
+    logger.error("RuleExtractor failed to initialize provider (Check API Keys).")
+
 compliance_mapper = ComplianceMapper(
     graph_path=Path(settings.get("paths.knowledge_graph"))
 )
@@ -513,9 +528,10 @@ async def chat_query(request: ChatRequest):
 
     # Use the existing answer engine but bypass generate_answer for custom prompt
     if not answer_engine.provider:
+        logger.error("Attempted chat generation without initialized provider.")
         return {
-            "answer": "Entschuldigung, die KI-Engine ist derzeit nicht verfügbar.",
-            "sources": [],
+            "answer": "Fehler: Die KI-Engine ist nicht verfügbar (API-Key fehlt oder Konfigurationsfehler). Bitte Administrator kontaktieren.",
+            "results": [],
         }
 
     system_prompt = f"""
@@ -534,18 +550,39 @@ async def chat_query(request: ChatRequest):
     """
 
     try:
+        # Check token limit roughly (1 char ~= 0.25 tokens is naive, better cut by char length)
+        # IONOS/OpenAI Limit is usually large, but let's be safe.
+        if len(system_prompt) > 100000:
+            logger.warning(
+                f"Prompt too long ({len(system_prompt)} chars). Truncating context."
+            )
+            system_prompt = system_prompt[:100000] + "\n[...Truncated...]"
+
         response = answer_engine.provider.generate(system_prompt, max_tokens=500)
+
+        if not response or not response.content:
+            logger.error("LLM Provider returned empty response.")
+            return {
+                "answer": "Die KI hat eine leere Antwort zurückgegeben. Bitte versuchen Sie es erneut.",
+                "results": graph_results,
+            }
+
         answer = response.content
         return {"answer": answer, "results": graph_results, "used_upload": bool(doc_id)}
+
     except Exception as e:
         logger.error(f"Chat generation failed: {e}")
+        import traceback
+
+        traceback_str = traceback.format_exc()
+        print(traceback_str)  # To Stdout for docker logs
+
         with open("debug_error.log", "a") as f:
             f.write(f"Chat Error: {str(e)}\n")
-            import traceback
+            f.write(traceback_str)
 
-            traceback.print_exc(file=f)
         return {
-            "answer": f"Es gab einen Fehler bei der Antwortgenerierung: {str(e)}",
+            "answer": f"Es gab einen Fehler bei der Antwortgenerierung. \nTechnisches Detail: {str(e)}\nBitte Logs prüfen.",
             "results": [],
         }
 
