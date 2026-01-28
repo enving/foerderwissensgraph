@@ -54,8 +54,8 @@ jobs:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
         with:
-          timeout: "30m"
-          command_timeout: "30m"
+          timeout: "60m"
+          command_timeout: "60m"
           port: 22
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
@@ -75,8 +75,12 @@ jobs:
             git fetch --all
             git reset --hard origin/master
 
+            # Prune old images to free up space/bandwidth potential
+            echo "🧹 Pruning old docker resources..."
+            docker system prune -f || true
+
             # Pull latest images from registry (with increased timeout tolerance via keepalive)
-            echo "🐳 Pulling images..."
+            echo "🐳 Pulling images (High Timeout)..."
             docker compose pull
             
             # Restart services (FORCE RECREATE)
