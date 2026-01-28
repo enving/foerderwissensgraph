@@ -23,7 +23,8 @@ RUN useradd -m -u 1001 graph || true && \
 
 # Install Python dependencies separately to cache layers
 COPY requirements/requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt && \
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
     python -m spacy download de_core_news_sm
 
 # Switch to non-root user

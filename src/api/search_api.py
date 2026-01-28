@@ -32,7 +32,7 @@ automatisierte Regel-Extraktion via LLM.
 
 *Entwickelt als Teil der Forschungsinitiative für transparente Zuwendungsprozesse.*
 """,
-    version="2.3.1",
+    version="2.3.3",
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
@@ -102,7 +102,7 @@ async def api_info():
     """
     return {
         "message": "Bund-ZuwendungsGraph API 🕸️",
-        "version": "2.3.0",
+        "version": "2.3.3",
         "docs": "/api/docs",
         "redoc": "/api/redoc",
         "health": "/api/health",
@@ -343,9 +343,7 @@ from fastapi import File, UploadFile, Form
 from src.models.schemas import ChatRequest, ChatMessage, ExpandContextRequest
 from pydantic import BaseModel
 import uuid
-from pypdf import PdfReader
 import io
-import docx  # Support for .docx
 
 # Simple in-memory storage for uploaded docs (Session -> Text)
 # In production, use Redis or a proper DB/Vector Store
@@ -384,6 +382,8 @@ async def upload_document(file: UploadFile = File(...)):
         text = ""
 
         if is_pdf:
+            from pypdf import PdfReader
+
             pdf = PdfReader(io.BytesIO(content))
             for page in pdf.pages:
                 extracted = page.extract_text()
@@ -391,6 +391,8 @@ async def upload_document(file: UploadFile = File(...)):
                     text += extracted + "\n"
 
         elif is_docx:
+            import docx
+
             doc = docx.Document(io.BytesIO(content))
             text = "\n".join([para.text for para in doc.paragraphs])
 
