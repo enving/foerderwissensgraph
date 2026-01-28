@@ -348,8 +348,39 @@ async def expand_context_endpoint(request: ExpandContextRequest):
 
 @app.get("/health-raw")
 async def health_raw():
-    """Health check endpoint."""
-    return {"status": "healthy", "service": "Bund-ZuwendungsGraph"}
+    """Health check endpoint with diagnostics."""
+    import os
+
+    # Check Graph
+    graph_status = "Not loaded"
+    node_count = 0
+    if compliance_mapper and compliance_mapper.graph:
+        node_count = len(compliance_mapper.graph.nodes)
+        graph_status = f"Loaded ({node_count} nodes)"
+
+    # Check LLM
+    llm_status = "Not initialized"
+    if answer_engine and answer_engine.provider:
+        llm_status = f"Initialized ({answer_engine.provider.get_provider_name()})"
+
+    # Check Env
+    env_vars = {
+        "IONOS_API_KEY": "Set" if os.getenv("IONOS_API_KEY") else "Missing",
+        "OPENAI_API_KEY": "Set" if os.getenv("OPENAI_API_KEY") else "Missing",
+        "LLM_PROVIDER": os.getenv("LLM_PROVIDER", "Unknown"),
+    }
+
+    return {
+        "status": "healthy" if node_count > 0 else "degraded",
+        "service": "Bund-ZuwendungsGraph",
+        "version": "2.3.4-debug",
+        "diagnostics": {
+            "graph": graph_status,
+            "llm": llm_status,
+            "env": env_vars,
+            "upload_cache_size": len(UPLOAD_CACHE),
+        },
+    }
 
 
 # --- Chat & Upload Features (v2.3) ---
