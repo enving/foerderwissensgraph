@@ -35,6 +35,9 @@ COPY --chown=graph:graph src/ ./src/
 COPY --chown=graph:graph config/ ./config/
 COPY --chown=graph:graph docs/ ./docs/
 COPY --chown=graph:graph scripts/ ./scripts/
+COPY --chown=graph:graph data/knowledge_graph.json ./data/knowledge_graph.json
+# Optional: Copy other data files if needed, but avoid huge DBs
+# COPY --chown=graph:graph data/ ./data/
 
 EXPOSE 5001
 
