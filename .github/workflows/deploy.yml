@@ -68,8 +68,10 @@ jobs:
             # Pull latest images from registry
             docker compose pull
             
-            # Restart services
-            docker compose up -d --remove-orphans
+            # Restart services (FORCE RECREATE)
+            docker compose down
+            docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest || true
+            docker compose up -d --force-recreate --remove-orphans
             
             # Health check
             echo "⏳ Waiting for health check..."
