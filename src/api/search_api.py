@@ -52,7 +52,9 @@ app.add_middleware(
 )
 
 # Initialize Engines
-logger.info("Initializing Bund-ZuwendungsGraph Engines (v2.3.1)...")
+logger.info(
+    "Initializing Bund-ZuwendungsGraph Engines (v2.3.2 - with Inverse Search)..."
+)
 logger.info(f"Working directory: {Path.cwd()}")
 logger.info(f"Data directory: {Path('data').absolute()}")
 engine = HybridSearchEngine(
