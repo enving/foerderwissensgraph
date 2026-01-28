@@ -4,7 +4,8 @@ FROM mcr.microsoft.com/playwright/python:v1.41.2-jammy
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
-    DEBIAN_FRONTEND=noninteractive
+    DEBIAN_FRONTEND=noninteractive \
+    BUILD_CACHE_BUST="2026-01-28-v4-FORCE_UPDATE"
 
 WORKDIR /app
 

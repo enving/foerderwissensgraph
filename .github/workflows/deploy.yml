@@ -90,6 +90,10 @@ jobs:
             # Prune old images to free up space/bandwidth potential
             echo "🧹 Pruning old docker resources..."
             docker system prune -f || true
+            
+            # FORCE REMOVE old image to guarantee pull
+            echo "🗑️ Removing old image to force fresh pull..."
+            docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest || true
 
             # Pull latest images from registry (with increased timeout tolerance via keepalive)
             echo "🐳 Pulling images (High Timeout)..."
