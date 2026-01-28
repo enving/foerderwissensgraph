@@ -20,7 +20,7 @@ spacy>=3.7.0
 rank-bm25>=0.2.2
 
 # Vector Database Client
-chromadb-client>=0.4.0
+chromadb>=0.4.0
 
 # Document Parsing
 docling>=1.0.0
