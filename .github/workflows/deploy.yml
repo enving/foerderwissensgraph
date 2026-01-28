@@ -91,6 +91,10 @@ jobs:
             echo "🧹 Pruning old docker resources..."
             docker system prune -f || true
             
+            # FORCE KILL any existing backend container (to ensure we don't have zombies)
+            echo "💀 Killing existing containers matching 'backend'..."
+            docker ps -q --filter name=backend | xargs -r docker rm -f
+            
             # FORCE REMOVE old image to guarantee pull
             echo "🗑️ Removing old image to force fresh pull..."
             docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest || true
