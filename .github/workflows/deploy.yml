@@ -61,8 +61,9 @@ jobs:
             PROJECT_DIR=${{ secrets.PROJECT_DIR || '/home/graph/bund-zuwendungsgraph' }}
             cd $PROJECT_DIR
             
-            # Update codebase (in case of volume mounts)
-            git pull origin master || echo "Git pull failed, proceeding with docker pull..."
+            # Update codebase (FORCE sync)
+            git fetch --all
+            git reset --hard origin/master
 
             # Pull latest images from registry
             docker compose pull
