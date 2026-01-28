@@ -113,6 +113,10 @@ jobs:
             sleep 15
             curl -f http://localhost:5001/health || (echo "❌ Health check failed!" && exit 1)
             
+            # DIAGNOSTIC: Check what version is actually running locally
+            echo "🔍 DIAGNOSTIC: Local version check:"
+            curl -s http://localhost:5001/health-raw || echo "Failed to reach health-raw"
+            
             # Cleanup old images
             docker system prune -f
             echo "✅ Deployment complete and healthy!"
