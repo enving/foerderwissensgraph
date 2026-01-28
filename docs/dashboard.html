@@ -260,6 +260,61 @@
 
             <!-- Controls Overlay -->
             <div class="absolute bottom-8 left-8 z-10 flex flex-col gap-4">
+                <!-- Filter Panel -->
+                <div
+                    class="bg-white/80 backdrop-blur-md rounded-xl border border-gray-200 shadow-sm overflow-hidden w-64 pointer-events-auto">
+                    <button onclick="toggleFilters()"
+                        class="w-full flex items-center justify-between p-4 text-xs font-semibold text-federal-700 uppercase tracking-tighter hover:bg-gray-50 transition-colors">
+                        <span>Filter</span>
+                        <svg id="filterArrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300"
+                            style="transform: rotate(0deg);">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div id="filterContent" class="p-4 pt-0 space-y-3">
+                        <!-- Category Filter -->
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Kategorie</label>
+                            <select id="filterCategory" onchange="handleCategoryChange()"
+                                class="w-full text-xs p-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-federal-200 outline-none">
+                                <option value="">Alle</option>
+                                <option value="law">Gesetze</option>
+                                <option value="document">Dokumente</option>
+                            </select>
+                        </div>
+                        <!-- Ministry Filter -->
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Ressort /
+                                Herausgeber</label>
+                            <select id="filterMinistry" onchange="applyFilters()"
+                                class="w-full text-xs p-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-federal-200 outline-none">
+                                <option value="">Alle Ressorts</option>
+                            </select>
+                        </div>
+                        <!-- Type Filter -->
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Typ</label>
+                            <select id="filterType" onchange="applyFilters()"
+                                class="w-full text-xs p-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-federal-200 outline-none">
+                                <option value="">Alle Typen</option>
+                            </select>
+                        </div>
+                        <!-- Date Filter -->
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-gray-400 mb-1">Stand seit</label>
+                            <input type="date" id="filterDateStart" onchange="applyFilters()"
+                                class="w-full text-xs p-2 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-federal-200 outline-none">
+                        </div>
+
+                        <!-- Reset Button -->
+                        <button onclick="clearFilters()"
+                            class="w-full mt-2 py-1.5 text-xs font-bold text-gray-500 hover:text-federal-900 border border-gray-200 rounded hover:bg-white transition-colors">
+                            Filter zurücksetzen
+                        </button>
+                    </div>
+                </div>
                 <div
                     class="bg-white/80 backdrop-blur-md p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-3 pointer-events-auto">
                     <div class="text-xs font-semibold text-federal-700 uppercase tracking-tighter">Legend</div>
