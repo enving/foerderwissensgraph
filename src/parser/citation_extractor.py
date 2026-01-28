@@ -22,7 +22,8 @@ class CitationExtractor:
         # Matches: BNBest-P, ANBest-GK, NKBF 98, BNBest-BMBF
         {
             "type": "regulation",
-            "regex": r"(?P<regulation>BNBest-[A-Z0-9a-z\-]+|ANBest-[A-Z0-9a-z\-]+|AZA|AZK|NKBF|NABF|BEBF|NKFT)(?:\s+(?P<year>98|20\d{2}))?",
+            # Updated to support "BNBest-mittelbarer Abruf-BMBF" specifically (Longer match first!)
+            "regex": r"(?P<regulation>(?:BNBest|ANBest)(?:[\s-]mittelbarer[\s-]Abruf(?:-BMBF)?|-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)|AZA|AZK|NKBF|NABF|BEBF|NKFT)(?:\s+(?P<year>98|20\d{2}))?",
         },
     ]
 

@@ -6,17 +6,23 @@ import json
 import os
 import networkx as nx
 import re
-from src.models.schemas import ExpandContextRequest, ExpandContextResponse, MappedRegulation, MappedRule
+from src.models.schemas import (
+    ExpandContextRequest,
+    ExpandContextResponse,
+    MappedRegulation,
+    MappedRule,
+)
 from src.parser.citation_extractor import CitationExtractor
 
 logger = logging.getLogger(__name__)
+
 
 class ComplianceMapper:
     """
     Handles the expansion of context (guidelines) into a structured compliance map
     using the Knowledge Graph.
     """
-    
+
     # Expert Knowledge Mapping (Step B & C)
     # Maps keywords to "Regulation Families" or "Base Keywords" for search
     CONCEPT_MAP = {
@@ -27,16 +33,16 @@ class ComplianceMapper:
         "entgelt": "TVöD",
         "tvöd": "TVöD",
         "besserstellung": "Besserstellungsverbot",
-        "vergabe": "UVgO",
-        "vob": "VOB",
-        "uvgo": "UVgO",
-        "haushalt": "BHO",
-        "bho": "BHO",
-        "verwaltungsverfahren": "VwVfG",
-        "vwvfg": "VwVfG",
-        "anteilsfinanzierung": "VV Nr. 2.4", 
+        "vergabe": "law_UVgO",
+        "vob": "law_VOB",
+        "uvgo": "law_UVgO",
+        "haushalt": "law_BHO",
+        "bho": "law_BHO",
+        "verwaltungsverfahren": "law_VwVfG",
+        "vwvfg": "law_VwVfG",
+        "anteilsfinanzierung": "VV Nr. 2.4",
         "eigenmittel": "VV Nr. 2.4",
-        "zinssatz": "Verzugszinsen",
+        "zinssatz": "law_BGB_§_288",
     }
 
     def __init__(self, graph_path: Path):
@@ -63,30 +69,66 @@ class ComplianceMapper:
             logger.warning(f"Graph file NOT found: {self.graph_path}")
 
     def _find_document_by_kuerzel(self, kuerzel: str) -> Optional[str]:
-        """Finds a document node ID by its kuerzel or by searching title."""
+        """
+        Finds a document node ID by its kuerzel or title using a scoring system.
+        Priority: Exact Match > Law/Regulation Type > Partial Match
+        """
         kuerzel_clean = kuerzel.lower().strip()
-        
+        best_match_id = None
+        best_score = 0
+
         for node_id, data in self.graph.nodes(data=True):
-            node_kuerzel = data.get("kuerzel")
-            title = data.get("doc_title") or data.get("title") or ""
-            
-            match = False
-            if node_kuerzel and kuerzel_clean in str(node_kuerzel).lower():
-                match = True
-            elif title and kuerzel_clean in str(title).lower():
-                match = True
-                
-            if match:
+            score = 0
+
+            # Extract candidates
+            candidates = []
+            if data.get("kuerzel"):
+                candidates.append(str(data.get("kuerzel")).lower())
+            if data.get("title"):
+                candidates.append(str(data.get("title")).lower())
+            if data.get("doc_title"):
+                candidates.append(str(data.get("doc_title")).lower())
+
+            # Scoring Logic
+            for cand in candidates:
+                if cand == kuerzel_clean:
+                    score += 100  # Exact match bonus
+                elif kuerzel_clean in cand:  # Partial match
+                    # Penalize if candidate is much longer than query (prevents "BHO" matching "Some long doc mentioning BHO")
+                    length_diff = len(cand) - len(kuerzel_clean)
+                    if length_diff < 5:
+                        score += 50
+                    elif length_diff < 20:
+                        score += 20
+                    else:
+                        score += 5  # Weak match
+
+            if score > 0:
+                # Type Boost
                 n_type = data.get("node_type", data.get("type", ""))
-                if n_type == "chunk":
-                    for source, target, key, attr in self.graph.in_edges(node_id, data=True, keys=True):
-                        if attr.get("relation") == "HAS_CHUNK":
-                            return source
-                    if isinstance(node_id, str) and "_" in node_id:
-                        return node_id.split("_")[0]
-                elif n_type in ["document", "external", "law"]:
-                    return node_id
-                return node_id # General fallback
+                if n_type in ["law", "regulation", "document"]:
+                    score += 10
+                elif n_type == "chunk":
+                    score -= 50  # Disfavor chunks if a document exists
+
+            if score > best_score:
+                best_score = score
+                best_match_id = node_id
+
+        if best_match_id:
+            # If best match is a chunk, resolve to parent
+            n_type = self.graph.nodes[best_match_id].get("node_type", "")
+            if n_type == "chunk" or "_chunk_" in str(best_match_id):
+                for source, target, key, attr in self.graph.in_edges(
+                    best_match_id, data=True, keys=True
+                ):
+                    if attr.get("relation") == "HAS_CHUNK":
+                        return source
+                if isinstance(best_match_id, str) and "_" in best_match_id:
+                    return best_match_id.split("_")[0]
+
+            return best_match_id
+
         return None
 
     def _find_latest_version(self, doc_id: str) -> str:
@@ -99,7 +141,9 @@ class ComplianceMapper:
             # So we look for incoming SUPERSEDES edges
             found_newer = False
             if self.graph.has_node(current):
-                for src, dst, key, attr in self.graph.in_edges(current, keys=True, data=True):
+                for src, dst, key, attr in self.graph.in_edges(
+                    current, keys=True, data=True
+                ):
                     if attr.get("relation") == "SUPERSEDES" and src not in visited:
                         current = src
                         visited.add(current)
@@ -132,36 +176,43 @@ class ComplianceMapper:
         """Finds all rule chunks attached to a document."""
         rules = []
         chunk_nodes = []
-        
+
         if self.graph.has_node(doc_id):
             for target in self.graph.successors(doc_id):
                 edge_data = self.graph.get_edge_data(doc_id, target)
                 for key in edge_data:
                     if edge_data[key].get("relation") == "HAS_CHUNK":
                         chunk_nodes.append((target, self.graph.nodes[target]))
-        
+
         if not chunk_nodes:
             for node_id, data in self.graph.nodes(data=True):
                 if str(node_id).startswith(f"{doc_id}_chunk_"):
                     chunk_nodes.append((node_id, data))
-        
+
         for chunk_id, chunk_node in chunk_nodes:
             if "rules" in chunk_node and chunk_node["rules"]:
                 for r in chunk_node["rules"]:
-                    rules.append(MappedRule(
-                        rule_id=f"rule_{chunk_id}_{len(rules)}",
-                        content=r.get("rule", chunk_node.get("text", "")[:200]),
-                        relevance_reason=f"Gefunden in Dokument '{doc_id}'"
-                    ))
+                    rules.append(
+                        MappedRule(
+                            rule_id=f"rule_{chunk_id}_{len(rules)}",
+                            content=r.get("rule", chunk_node.get("text", "")[:200]),
+                            relevance_reason=f"Gefunden in Dokument '{doc_id}'",
+                        )
+                    )
             elif len(chunk_node.get("text", "")) > 100:
                 text = chunk_node.get("text", "")
-                if any(kw in text.lower() for kw in ["euro", "§", "frist", "nachweis", "pflicht"]):
-                    rules.append(MappedRule(
-                        rule_id=f"chunk_{chunk_id}",
-                        content=text[:300] + ("..." if len(text) > 300 else ""),
-                        relevance_reason=f"Referenzierte Textpassage aus '{doc_id}'"
-                    ))
-                    
+                if any(
+                    kw in text.lower()
+                    for kw in ["euro", "§", "frist", "nachweis", "pflicht"]
+                ):
+                    rules.append(
+                        MappedRule(
+                            rule_id=f"chunk_{chunk_id}",
+                            content=text[:300] + ("..." if len(text) > 300 else ""),
+                            relevance_reason=f"Referenzierte Textpassage aus '{doc_id}'",
+                        )
+                    )
+
         return rules[:50]
 
     def expand_context(self, request: ExpandContextRequest) -> ExpandContextResponse:
@@ -169,23 +220,27 @@ class ComplianceMapper:
         Main entry point for Context-Aware Compliance Mapping.
         Implements server-side deduplication and score aggregation across text chunks.
         """
-        logger.info(f"Expanding context for: {request.context_label} with {len(request.text_chunks)} chunks")
-        
+        logger.info(
+            f"Expanding context for: {request.context_label} with {len(request.text_chunks)} chunks"
+        )
+
         context_id = f"ctx_{uuid.uuid4().hex[:8]}"
-        
+
         # Aggregation Registry
         # Key: source_doc_title -> values
         aggregated_regs = {}
         # Track explicitly finding families to block implicit matches
         explicit_families = set()
 
-        def register_match(doc_id: str, target_name: str, category: str, chunk_idx: int):
+        def register_match(
+            doc_id: str, target_name: str, category: str, chunk_idx: int
+        ):
             if not self.graph.has_node(doc_id):
                 return
 
             doc_data = self.graph.nodes[doc_id]
             doc_title = doc_data.get("doc_title", doc_data.get("title", target_name))
-            
+
             # Initialize if new
             if doc_title not in aggregated_regs:
                 aggregated_regs[doc_title] = {
@@ -195,37 +250,37 @@ class ComplianceMapper:
                     "priority": 10 if "Explizit" in category else 1,
                     "hit_count": 0,
                     "found_in_chunks": set(),
-                    "rules": {}
+                    "rules": {},
                 }
-            
+
             entry = aggregated_regs[doc_title]
-            
+
             # Update params
             entry["hit_count"] += 1
             entry["found_in_chunks"].add(chunk_idx)
-            
+
             # Prioritize category (Explicit > Implicit)
             current_priority = 10 if "Explizit" in category else 1
             if current_priority > entry["priority"]:
                 entry["category"] = category
                 entry["priority"] = current_priority
-        
+
         # Step A: Hard Citation Matching (Priority 1)
         for i, chunk in enumerate(request.text_chunks):
             citations = self.extractor.extract(chunk)
             for cit in citations:
                 target = cit["target"]
                 doc_node_id = self._find_document_by_kuerzel(target)
-                
+
                 if doc_node_id:
                     # Mark family as explicitly found
                     explicit_families.update(self._get_family_set(doc_node_id))
-                    
+
                     register_match(
                         doc_id=doc_node_id,
                         target_name=target,
                         category="Explizite Bestimmungen (Zitiert)",
-                        chunk_idx=i
+                        chunk_idx=i,
                     )
 
         # Step B: Implicit Expansion (Fallback)
@@ -236,74 +291,82 @@ class ComplianceMapper:
                     doc_node_id = self._find_document_by_kuerzel(target_doc_name)
                     if not doc_node_id:
                         continue
-                        
+
                     family = self._get_family_set(doc_node_id)
-                    
+
                     # BLOCKING: If family already explicitly cited, skip implicit
                     if any(f_id in explicit_families for f_id in family):
                         continue
-                    
+
                     # Find LATEST version for implicit expansion
                     latest_id = self._find_latest_version(doc_node_id)
-                    
+
                     register_match(
                         doc_id=latest_id,
                         target_name=target_doc_name,
                         category="Implizite Erweiterung (Expertise)",
-                        chunk_idx=i
+                        chunk_idx=i,
                     )
 
         # Finalize and fetch rules
         mapped_regs = []
-        
+
         for doc_title, entry in aggregated_regs.items():
             doc_id = entry["doc_id"]
-            
+
             # Get rules (deduplicated by definition of _get_rules_for_document)
             # We fetch rules once per document
             raw_rules = self._get_rules_for_document(doc_id)
-            
+
             # Apply Boosting / Annotations
             final_rules = []
             if not raw_rules:
-                final_rules.append(MappedRule(
-                    rule_id=f"ref_{doc_id}",
-                    content=f"Regelwerk {doc_title} ist relevant.",
-                    relevance_reason=entry["category"]
-                ))
+                final_rules.append(
+                    MappedRule(
+                        rule_id=f"ref_{doc_id}",
+                        content=f"Regelwerk {doc_title} ist relevant.",
+                        relevance_reason=entry["category"],
+                    )
+                )
             else:
                 # Add context info to relevance reason if found in multiple chunks
                 chunk_count = len(entry["found_in_chunks"])
                 suffix = ""
                 if chunk_count > 1:
                     suffix = f" (Gefunden in {chunk_count} Textsegmenten)"
-                
+
                 for r in raw_rules:
                     # Cloning rule to modify relevance reason without affecting cache if we had one
-                    final_rules.append(MappedRule(
-                        rule_id=r.rule_id,
-                        content=r.content,
-                        relevance_reason=r.relevance_reason + suffix
-                    ))
+                    final_rules.append(
+                        MappedRule(
+                            rule_id=r.rule_id,
+                            content=r.content,
+                            relevance_reason=r.relevance_reason + suffix,
+                        )
+                    )
 
-            mapped_regs.append(MappedRegulation(
-                category=entry["category"],
-                source_doc=doc_title,
-                rules=final_rules
-            ))
+            mapped_regs.append(
+                MappedRegulation(
+                    category=entry["category"], source_doc=doc_title, rules=final_rules
+                )
+            )
 
         # Fallback if empty
         if not mapped_regs:
-             mapped_regs.append(
+            mapped_regs.append(
                 MappedRegulation(
                     category="System Information",
                     source_doc="Compliance Mapper",
-                    rules=[MappedRule(rule_id="info_no_match", content="No explicit or implicit rules found.", relevance_reason="Analysis result")]
+                    rules=[
+                        MappedRule(
+                            rule_id="info_no_match",
+                            content="No explicit or implicit rules found.",
+                            relevance_reason="Analysis result",
+                        )
+                    ],
                 )
-             )
+            )
 
         return ExpandContextResponse(
-            compliance_context_id=context_id,
-            mapped_regulations=mapped_regs
+            compliance_context_id=context_id, mapped_regulations=mapped_regs
         )
-

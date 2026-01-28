@@ -663,7 +663,7 @@
     {
       "id": "TASK-024",
       "title": "Fix Deployment Sync (Volume Mounts)",
-      "status": "in_progress",
+      "status": "completed",
       "priority": "critical",
       "category": "infrastructure",
       "created": "2026-01-28",
@@ -676,6 +676,35 @@
         "Verify backend code version matches frontend"
       ],
       "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false
+    },
+    {
+      "id": "TASK-025",
+      "title": "Optimize Compliance Mapping & Graph Coverage",
+      "status": "completed",
+      "priority": "high",
+      "category": "refactoring",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "opencode",
+      "requires_review": true,
+      "description": "Fix detection gaps for complex regulation names (e.g., 'BNBest-mittelbarer Abruf') and improve lookup precision to prevent wrong mappings (e.g., 'BHO' mapping to '0094' instead of the Law).",
+      "acceptance_criteria": [
+        "Regex in CitationExtractor supports spaces in BNBest/ANBest names (e.g. 'BNBest-mittelbarer Abruf-BMBF')",
+        "ComplianceMapper._find_document_by_kuerzel prioritizes Exact Matches and Node Type 'law'/'regulation' over partial string matches",
+        "NKBF 2017, NABF, BNBest-mittelbarer Abruf are correctly extracted and mapped in 'Drohne' example",
+        "Common keywords (BHO, Reisekosten) map to their canonical regulations, not random documents mentioning them"
+      ],
+      "subtasks": [
+        "Update CitationExtractor regex to allow spaces/multi-word suffixes for BNBest/ANBest",
+        "Refactor _find_document_by_kuerzel to implement a scoring/priority system (Exact > Type=Law > Partial)",
+        "Audit Knowledge Graph for existence of 'NKBF 2017', 'NABF', 'BNBest-mittelbarer Abruf-BMBF' nodes and create them if missing",
+        "Execute 'src/discovery/import_base_laws.py' to properly import BHO, VwVfG, and AO into the graph",
+        "Refine CONCEPT_MAP in compliance_mapper.py to target specific Node IDs (e.g., 'law_bho') instead of ambiguous strings"
+      ],
       "blocked_by": [],
       "blocks": [],
       "docs_updated": false,
