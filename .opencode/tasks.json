@@ -659,6 +659,27 @@
       "blocks": [],
       "docs_updated": false,
       "verified": false
+    },
+    {
+      "id": "TASK-024",
+      "title": "Fix Deployment Sync (Volume Mounts)",
+      "status": "in_progress",
+      "priority": "critical",
+      "category": "infrastructure",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "opencode",
+      "requires_review": false,
+      "description": "Ensure deployment updates source code on VPS if volume mounts are used.",
+      "acceptance_criteria": [
+        "Add git pull to deploy pipeline",
+        "Verify backend code version matches frontend"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": false
     }
   ],
   "features": [
