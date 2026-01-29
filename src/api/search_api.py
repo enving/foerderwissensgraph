@@ -363,12 +363,14 @@ async def health_raw():
     if answer_engine and answer_engine.provider:
         llm_status = f"Initialized ({answer_engine.provider.get_provider_name()})"
 
-    # Check Env
-    env_vars = {
-        "IONOS_API_KEY": "Set" if os.getenv("IONOS_API_KEY") else "Missing",
-        "OPENAI_API_KEY": "Set" if os.getenv("OPENAI_API_KEY") else "Missing",
-        "LLM_PROVIDER": os.getenv("LLM_PROVIDER", "Unknown"),
-    }
+    # Check Vector Store
+    vector_status = "Unknown"
+    try:
+        if engine and engine.vector_store and engine.vector_store.collection:
+            count = engine.vector_store.collection.count()
+            vector_status = f"Connected ({count} embeddings)"
+    except Exception as e:
+        vector_status = f"Error: {str(e)}"
 
     return {
         "status": "healthy" if node_count > 0 else "degraded",
@@ -376,6 +378,7 @@ async def health_raw():
         "version": "2.3.4-debug",
         "diagnostics": {
             "graph": graph_status,
+            "vector_store": vector_status,
             "llm": llm_status,
             "env": env_vars,
             "upload_cache_size": len(UPLOAD_CACHE),
