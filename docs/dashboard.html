@@ -820,17 +820,48 @@
 
         function processRules() {
             knowledgeData.nodes.forEach(node => {
-                if (node.type === 'chunk' && node.rules && node.rules.length > 0) {
-                    const docId = node.id.split('_')[0];
+                // Check if it's a chunk/paragraph
+                if ((node.type === 'chunk' || node.node_type === 'chunk') && node.id) {
+                    let docId = null;
+                    const parts = node.id.split('_');
+                    
+                    // Smart ID Parsing
+                    if (node.id.startsWith('law_')) {
+                        // e.g. law_BHO_§_1 -> docId = law_BHO
+                        if (parts.length >= 2) docId = parts[0] + '_' + parts[1];
+                    } else {
+                        // e.g. 0347_chunk_1 -> docId = 0347
+                        docId = parts[0];
+                    }
+
+                    if (!docId) return;
                     if (!documentRules[docId]) documentRules[docId] = [];
 
-                    node.rules.forEach(rule => {
-                        documentRules[docId].push({
-                            ...rule,
-                            context: node.context,
-                            headings: node.headings
+                    // 1. Explicit Rules
+                    if (node.rules && node.rules.length > 0) {
+                        node.rules.forEach(rule => {
+                            documentRules[docId].push({
+                                ...rule,
+                                context: node.context,
+                                headings: node.headings,
+                                isFallback: false
+                            });
                         });
-                    });
+                    } 
+                    // 2. Fallback: Use Text as Rule (for Laws/Paragraphs without explicit extraction)
+                    else if (node.text && node.text.length > 10) {
+                        // Only if it looks like a rule (heuristic)
+                        // Or just take it all for laws
+                        const isLaw = node.id.includes('law_') || node.id.includes('§');
+                        if (isLaw || node.text.length < 500) {
+                             documentRules[docId].push({
+                                category: isLaw ? "Gesetzestext" : "Inhalt",
+                                rule: node.text.substring(0, 300) + (node.text.length > 300 ? "..." : ""),
+                                value: null,
+                                isFallback: true
+                            });
+                        }
+                    }
                 }
             });
         }
