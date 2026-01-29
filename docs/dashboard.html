@@ -1106,32 +1106,34 @@
                         const analysisData = await analysisRes.json();
                         loadingMsg.remove(); // Remove loading
                         
-                        // Format Analysis Result (Compact Version)
-                        let responseText = `### Analyseergebnis für "${uploadedFile.name}"\n\n`;
+                        // Format Analysis Result (HTML Version for robustness)
+                        // Using HTML directly to ensure links work and formatting is clean
+                        let responseText = `<h3 class="font-bold text-lg mb-2">Analyseergebnis für "${uploadedFile.name}"</h3>`;
                         
                         if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
-                            responseText += "Gefundene Referenzen und Regeln:\n";
+                            responseText += '<p class="mb-2">Gefundene Referenzen und Regeln:</p><ul class="list-disc pl-5 space-y-1">';
                             analysisData.mapped_regulations.forEach(reg => {
-                                let nodeId = reg.doc_id; // Use direct ID from backend if available
-                                
-                                // Fallback: try to find by title if ID is missing (should not happen with new backend)
+                                let nodeId = reg.doc_id;
                                 if(!nodeId && graphData && graphData.nodes) {
                                     const match = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc);
                                     if(match) nodeId = match.id;
                                 }
                                 
-                                const linkTitle = nodeId ? `[${reg.source_doc}](#graph:${nodeId})` : `**${reg.source_doc}**`;
                                 const ruleCount = reg.rules.length;
-                                responseText += `*   ${linkTitle} (${ruleCount} relevante Regeln)\n`;
+                                if (nodeId) {
+                                    responseText += `<li><a href="#" onclick="event.preventDefault(); zoomToNode('${nodeId}');" class="font-bold text-federal-700 hover:text-accent-gold border-b border-federal-200 hover:border-accent-gold transition-colors" title="Im Graphen anzeigen">${reg.source_doc}</a> <span class="text-xs text-gray-500">(${ruleCount} Regeln)</span></li>`;
+                                } else {
+                                    responseText += `<li><span class="font-bold">${reg.source_doc}</span> <span class="text-xs text-gray-500">(${ruleCount} Regeln)</span></li>`;
+                                }
                             });
-                            responseText += `\n*Klicken Sie auf die Links, um die Details im Graphen anzuzeigen.*`;
+                            responseText += '</ul><p class="mt-4 text-xs italic text-gray-500">Klicken Sie auf die Links, um die Details im Graphen anzuzeigen.</p>';
                         } else {
-                            responseText += "Keine spezifischen Referenzen im Knowledge Graph gefunden.";
+                            responseText += "<p>Keine spezifischen Referenzen im Knowledge Graph gefunden.</p>";
                         }
                         
+                        // Pass directly as 'ai' message. Marked.js will render the HTML inside.
                         addMessage('ai', responseText);
                         btn.disabled = false;
-                        // Don't clear upload yet, maybe user wants to ask more about it
                         return; 
                     }
                     
