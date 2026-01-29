@@ -531,11 +531,13 @@ async def chat_query(request: ChatRequest):
 
     if doc_id and doc_id in UPLOAD_CACHE:
         doc_text = UPLOAD_CACHE[doc_id]
-        # Naive: Just take the first 4000 chars or search simplisticly
-        # For a "Smart" feature, we'd chunk and vector search this too.
-        # Here we just prepend the document content as context.
-        # If text is huge, we might truncate.
-        preview = doc_text[:3000] + "..." if len(doc_text) > 3000 else doc_text
+        # Allow much larger context for "Analyze" tasks (approx 8k tokens safe limit for most models)
+        # 30,000 chars ~= 7,500 tokens.
+        limit = 30000
+        preview = doc_text[:limit]
+        if len(doc_text) > limit:
+            preview += "\n... [Dokument gekürzt für Kontext-Fenster] ..."
+
         context_chunks.append(f"[UPLOADED_DOCUMENT]\n{preview}\n[/UPLOADED_DOCUMENT]")
 
     # 3. Add Graph Context
@@ -594,10 +596,29 @@ async def chat_query(request: ChatRequest):
             )
             system_prompt = system_prompt[:100000] + "\n[...Truncated...]"
 
-        response = answer_engine.provider.generate(system_prompt, max_tokens=500)
+        # Robust generation with retries
+        import time
+
+        response = None
+        for attempt in range(3):
+            try:
+                response = answer_engine.provider.generate(
+                    system_prompt, max_tokens=1500
+                )
+                if response and response.content:
+                    break
+                logger.warning(
+                    f"Empty response from LLM (Attempt {attempt + 1}/3). Retrying..."
+                )
+                time.sleep(1)
+            except Exception as e:
+                logger.warning(f"LLM Generation Error (Attempt {attempt + 1}/3): {e}")
+                if attempt == 2:
+                    raise e
+                time.sleep(1)
 
         if not response or not response.content:
-            logger.error("LLM Provider returned empty response.")
+            logger.error("LLM Provider returned empty response after retries.")
             return {
                 "answer": "Die KI hat eine leere Antwort zurückgegeben. Bitte versuchen Sie es erneut.",
                 "results": graph_results,
