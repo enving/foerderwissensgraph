@@ -739,6 +739,47 @@
       "verified": true
     }
   ],
+      "subtasks": [
+        "Update dashboard.html: Add marked.js",
+        "Update dashboard.html: Remove auto-submit in handleFileUpload",
+        "Update dashboard.html: Implement custom marked renderer for #graph: links",
+        "Update search_api.py: Instruct LLM to use Markdown links for citations"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true
+    },
+    {
+      "id": "TASK-027",
+      "title": "Infrastructure Stabilization & Deployment Fixes",
+      "status": "completed",
+      "priority": "critical",
+      "category": "infrastructure",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Resolve persistent deployment failures, stale code on VPS, and API Key injection issues.",
+      "acceptance_criteria": [
+        "CI/CD Pipeline runs successfully even if Git on VPS is broken (Tolerance added)",
+        "VPS runs the LATEST code (v2.3.4-debug) verified via /health-raw",
+        "Secrets (IONOS_API_KEY) are correctly injected into .env",
+        "Knowledge Graph is present in the container (via Dockerfile COPY)"
+      ],
+      "subtasks": [
+        "Update deploy.yml: Add Secret Injection for .env",
+        "Update deploy.yml: Add aggressive container cleanup (docker rm -f)",
+        "Update deploy.yml: Add Git failure tolerance",
+        "Update Dockerfile: COPY data/knowledge_graph.json to image",
+        "Manual VPS Fix: Remove './src:/app/src' mount from docker-compose.yml to prevent stale code overlay"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true
+    }
+  ],
   "features": [
     {
       "id": "FEAT-001",
