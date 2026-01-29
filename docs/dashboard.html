@@ -1112,8 +1112,10 @@
                         if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
                             responseText += "Gefundene Referenzen und Regeln:\n";
                             analysisData.mapped_regulations.forEach(reg => {
-                                let nodeId = null;
-                                if(graphData && graphData.nodes) {
+                                let nodeId = reg.doc_id; // Use direct ID from backend if available
+                                
+                                // Fallback: try to find by title if ID is missing (should not happen with new backend)
+                                if(!nodeId && graphData && graphData.nodes) {
                                     const match = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc);
                                     if(match) nodeId = match.id;
                                 }
