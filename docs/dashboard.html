@@ -1106,29 +1106,23 @@
                         const analysisData = await analysisRes.json();
                         loadingMsg.remove(); // Remove loading
                         
-                        // Format Analysis Result
+                        // Format Analysis Result (Compact Version)
                         let responseText = `### Analyseergebnis für "${uploadedFile.name}"\n\n`;
                         
                         if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
+                            responseText += "Gefundene Referenzen und Regeln:\n";
                             analysisData.mapped_regulations.forEach(reg => {
-                                // Try to link to graph node if ID matches a known node (need fuzzy check or exact)
-                                // The backend returns 'source_doc' which is the title. 
-                                // We can try to find the node by title in our local graphData to get the ID.
                                 let nodeId = null;
                                 if(graphData && graphData.nodes) {
-                                    const match = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc); // Simple match
+                                    const match = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc);
                                     if(match) nodeId = match.id;
                                 }
                                 
                                 const linkTitle = nodeId ? `[${reg.source_doc}](#graph:${nodeId})` : `**${reg.source_doc}**`;
-                                responseText += `#### ${linkTitle}\n`;
-                                
-                                reg.rules.forEach(r => {
-                                    responseText += `- ${r.content}\n`;
-                                });
-                                responseText += `\n`;
+                                const ruleCount = reg.rules.length;
+                                responseText += `*   ${linkTitle} (${ruleCount} relevante Regeln)\n`;
                             });
-                            responseText += `\n*Ich habe diese Vorschriften im Knowledge Graph identifiziert.*`;
+                            responseText += `\n*Klicken Sie auf die Links, um die Details im Graphen anzuzeigen.*`;
                         } else {
                             responseText += "Keine spezifischen Referenzen im Knowledge Graph gefunden.";
                         }
