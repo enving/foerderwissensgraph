@@ -569,6 +569,11 @@ async def chat_query(request: ChatRequest):
     Du bist der KI-Assistent für den Förderwissensgraph.
     Nutze den folgenden Kontext (Graph-Wissen und evtl. hochgeladene Dokumente), um die Frage zu beantworten.
     
+    WICHTIG:
+    - Wenn du auf ein Dokument aus dem Kontext verweist, nutze das Format: [Titel](#graph:ID).
+    - Beispiel: "Siehe dazu die [NKBF 2017](#graph:0347)."
+    - Die IDs (z.B. '0347' oder 'law_BHO') stehen im Kontext. Wenn keine ID da ist, nutze fetten Text.
+    
     Verlauf:
     {history_str}
     
@@ -577,7 +582,7 @@ async def chat_query(request: ChatRequest):
     
     Frage: {query}
     
-    Antwort (hilfreich, präzise, auf Deutsch):
+    Antwort (hilfreich, präzise, auf Deutsch, mit Links):
     """
 
     try:
