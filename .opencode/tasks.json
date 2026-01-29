@@ -682,33 +682,61 @@
       "verified": false
     },
     {
-      "id": "TASK-025",
-      "title": "Optimize Compliance Mapping & Graph Coverage",
+      "id": "TASK-026",
+      "title": "Optimize Chat & Analysis UX",
       "status": "completed",
       "priority": "high",
-      "category": "refactoring",
+      "category": "feature",
       "created": "2026-01-28",
       "updated": "2026-01-28",
       "assigned_agent": "opencode",
       "requires_review": true,
-      "description": "Fix detection gaps for complex regulation names (e.g., 'BNBest-mittelbarer Abruf') and improve lookup precision to prevent wrong mappings (e.g., 'BHO' mapping to '0094' instead of the Law).",
+      "description": "Improve Chat Interface usability by disabling auto-submit on upload, rendering Markdown/Links properly, and enabling Graph interactions via chat links.",
       "acceptance_criteria": [
-        "Regex in CitationExtractor supports spaces in BNBest/ANBest names (e.g. 'BNBest-mittelbarer Abruf-BMBF')",
-        "ComplianceMapper._find_document_by_kuerzel prioritizes Exact Matches and Node Type 'law'/'regulation' over partial string matches",
-        "NKBF 2017, NABF, BNBest-mittelbarer Abruf are correctly extracted and mapped in 'Drohne' example",
-        "Common keywords (BHO, Reisekosten) map to their canonical regulations, not random documents mentioning them"
+        "File upload shows preview but does not auto-submit",
+        "Chat messages render Markdown (bold, lists)",
+        "Chat messages contain clickable links [#graph:ID] that zoom to nodes in the D3 graph",
+        "Backend prompt updated to generate compatible Markdown links"
       ],
       "subtasks": [
-        "Update CitationExtractor regex to allow spaces/multi-word suffixes for BNBest/ANBest",
-        "Refactor _find_document_by_kuerzel to implement a scoring/priority system (Exact > Type=Law > Partial)",
-        "Audit Knowledge Graph for existence of 'NKBF 2017', 'NABF', 'BNBest-mittelbarer Abruf-BMBF' nodes and create them if missing",
-        "Execute 'src/discovery/import_base_laws.py' to properly import BHO, VwVfG, and AO into the graph",
-        "Refine CONCEPT_MAP in compliance_mapper.py to target specific Node IDs (e.g., 'law_bho') instead of ambiguous strings"
+        "Update dashboard.html: Add marked.js",
+        "Update dashboard.html: Remove auto-submit in handleFileUpload",
+        "Update dashboard.html: Implement custom marked renderer for #graph: links",
+        "Update search_api.py: Instruct LLM to use Markdown links for citations"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true
+    },
+    {
+      "id": "TASK-027",
+      "title": "Infrastructure Stabilization & Deployment Fixes",
+      "status": "completed",
+      "priority": "critical",
+      "category": "infrastructure",
+      "created": "2026-01-28",
+      "updated": "2026-01-28",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "description": "Resolve persistent deployment failures, stale code on VPS, and API Key injection issues.",
+      "acceptance_criteria": [
+        "CI/CD Pipeline runs successfully even if Git on VPS is broken (Tolerance added)",
+        "VPS runs the LATEST code (v2.3.4-debug) verified via /health-raw",
+        "Secrets (IONOS_API_KEY) are correctly injected into .env",
+        "Knowledge Graph is present in the container (via Dockerfile COPY)"
+      ],
+      "subtasks": [
+        "Update deploy.yml: Add Secret Injection for .env",
+        "Update deploy.yml: Add aggressive container cleanup (docker rm -f)",
+        "Update deploy.yml: Add Git failure tolerance",
+        "Update Dockerfile: COPY data/knowledge_graph.json to image",
+        "Manual VPS Fix: Remove './src:/app/src' mount from docker-compose.yml to prevent stale code overlay"
       ],
       "blocked_by": [],
       "blocks": [],
       "docs_updated": false,
-      "verified": false
+      "verified": true
     }
   ],
   "features": [
