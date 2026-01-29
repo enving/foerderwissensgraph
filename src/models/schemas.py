@@ -28,10 +28,17 @@ class ChunkMetadata(BaseModel):
 
 # --- GraphRAG Expansion ModelsAsString ---
 
+
 class ExpandContextRequest(BaseModel):
-    context_label: str = Field(..., description="Label for the context, e.g. 'Guidelines_Drone_2024'")
-    text_chunks: List[str] = Field(..., description="List of text chunks from the guideline")
-    metadata: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Additional metadata like agency, year")
+    context_label: str = Field(
+        ..., description="Label for the context, e.g. 'Guidelines_Drone_2024'"
+    )
+    text_chunks: List[str] = Field(
+        ..., description="List of text chunks from the guideline"
+    )
+    metadata: Optional[Dict[str, Any]] = Field(
+        default_factory=dict, description="Additional metadata like agency, year"
+    )
 
 
 class MappedRule(BaseModel):
@@ -43,6 +50,7 @@ class MappedRule(BaseModel):
 class MappedRegulation(BaseModel):
     category: str
     source_doc: str
+    doc_id: Optional[str] = None
     rules: List[MappedRule]
 
 
@@ -60,4 +68,3 @@ class ChatRequest(BaseModel):
     message: str
     history: List[ChatMessage] = []
     uploaded_doc_id: Optional[str] = None
-

@@ -347,7 +347,10 @@ class ComplianceMapper:
 
             mapped_regs.append(
                 MappedRegulation(
-                    category=entry["category"], source_doc=doc_title, rules=final_rules
+                    category=entry["category"],
+                    source_doc=doc_title,
+                    doc_id=doc_id,
+                    rules=final_rules,
                 )
             )
 
