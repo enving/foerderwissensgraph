@@ -32,7 +32,7 @@ class OpenAIProvider(BaseLLMProvider):
         api_key: str,
         model: str,
         api_url: str = "https://api.openai.com/v1",
-        timeout: int = 30,
+        timeout: int = 120,
         **kwargs,
     ):
         super().__init__(api_key, model, **kwargs)

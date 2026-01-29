@@ -372,6 +372,13 @@ async def health_raw():
     except Exception as e:
         vector_status = f"Error: {str(e)}"
 
+    # Check Env
+    env_vars = {
+        "IONOS_API_KEY": "Set" if os.getenv("IONOS_API_KEY") else "Missing",
+        "OPENAI_API_KEY": "Set" if os.getenv("OPENAI_API_KEY") else "Missing",
+        "LLM_PROVIDER": os.getenv("LLM_PROVIDER", "Unknown"),
+    }
+
     return {
         "status": "healthy" if node_count > 0 else "degraded",
         "service": "Bund-ZuwendungsGraph",
