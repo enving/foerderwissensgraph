@@ -328,10 +328,15 @@ class VectorStore:
             data = json.load(f)
 
         nodes = data.get("nodes", [])
-        chunks_to_process = [n for n in nodes if n.get("type") == "chunk"]
+        chunks_to_process = [
+            n
+            for n in nodes
+            if n.get("type") == "chunk" or n.get("node_type") == "chunk"
+        ]
 
         # Check if already indexed (simple check)
         existing_count = self.collection.count()
+        # Only skip if we have at least as many as we want to process
         if existing_count >= len(chunks_to_process):
             logger.info(
                 f"Vector store already has {existing_count} chunks. Skipping re-indexing."
