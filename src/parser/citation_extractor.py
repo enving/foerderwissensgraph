@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+from typing import List, Dict, Any
 
 
 class CitationExtractor:
@@ -27,8 +27,31 @@ class CitationExtractor:
         },
     ]
 
-    def extract(self, text: str) -> List[Dict[str, str]]:
+    NEGATION_PHRASES = [
+        "keine anwendung",
+        "nicht anwendbar",
+        "gilt nicht",
+        "findet keine anwendung",
+        "abweichend von",
+        "ausgeschlossen",
+        "nicht maßgebend",
+    ]
+
+    def extract(self, text: str) -> List[Dict[str, Any]]:
         citations = []
+        text_lower = text.lower()
+
+        # Helper to check for negation
+        def is_negated(start, end):
+            # Check window of 40 characters after citation
+            window_after = text_lower[end : end + 40]
+            if any(phrase in window_after for phrase in self.NEGATION_PHRASES):
+                return True
+            # Check window of 40 characters before citation
+            window_before = text_lower[max(0, start - 40) : start]
+            if any(phrase in window_before for phrase in self.NEGATION_PHRASES):
+                return True
+            return False
 
         # 1. Laws
         for match in re.finditer(self.PATTERNS[0]["regex"], text):
@@ -40,6 +63,7 @@ class CitationExtractor:
                     "text": match.group(0),
                     "start": match.start(),
                     "end": match.end(),
+                    "is_excluded": is_negated(match.start(), match.end()),
                 }
             )
 
@@ -56,6 +80,7 @@ class CitationExtractor:
                     "text": match.group(0),
                     "start": match.start(),
                     "end": match.end(),
+                    "is_excluded": is_negated(match.start(), match.end()),
                 }
             )
 

@@ -1139,10 +1139,10 @@
                         
                         // Format Analysis Result (HTML Version for robustness)
                         // Using HTML directly to ensure links work and formatting is clean
-                        let responseText = `<h3 class="font-bold text-lg mb-2">Analyseergebnis für "${uploadedFile.name}"</h3>`;
+                        let responseText = `<h3 class="font-bold text-lg mb-4">Analyseergebnis für "${uploadedFile.name}"</h3>`;
                         
                         if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
-                            responseText += '<p class="mb-2">Gefundene Referenzen und Regeln:</p><ul class="list-disc pl-5 space-y-1">';
+                            responseText += '<p class="mb-4 text-sm text-gray-600">Basierend auf dem Knowledge Graph wurden folgende Regelwerke als relevant identifiziert:</p><div class="space-y-4">';
                             analysisData.mapped_regulations.forEach(reg => {
                                 let nodeId = reg.doc_id;
                                 if(!nodeId && graphData && graphData.nodes) {
@@ -1151,13 +1151,23 @@
                                 }
                                 
                                 const ruleCount = reg.rules.length;
-                                if (nodeId) {
-                                    responseText += `<li><a href="#" onclick="event.preventDefault(); zoomToNode('${nodeId}');" class="font-bold text-federal-700 hover:text-accent-gold border-b border-federal-200 hover:border-accent-gold transition-colors" title="Im Graphen anzeigen">${reg.source_doc}</a> <span class="text-xs text-gray-500">(${ruleCount} Regeln)</span></li>`;
-                                } else {
-                                    responseText += `<li><span class="font-bold">${reg.source_doc}</span> <span class="text-xs text-gray-500">(${ruleCount} Regeln)</span></li>`;
-                                }
+                                const categoryColor = reg.category.includes('Explizit') ? 'bg-federal-100 text-federal-700' : 'bg-amber-50 text-amber-700';
+                                
+                                responseText += `
+                                    <div class="p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${categoryColor}">${reg.category}</span>
+                                            <span class="text-[10px] text-gray-400 font-medium">${ruleCount} Regeln</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            ${nodeId ? 
+                                                `<a href="#" onclick="event.preventDefault(); zoomToNode('${nodeId}');" class="font-bold text-federal-800 hover:text-accent-gold transition-colors decoration-dotted underline underline-offset-4" title="Im Graphen anzeigen">${reg.source_doc}</a>` : 
+                                                `<span class="font-bold text-federal-800">${reg.source_doc}</span>`
+                                            }
+                                        </div>
+                                    </div>`;
                             });
-                            responseText += '</ul><p class="mt-4 text-xs italic text-gray-500">Klicken Sie auf die Links, um die Details im Graphen anzuzeigen.</p>';
+                            responseText += '</div><p class="mt-6 text-[10px] italic text-gray-400 border-t pt-2">Die "Implizite Erweiterung" basiert auf Expertenwissen und verknüpft Begriffe wie "Reisekosten" automatisch mit dem BRKG, auch wenn dieses nicht explizit im Text genannt wird.</p>';
                         } else {
                             responseText += "<p>Keine spezifischen Referenzen im Knowledge Graph gefunden.</p>";
                         }

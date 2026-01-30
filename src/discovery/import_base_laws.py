@@ -15,13 +15,20 @@ def import_core_laws():
     if output_graph_path.exists():
         builder.load_graph(output_graph_path)
 
-    core_laws = ["BHO", "VwVfG", "AO"]
+    core_laws = {
+        "BHO": "bho",
+        "VwVfG": "vwvfg",
+        "AO": "ao_1977",
+        "BGB": "bgb",
+        "VgV": "vgv_2016",
+        "GWB": "gwb",
+        "BRKG": "brkg_2005",
+    }
 
-    logger.info(f"Starting initial import of core laws: {core_laws}")
+    logger.info(f"Starting initial import of core laws: {list(core_laws.keys())}")
 
-    for law_abbr in core_laws:
+    for law_abbr, search_abbr in core_laws.items():
         try:
-            search_abbr = "ao_1977" if law_abbr == "AO" else law_abbr
             logger.info(f"Importing {law_abbr} (using {search_abbr})...")
             xml_content = crawler.fetch_law(search_abbr)
             norms = crawler.parse_law_xml(xml_content)

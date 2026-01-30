@@ -68,3 +68,4 @@ class ChatRequest(BaseModel):
     message: str
     history: List[ChatMessage] = []
     uploaded_doc_id: Optional[str] = None
+    context_doc_id: Optional[str] = None

@@ -2,7 +2,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Dict, Any
 
 try:
     import chromadb
@@ -12,6 +12,7 @@ except Exception:
     chromadb = None
 
 import requests
+import numpy as np
 from src.parser.embedding_engine import EmbeddingEngine
 
 logging.basicConfig(level=logging.INFO)
@@ -76,27 +77,6 @@ class RestChromaClient:
         resp.raise_for_status()
         return RestCollection(self, name, resp.json()["id"])
 
-        # 4. Create (V2)
-        logger.warning(
-            "REST Client: v1 collection create failed, trying v2/tenant path..."
-        )
-        resp = requests.post(
-            f"{tenant_base}/collections", json={"name": name, "metadata": metadata}
-        )
-
-        if resp.status_code == 409:  # Conflict - already exists
-            # We should have found it in step 2, but maybe race condition or step 2 failed.
-            # Try listing again? Or maybe 409 response has ID? No.
-            # Retry listing one more time
-            resp_list = requests.get(f"{tenant_base}/collections")
-            if resp_list.status_code == 200:
-                for col in resp_list.json():
-                    if col["name"] == name:
-                        return RestCollection(self, name, col["id"])
-
-        resp.raise_for_status()
-        return RestCollection(self, name, resp.json()["id"])
-
 
 class RestCollection:
     def __init__(self, client, name, id):
@@ -133,6 +113,163 @@ class RestCollection:
         resp = requests.post(url, json=payload)
         resp.raise_for_status()
 
+    def count(self) -> int:
+        url = f"{self.client.base_url_v2}/tenants/default_tenant/databases/default_database/collections/{self.id}"
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            # V2 API returns metadata including count
+            return resp.json().get("count", 0)
+        return 0
+
+    def get(self, ids: Optional[List[str]] = None, where: Optional[Dict] = None):
+        url = f"{self.client.base_url_v2}/tenants/default_tenant/databases/default_database/collections/{self.id}/get"
+        payload = {}
+        if ids:
+            payload["ids"] = ids
+        if where:
+            payload["where"] = where
+
+        resp = requests.post(url, json=payload)
+        if resp.status_code == 200:
+            return resp.json()
+        return {"ids": [], "documents": [], "metadatas": []}
+
+
+class LiteCollection:
+    """A lightweight, JSON-persistent vector store for Python 3.14 compat."""
+
+    def __init__(self, name: str, persistence_path: Path):
+        self.name = name
+        self.persistence_path = persistence_path
+        self.data = {}  # id -> {embedding, document, metadata}
+        self._load()
+
+    def _load(self):
+        if self.persistence_path.exists():
+            try:
+                with open(self.persistence_path, "r", encoding="utf-8") as f:
+                    raw = json.load(f)
+                    for item in raw:
+                        # Convert embedding to np array
+                        item["embedding"] = np.array(
+                            item["embedding"], dtype=np.float32
+                        )
+                        self.data[item["id"]] = item
+                logger.info(
+                    f"LiteVectorStore: Loaded {len(self.data)} chunks from {self.persistence_path}"
+                )
+            except Exception as e:
+                logger.error(f"LiteVectorStore: Failed to load data: {e}")
+
+    def _save(self):
+        out = []
+        for pid, item in self.data.items():
+            c = item.copy()
+            c["embedding"] = c["embedding"].tolist()
+            out.append(c)
+
+        # Atomic write pattern
+        temp_path = self.persistence_path.with_suffix(".tmp")
+        try:
+            with open(temp_path, "w", encoding="utf-8") as f:
+                json.dump(out, f)
+            os.replace(temp_path, self.persistence_path)
+        except Exception as e:
+            logger.error(f"LiteVectorStore: Failed to save data: {e}")
+            if temp_path.exists():
+                os.remove(temp_path)
+
+    def upsert(self, ids, embeddings, documents, metadatas):
+        for i, pid in enumerate(ids):
+            self.data[pid] = {
+                "id": pid,
+                "embedding": np.array(embeddings[i], dtype=np.float32),
+                "document": documents[i],
+                "metadata": metadatas[i] if metadatas else {},
+            }
+        self._save()
+
+    def query(
+        self, query_embeddings, n_results, where=None, where_document=None, include=None
+    ):
+        results = {"ids": [], "distances": [], "metadatas": [], "documents": []}
+
+        for q_emb in query_embeddings:
+            q_vec = np.array(q_emb, dtype=np.float32)
+            # Normalize query
+            q_norm = np.linalg.norm(q_vec)
+            if q_norm > 0:
+                q_vec = q_vec / q_norm
+
+            scored = []
+            for pid, item in self.data.items():
+                # Filter
+                if where:
+                    if not self._check_filter(item["metadata"], where):
+                        continue
+
+                # Similarity
+                d_vec = item["embedding"]
+                d_norm = np.linalg.norm(d_vec)
+                score = 0.0
+                if d_norm > 0:
+                    score = np.dot(q_vec, d_vec / d_norm)
+
+                dist = 1.0 - score
+                scored.append((dist, item))
+
+            scored.sort(key=lambda x: x[0])
+            top = scored[:n_results]
+
+            results["ids"].append([x[1]["id"] for x in top])
+            results["distances"].append([x[0] for x in top])
+            results["metadatas"].append([x[1]["metadata"] for x in top])
+            results["documents"].append([x[1]["document"] for x in top])
+
+        return results
+
+    def _check_filter(self, metadata, where):
+        if not metadata:
+            return False
+
+        for k, v in where.items():
+            val = metadata.get(k)
+            if isinstance(v, dict):
+                # Operators
+                if "$in" in v:
+                    if val not in v["$in"]:
+                        return False
+            else:
+                # Equality
+                if val != v:
+                    return False
+        return True
+
+    def count(self):
+        return len(self.data)
+
+    def get(self, ids: Optional[List[str]] = None):
+        res = {"ids": [], "documents": [], "metadatas": []}
+        if not ids:
+            return res
+
+        for pid in ids:
+            if pid in self.data:
+                res["ids"].append(pid)
+                res["documents"].append(self.data[pid]["document"])
+                res["metadatas"].append(self.data[pid]["metadata"])
+        return res
+
+
+class LiteChromaClient:
+    def __init__(self, path: str):
+        self.path = Path(path)
+        self.path.mkdir(parents=True, exist_ok=True)
+        self.file_path = self.path / "lite_store.json"
+
+    def get_or_create_collection(self, name: str, metadata=None):
+        return LiteCollection(name, self.file_path)
+
 
 class VectorStore:
     def __init__(self, db_path: str = "data/chroma_db"):
@@ -164,33 +301,16 @@ class VectorStore:
                     self.client = chromadb.PersistentClient(path=db_path)
                 except Exception as e:
                     logger.warning(
-                        f"Failed to init PersistentClient: {e}. Fallback to Mock."
+                        f"Failed to init PersistentClient: {e}. Fallback to LiteVectorStore."
                     )
-                    self.client = self._get_mock_client()
+                    self.client = LiteChromaClient(path=db_path)
             else:
-                logger.warning("Full chromadb package missing. Using Mock Client.")
-                self.client = self._get_mock_client()
+                logger.warning("Full chromadb package missing. Using LiteVectorStore.")
+                self.client = LiteChromaClient(path=db_path)
 
         self.collection = self.client.get_or_create_collection(
             name="chunks", metadata={"hnsw:space": "cosine"}
         )
-
-    def _get_mock_client(self):
-        class MockClient:
-            def get_or_create_collection(self, name, metadata=None):
-                return MockCollection()
-
-        class MockCollection:
-            def query(self, **kwargs):
-                return {"ids": [], "distances": [], "metadatas": [], "documents": []}
-
-            def upsert(self, **kwargs):
-                pass
-
-            def get(self, ids):
-                return {"documents": []}
-
-        return MockClient()
 
     def add_chunks_from_graph(self, graph_path: Path):
         if not graph_path.exists():
@@ -202,6 +322,14 @@ class VectorStore:
 
         nodes = data.get("nodes", [])
         chunks_to_process = [n for n in nodes if n.get("type") == "chunk"]
+
+        # Check if already indexed (simple check)
+        existing_count = self.collection.count()
+        if existing_count >= len(chunks_to_process):
+            logger.info(
+                f"Vector store already has {existing_count} chunks. Skipping re-indexing."
+            )
+            return
 
         batch_size = 50
         for i in range(0, len(chunks_to_process), batch_size):
@@ -216,6 +344,20 @@ class VectorStore:
                     "context": n.get("context", ""),
                 }
                 metadatas.append(meta)
+
+            # Check if batch already exists to resume interruption
+            try:
+                existing = self.collection.get(ids=ids)
+                # Chroma get returns dict with ids list
+                found_ids = existing.get("ids", []) if existing else []
+                if len(found_ids) == len(ids):
+                    logger.info(
+                        f"Batch {i // batch_size + 1} already indexed. Skipping."
+                    )
+                    continue
+            except Exception as e:
+                # Fallback if get fails (e.g. not implemented in some client version)
+                pass
 
             logger.info(
                 f"Vectorizing batch {i // batch_size + 1}/{(len(chunks_to_process) - 1) // batch_size + 1}"

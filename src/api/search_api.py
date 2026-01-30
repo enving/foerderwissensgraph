@@ -208,6 +208,10 @@ async def search_advanced(
     stand_after: Optional[str] = Query(
         None, description="Filter nach Datum (Stand nach)"
     ),
+    context_doc_id: Optional[str] = Query(
+        None,
+        description="Scope-Constraint: Suche auf referenzierte Gesetze dieses Dokuments einschränken",
+    ),
     use_bm25: bool = Query(True, description="BM25 Sparse Retrieval aktivieren"),
     use_reranking: bool = Query(True, description="Cross-Encoder Reranking aktivieren"),
     use_query_enhancement: bool = Query(
@@ -240,11 +244,48 @@ async def search_advanced(
     if not q:
         return {"error": "Query cannot be empty"}
 
+    # Resolve scope whitelist if context_doc_id is provided
+    scope_whitelist = None
+    if context_doc_id:
+        scope_whitelist = []
+
+        # Case A: Document is in Knowledge Graph
+        if context_doc_id in engine.graph:
+            scope_whitelist.append(context_doc_id)
+            for _, target_id, edata in engine.graph.out_edges(
+                context_doc_id, data=True
+            ):
+                if edata.get("relation") == "REFERENCES":
+                    scope_whitelist.append(target_id)
+
+        # Case B: Document is in Upload Cache (extracted text)
+        elif context_doc_id in UPLOAD_CACHE:
+            text = UPLOAD_CACHE[context_doc_id]
+            # Use ComplianceMapper logic to find citations
+            from src.models.schemas import ExpandContextRequest
+
+            req = ExpandContextRequest(
+                context_label="scope_extraction", text_chunks=[text[:50000]]
+            )
+            expansion = compliance_mapper.expand_context(req)
+            for reg in expansion.mapped_regulations:
+                if reg.doc_id:
+                    scope_whitelist.append(reg.doc_id)
+
+        if scope_whitelist:
+            # Smart Version Resolution: always use latest
+            resolved_whitelist = []
+            for d_id in scope_whitelist:
+                resolved_whitelist.append(compliance_mapper._find_latest_version(d_id))
+            scope_whitelist = list(set(resolved_whitelist))
+            logger.info(f"Active Scope Whitelist: {scope_whitelist}")
+
     # Call search_v2 (Phase 1 implementation)
     results = engine.search_v2(
         query=q,
         limit=limit * 2,  # Get more for filtering
         filter_dict=None,
+        scope_whitelist=scope_whitelist,
         multi_hop=multi_hop,
         use_bm25=use_bm25,
         use_reranking=use_reranking,
@@ -532,9 +573,41 @@ async def chat_query(request: ChatRequest):
     query = request.message
     history = request.history
     doc_id = request.uploaded_doc_id
+    context_doc_id = (
+        request.context_doc_id or doc_id
+    )  # Use uploaded doc as context by default if available
+
+    # Resolve scope whitelist
+    scope_whitelist = None
+    if context_doc_id:
+        scope_whitelist = []
+        if context_doc_id in engine.graph:
+            scope_whitelist.append(context_doc_id)
+            for _, target_id, edata in engine.graph.out_edges(
+                context_doc_id, data=True
+            ):
+                if edata.get("relation") == "REFERENCES":
+                    scope_whitelist.append(target_id)
+        elif context_doc_id in UPLOAD_CACHE:
+            text = UPLOAD_CACHE[context_doc_id]
+            from src.models.schemas import ExpandContextRequest
+
+            req = ExpandContextRequest(
+                context_label="scope_extraction", text_chunks=[text[:30000]]
+            )
+            expansion = compliance_mapper.expand_context(req)
+            for reg in expansion.mapped_regulations:
+                if reg.doc_id:
+                    scope_whitelist.append(reg.doc_id)
+
+        if scope_whitelist:
+            resolved = [
+                compliance_mapper._find_latest_version(d) for d in scope_whitelist
+            ]
+            scope_whitelist = list(set(resolved))
 
     # 1. Search in Knowledge Graph (Hybrid)
-    graph_results = engine.search(query, limit=3)
+    graph_results = engine.search_v2(query, limit=3, scope_whitelist=scope_whitelist)
 
     # 2. Add Uploaded Doc Context if available
     context_chunks = []

@@ -116,6 +116,7 @@ class HybridSearchEngine:
         query: str,
         limit: int = 5,
         filter_dict: Optional[Dict[str, Any]] = None,
+        scope_whitelist: Optional[List[str]] = None,
         multi_hop: bool = True,
         vector_weight: float = 0.7,
         graph_weight: float = 0.3,
@@ -127,7 +128,13 @@ class HybridSearchEngine:
         3. Context expansion (Multi-Hop) if requested.
         4. (Optional) Re-ranking based on graph structural importance.
         """
-        logger.info(f"Hybrid search for: '{query}'")
+        logger.info(f"Hybrid search for: '{query}' (Whitelist: {scope_whitelist})")
+
+        # Apply Scope Whitelist if provided
+        if scope_whitelist:
+            if not filter_dict:
+                filter_dict = {}
+            filter_dict["doc_id"] = {"$in": scope_whitelist}
 
         query_embeddings = self.vector_store.embedding_engine.get_embeddings([query])
         if not query_embeddings:
@@ -313,6 +320,7 @@ class HybridSearchEngine:
         query: str,
         limit: int = 5,
         filter_dict: Optional[Dict[str, Any]] = None,
+        scope_whitelist: Optional[List[str]] = None,
         multi_hop: bool = True,
         use_bm25: bool = True,
         use_reranking: bool = True,
@@ -322,8 +330,14 @@ class HybridSearchEngine:
         rerank_top_k: int = 10,
     ) -> List[Dict[str, Any]]:
         logger.info(
-            f"[v2] Hybrid search for: '{query}' (BM25={use_bm25}, Rerank={use_reranking}, PPR={use_ppr}, Enhance={use_query_enhancement})"
+            f"[v2] Hybrid search for: '{query}' (Whitelist: {scope_whitelist}, BM25={use_bm25}, Rerank={use_reranking}, PPR={use_ppr}, Enhance={use_query_enhancement})"
         )
+
+        # Apply Scope Whitelist if provided
+        if scope_whitelist:
+            if not filter_dict:
+                filter_dict = {}
+            filter_dict["doc_id"] = {"$in": scope_whitelist}
 
         enhanced_data = None
         if use_query_enhancement and self.query_enhancer:
@@ -388,6 +402,27 @@ class HybridSearchEngine:
                 try:
                     bm25_res = self.bm25_index.search(q, k=retrieval_candidates)
                     for chunk_id, score in bm25_res:
+                        # Apply scope whitelist to BM25 results
+                        if scope_whitelist:
+                            # Heuristic: chunk_id is usually {doc_id}_chunk_{n}
+                            # Or we check the graph
+                            match_whitelist = False
+                            for allowed_id in scope_whitelist:
+                                if chunk_id.startswith(f"{allowed_id}_chunk_"):
+                                    match_whitelist = True
+                                    break
+
+                            if not match_whitelist:
+                                # Double check via graph if heuristic fails
+                                if chunk_id in self.graph:
+                                    for parent in self.graph.predecessors(chunk_id):
+                                        if parent in scope_whitelist:
+                                            match_whitelist = True
+                                            break
+
+                            if not match_whitelist:
+                                continue
+
                         if (
                             chunk_id not in all_bm25_candidates
                             or score > all_bm25_candidates[chunk_id]

@@ -26,14 +26,14 @@ class ComplianceMapper:
     # Expert Knowledge Mapping (Step B & C)
     # Maps keywords to "Regulation Families" or "Base Keywords" for search
     CONCEPT_MAP = {
-        "reisekosten": "Bundesreisekostengesetz",
-        "hotel": "Bundesreisekostengesetz",
-        "brkg": "Bundesreisekostengesetz",
+        "reisekosten": "law_BRKG",
+        "hotel": "law_BRKG",
+        "brkg": "law_BRKG",
         "personalkosten": "TVöD",
         "entgelt": "TVöD",
         "tvöd": "TVöD",
         "besserstellung": "Besserstellungsverbot",
-        "vergabe": "law_UVgO",
+        "vergabe": "law_VgV",
         "vob": "law_VOB",
         "uvgo": "law_UVgO",
         "haushalt": "law_BHO",
@@ -43,6 +43,7 @@ class ComplianceMapper:
         "anteilsfinanzierung": "VV Nr. 2.4",
         "eigenmittel": "VV Nr. 2.4",
         "zinssatz": "law_BGB_§_288",
+        "gwb": "law_GWB",
     }
 
     def __init__(self, graph_path: Path):
@@ -82,6 +83,7 @@ class ComplianceMapper:
 
             # Extract candidates
             candidates = []
+            candidates.append(str(node_id).lower())
             if data.get("kuerzel"):
                 candidates.append(str(data.get("kuerzel")).lower())
             if data.get("title"):
@@ -119,8 +121,8 @@ class ComplianceMapper:
             # If best match is a chunk, resolve to parent
             n_type = self.graph.nodes[best_match_id].get("node_type", "")
             if n_type == "chunk" or "_chunk_" in str(best_match_id):
-                for source, target, key, attr in self.graph.in_edges(
-                    best_match_id, data=True, keys=True
+                for source, target, key, attr in list(
+                    self.graph.in_edges(best_match_id, data=True, keys=True)
                 ):
                     if attr.get("relation") == "HAS_CHUNK":
                         return source
@@ -231,11 +233,17 @@ class ComplianceMapper:
         aggregated_regs = {}
         # Track explicitly finding families to block implicit matches
         explicit_families = set()
+        excluded_families = set()
 
         def register_match(
             doc_id: str, target_name: str, category: str, chunk_idx: int
         ):
             if not self.graph.has_node(doc_id):
+                return
+
+            # BLOCKING: If family is explicitly excluded, do not register match
+            family = self._get_family_set(doc_id)
+            if any(f_id in excluded_families for f_id in family):
                 return
 
             doc_data = self.graph.nodes[doc_id]
@@ -270,14 +278,40 @@ class ComplianceMapper:
             citations = self.extractor.extract(chunk)
             for cit in citations:
                 target = cit["target"]
+                is_excluded = cit.get("is_excluded", False)
                 doc_node_id = self._find_document_by_kuerzel(target)
 
                 if doc_node_id:
+                    family = self._get_family_set(doc_node_id)
+
+                    if is_excluded:
+                        logger.info(
+                            f"Explicitly EXCLUDING family: {target} ({doc_node_id})"
+                        )
+                        excluded_families.update(family)
+                        # Remove from aggregated if already there (unlikely but possible)
+                        # However, we'll just let register_match handle it via blocked family check
+                        continue
+
                     # Mark family as explicitly found
-                    explicit_families.update(self._get_family_set(doc_node_id))
+                    explicit_families.update(family)
+
+                    # TASK-029: Smart Version Resolution
+                    # If the citation was generic (no year), upgrade to latest version.
+                    # Heuristic: If target ends with 4 digits, assume specific version requested.
+                    has_year = re.search(r"\d{4}$|98$", target.strip())
+                    final_doc_id = doc_node_id
+
+                    if not has_year:
+                        latest = self._find_latest_version(doc_node_id)
+                        if latest != doc_node_id:
+                            logger.info(
+                                f"Upgrading generic citation '{target}' from {doc_node_id} to latest {latest}"
+                            )
+                            final_doc_id = latest
 
                     register_match(
-                        doc_id=doc_node_id,
+                        doc_id=final_doc_id,
                         target_name=target,
                         category="Explizite Bestimmungen (Zitiert)",
                         chunk_idx=i,
