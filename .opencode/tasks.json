@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.3.5",
-    "last_updated": "2026-01-29T14:30:00Z",
+    "version": "2.3.7",
+    "last_updated": "2026-01-30T10:45:00Z",
     "last_agent": "Antigravity",
     "project_phase": "production"
   },
@@ -886,6 +886,36 @@
         "Update LawCrawler.fetch_law to handle HTML parsing via BeautifulSoup",
         "Add caching mechanism to avoid re-fetching existing laws",
         "Test with VOB/A and VgV"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-30"
+    {
+      "id": "TASK-035",
+      "title": "Dynamic Follow-up Question Generation",
+      "status": "completed",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-30",
+      "updated": "2026-01-30",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Implemented backend logic in search_api.py (prompt engineering + parsing) and frontend rendering in dashboard.html. Verified via curl.",
+      "description": "Implement logic to generate 3 context-aware follow-up questions after every chat response. These questions should help the user explore the found regulations or uploaded documents further.",
+      "acceptance_criteria": [
+        "LLM generates 3 short, relevant questions based on the answer context",
+        "Questions are returned in the API response (e.g. `suggested_questions` list)",
+        "Frontend displays these as clickable chips",
+        "Clicking a suggestion triggers a new chat query"
+      ],
+      "subtasks": [
+        "Update Chat Response Schema to include suggestions",
+        "Prompt Engineering for Question Generation",
+        "Frontend UI integration (Chips component)"
       ],
       "blocked_by": [],
       "blocks": [],

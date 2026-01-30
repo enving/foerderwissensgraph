@@ -1207,7 +1207,7 @@
                 const data = await res.json();
                 loadingMsg.remove();
 
-                addMessage('ai', data.answer, data.results);
+                addMessage('ai', data.answer, data.results, data.suggested_questions);
                 
                 // Update History
                 chatHistory.push({role: "user", content: message});
@@ -1226,7 +1226,7 @@
             setTimeout(() => document.getElementById('chatInput').focus(), 100);
         }
 
-        function addMessage(role, content, sources = []) {
+        function addMessage(role, content, sources = [], suggestions = []) {
             const container = document.getElementById('chatMessages');
             const msgDiv = document.createElement('div');
             msgDiv.className = `flex gap-3 ${role === 'user' ? 'flex-row-reverse' : ''}`;
@@ -1260,6 +1260,7 @@
                         ${htmlContent}
                     </div>
                     ${sources.length > 0 ? renderSources(sources) : ''}
+                    ${suggestions && suggestions.length > 0 ? renderSuggestions(suggestions) : ''}
                 </div>
             `;
 
@@ -1278,6 +1279,26 @@
                     `).join('')}
                 </div>
             `;
+        }
+
+        function renderSuggestions(suggestions) {
+            return `
+                <div class="flex gap-2 flex-wrap mt-2">
+                    ${suggestions.map(q => `
+                        <button onclick="useSuggestion('${q.replace(/'/g, "\\'")}')" 
+                            class="text-xs px-3 py-1.5 bg-white border border-federal-200 rounded-full text-federal-600 hover:bg-federal-50 hover:border-federal-300 transition-colors shadow-sm text-left animate-fade-in">
+                            ${q}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function useSuggestion(text) {
+            const input = document.getElementById('chatInput');
+            input.value = text;
+            input.focus();
+            sendMessage();
         }
 
         // Initialize drag and drop

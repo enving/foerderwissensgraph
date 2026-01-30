@@ -69,3 +69,10 @@ class ChatRequest(BaseModel):
     history: List[ChatMessage] = []
     uploaded_doc_id: Optional[str] = None
     context_doc_id: Optional[str] = None
+
+
+class ChatResponse(BaseModel):
+    answer: str
+    results: List[Dict[str, Any]]
+    used_upload: bool = False
+    suggested_questions: List[str] = []

@@ -437,7 +437,12 @@ async def health_raw():
 # --- Chat & Upload Features (v2.3) ---
 
 from fastapi import File, UploadFile, Form
-from src.models.schemas import ChatRequest, ChatMessage, ExpandContextRequest
+from src.models.schemas import (
+    ChatRequest,
+    ChatMessage,
+    ExpandContextRequest,
+    ChatResponse,
+)
 from pydantic import BaseModel
 import uuid
 import io
@@ -565,7 +570,7 @@ async def analyze_document(request: DocumentAnalysisRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/chat/query")
+@app.post("/chat/query", response_model=ChatResponse)
 async def chat_query(request: ChatRequest):
     """
     Conversational endpoint. Combines Graph-RAG with uploaded document context.
@@ -648,6 +653,8 @@ async def chat_query(request: ChatRequest):
         return {
             "answer": "Fehler: Die KI-Engine ist nicht verfügbar (API-Key fehlt oder Konfigurationsfehler). Bitte Administrator kontaktieren.",
             "results": [],
+            "used_upload": False,
+            "suggested_questions": [],
         }
 
     system_prompt = f"""
@@ -659,6 +666,19 @@ async def chat_query(request: ChatRequest):
     - Beispiel: "Siehe dazu die [NKBF 2017](#graph:0347)."
     - Die IDs (z.B. '0347' oder 'law_BHO') stehen im Kontext. Wenn keine ID da ist, nutze fetten Text.
     
+    ZUSATZAUFGABE (WICHTIG):
+    Generiere am Ende deiner Antwort ZWINGEND einen Block mit exakt 3 kurzen Folgefragen, die der Nutzer basierend auf deiner Antwort stellen könnte.
+    Trenne diesen Block vom Rest der Antwort mit der Zeile: "---SUGGESTIONS---".
+    Schreibe jede Frage in eine neue Zeile, beginnend mit einem Bindestrich "- ".
+    
+    Beispiel-Format:
+    Hier ist die Antwort auf deine Frage...
+    
+    ---SUGGESTIONS---
+    - Wie verhält es sich mit Reisekosten?
+    - Gilt das auch für KMU?
+    - Wo finde ich das Formular?
+    
     Verlauf:
     {history_str}
     
@@ -667,7 +687,7 @@ async def chat_query(request: ChatRequest):
     
     Frage: {query}
     
-    Antwort (hilfreich, präzise, auf Deutsch, mit Links):
+    Antwort (hilfreich, präzise, auf Deutsch, mit Links, plus Suggestions-Block am Ende):
     """
 
     try:
@@ -705,10 +725,36 @@ async def chat_query(request: ChatRequest):
             return {
                 "answer": "Die KI hat eine leere Antwort zurückgegeben. Bitte versuchen Sie es erneut.",
                 "results": graph_results,
+                "used_upload": bool(doc_id),
+                "suggested_questions": [],
             }
 
-        answer = response.content
-        return {"answer": answer, "results": graph_results, "used_upload": bool(doc_id)}
+        raw_content = response.content
+        answer = raw_content
+        suggestions = []
+
+        # Parse suggestions
+        if "---SUGGESTIONS---" in raw_content:
+            parts = raw_content.split("---SUGGESTIONS---")
+            answer = parts[0].strip()
+            suggestions_text = parts[1].strip()
+            # Parse lines starting with - or 1.
+            for line in suggestions_text.split("\n"):
+                clean = line.strip()
+                if clean.startswith("-") or clean.startswith("*"):
+                    suggestions.append(clean[1:].strip())
+                elif len(clean) > 0 and clean[0].isdigit() and ". " in clean:
+                    suggestions.append(clean.split(". ", 1)[1].strip())
+
+        # Fallback cleanup if LLM fails format but includes separator
+        answer = answer.replace("---SUGGESTIONS---", "").strip()
+
+        return {
+            "answer": answer,
+            "results": graph_results,
+            "used_upload": bool(doc_id),
+            "suggested_questions": suggestions[:3],
+        }
 
     except Exception as e:
         logger.error(f"Chat generation failed: {e}")
@@ -724,6 +770,8 @@ async def chat_query(request: ChatRequest):
         return {
             "answer": f"Es gab einen Fehler bei der Antwortgenerierung. \nTechnisches Detail: {str(e)}\nBitte Logs prüfen.",
             "results": [],
+            "used_upload": False,
+            "suggested_questions": [],
         }
 
 
