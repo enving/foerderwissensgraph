@@ -122,6 +122,13 @@ class OpenAIProvider(BaseLLMProvider):
 
             # Handle cases where content is None (e.g. reasoning models cut off or tool calls)
             content = choice["message"].get("content")
+
+            # Fallback for reasoning models (e.g. IONOS/OpenAI reasoning) that return reasoning_content
+            if content is None:
+                content = choice["message"].get("reasoning_content") or choice[
+                    "message"
+                ].get("reasoning")
+
             if content is None:
                 content = ""
 

@@ -296,7 +296,14 @@ class VectorStore:
                 self.client = RestChromaClient(host=self.host, port=self.port)
         else:
             logger.info(f"Using local persistent ChromaDB at {db_path}")
-            if chromadb and hasattr(chromadb, "PersistentClient"):
+            # Check if LiteStore already exists (Migration/Fallback preference)
+            lite_path = Path(db_path) / "lite_store.json"
+            if lite_path.exists():
+                logger.info(
+                    f"Found existing LiteVectorStore at {lite_path}. Forcing LiteClient."
+                )
+                self.client = LiteChromaClient(path=db_path)
+            elif chromadb and hasattr(chromadb, "PersistentClient"):
                 try:
                     self.client = chromadb.PersistentClient(path=db_path)
                 except Exception as e:

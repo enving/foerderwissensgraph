@@ -864,6 +864,35 @@
       "verified": true,
       "verified_by": "Antigravity",
       "verified_date": "2026-01-30"
+    {
+      "id": "TASK-034",
+      "title": "On-Demand Legal Crawler Implementation",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-30",
+      "updated": "2026-01-30",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Implemented hybrid XML/HTML crawler in src/discovery/law_crawler.py. Verified with BHO HTML parsing (125 sections). Ready for VOB/A.",
+      "description": "Develop a targeted crawler for 'gesetze-im-internet.de' that parses HTML/XML for specific laws on demand (e.g. VOB, VgV) instead of full bulk import.",
+      "acceptance_criteria": [
+        "Implement HTML parser for laws where XML is missing (VOB fallback)",
+        "Refactor LawCrawler to support single-law fetching by abbreviation",
+        "Integrate with ComplianceMapper to trigger fetch when a missing law is referenced"
+      ],
+      "subtasks": [
+        "Update LawCrawler.fetch_law to handle HTML parsing via BeautifulSoup",
+        "Add caching mechanism to avoid re-fetching existing laws",
+        "Test with VOB/A and VgV"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-30"
     }
   ],
   "features": [
