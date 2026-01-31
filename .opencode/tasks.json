@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.4.0",
-    "last_updated": "2026-01-31T16:15:00Z",
+    "version": "2.4.1",
+    "last_updated": "2026-01-31T17:45:00Z",
     "last_agent": "Antigravity",
     "project_phase": "production"
   },
@@ -350,7 +350,7 @@
         "QueryEnhancer class with multi-query support",
         "HyDE generation for legal terminology",
         "Query decomposition for complex questions",
-        "Integration into search_v2()"
+        "Integration into retrieval pipeline"
       ],
       "subtasks": [
         "Create src/parser/query_enhancer.py",
@@ -614,6 +614,142 @@
         "Implement pickle cache in LiteCollection",
         "Update _save and _load logic"
       ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-040",
+      "title": "Reasoning Trace UI & Citation Refinement",
+      "status": "completed",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Added discovery log overlay and 'Neu entdeckt' badges in dashboard.html. Expanded law regex in CitationExtractor to cover BImSchG, KrWG, HOAI, etc.",
+      "description": "Visualize the reasoning process and newly discovered laws in the UI.",
+      "acceptance_criteria": [
+        "Discovery Log in Dashboard",
+        "New Law Badges in Chat results",
+        "Expanded citation regex"
+      ],
+      "subtasks": [
+        "Update dashboard.html with log and badges",
+        "Update CitationExtractor regex",
+        "Add is_newly_crawled flag to schemas"
+      ],
+      "blocked_by": [
+        "TASK-038"
+      ],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-041",
+      "title": "Graph-Analytics & Reporting",
+      "status": "completed",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Implemented generate_graph_report.py which provides stats on node types, law coverage, and citation centrality.",
+      "description": "Automated statistics and reporting for Knowledge Graph health and coverage.",
+      "acceptance_criteria": [
+        "Script generate_graph_report.py",
+        "Centrality analysis (top cited laws)",
+        "Dead-angle detection (laws without content)"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-042",
+      "title": "UI-Erweiterung: Regel-Suche",
+      "status": "completed",
+      "priority": "medium",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Added real-time search field in dashboard sidebar to filter extracted rules by keyword.",
+      "description": "Add search/filter field for rules in the dashboard sidebar.",
+      "acceptance_criteria": [
+        "Input field in sidebar",
+        "Real-time filtering of rule list",
+        "Highlighting of matches"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-043",
+      "title": "Expert Knowledge Externalization",
+      "status": "completed",
+      "priority": "medium",
+      "category": "refactoring",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Moved hardcoded CONCEPT_MAP to config/compliance_concepts.json. Expanded with AGVO and EU terms.",
+      "description": "Move hardcoded CONCEPT_MAP to external JSON config and expand with AGVO/EU concepts.",
+      "acceptance_criteria": [
+        "config/compliance_concepts.json created",
+        "ComplianceMapper reads from config",
+        "Support for AGVO, De-minimis, KMU-Definition"
+      ],
+      "subtasks": [],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-044",
+      "title": "EU-Beihilferecht Integration (AGVO)",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Manually imported Art 1, 2, 3, 4, 6 of AGVO. Syncing confirmed and RAG-ready.",
+      "description": "Import key articles of General Block Exemption Regulation (AGVO) into the graph.",
+      "acceptance_criteria": [
+        "AGVO node in graph",
+        "Article 1-12 chunks available",
+        "References to AGVO recognized in extractor"
+      ],
+      "subtasks": [],
       "blocked_by": [],
       "blocks": [],
       "docs_updated": false,

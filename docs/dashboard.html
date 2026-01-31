@@ -114,6 +114,15 @@
         .rule-card {
             border-left: 3px solid #003366;
         }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
 
@@ -253,7 +262,7 @@
 
                     <div
                         class="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center text-xs text-gray-400">
-                        <span>Version 2.2.4</span>
+                        <span>Version 2.4.0</span>
                         <button onclick="toggleInfo()"
                             class="px-4 py-2 bg-federal-900 text-white rounded-lg hover:bg-federal-800 font-bold transition-colors">Schließen</button>
                     </div>
@@ -523,6 +532,11 @@
             <!-- SVG Container -->
             <svg id="graph" class="w-full h-full graph-container"></svg>
 
+            <!-- Discovery Log Overlay -->
+            <div id="discoveryLog" class="absolute bottom-32 left-8 z-10 w-64 max-h-32 overflow-hidden pointer-events-none flex flex-col gap-1">
+                <!-- Log entries will be prepended here -->
+            </div>
+
             <!-- Tooltip -->
             <div id="tooltip"
                 class="absolute hidden bg-federal-900 text-white px-3 py-2 rounded-lg text-xs shadow-xl max-w-xs transition-opacity duration-200">
@@ -582,6 +596,13 @@
                     </svg>
                     Extrahierte Regeln
                 </h3>
+
+                <div class="mb-6">
+                    <input type="text" id="ruleSearch" oninput="filterRules()" 
+                        placeholder="Regeln durchsuchen..." 
+                        class="w-full text-xs p-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-federal-200 outline-none transition-all shadow-inner">
+                </div>
+
                 <div id="rulesList" class="space-y-6">
                     <!-- Rules will be injected here -->
                     <div class="text-center py-12 text-gray-400 italic font-serif">
@@ -597,6 +618,7 @@
         let graphData = null;
         let knowledgeData = null;
         let documentRules = {}; // docId -> list of rules
+        let currentRules = []; // rules of currently selected node
         let uploadedFile = null;
         let uploadedDocId = null;
         let chatHistory = [];
@@ -1006,7 +1028,11 @@
             document.getElementById('docLink').href = d.url;
 
             const rules = documentRules[d.id] || [];
+            currentRules = rules;
             document.getElementById('ruleCount').innerText = rules.length;
+            
+            // Reset search field
+            document.getElementById('ruleSearch').value = '';
 
             // Add Stand info if available
             const statsGrid = document.getElementById('docStats');
@@ -1024,11 +1050,16 @@
                 <div class="text-[10px] text-gray-500 truncate">${d.herausgeber || ''}</div>
             `;
 
+            renderRules(rules);
+            document.getElementById('sidebar').classList.remove('translate-x-full');
+        }
+
+        function renderRules(rules) {
             const rulesContainer = document.getElementById('rulesList');
             rulesContainer.innerHTML = '';
 
             if (rules.length === 0) {
-                rulesContainer.innerHTML = '<div class="text-center py-12 text-gray-400 italic font-serif">Keine Regeln extrahiert</div>';
+                rulesContainer.innerHTML = '<div class="text-center py-12 text-gray-400 italic font-serif">Keine Regeln gefunden</div>';
             } else {
                 rules.forEach(rule => {
                     const ruleDiv = document.createElement('div');
@@ -1044,8 +1075,16 @@
                     rulesContainer.appendChild(ruleDiv);
                 });
             }
+        }
 
-            document.getElementById('sidebar').classList.remove('translate-x-full');
+        function filterRules() {
+            const query = document.getElementById('ruleSearch').value.toLowerCase();
+            const filtered = currentRules.filter(r => 
+                r.rule.toLowerCase().includes(query) || 
+                r.category.toLowerCase().includes(query) ||
+                (r.value && String(r.value).toLowerCase().includes(query))
+            );
+            renderRules(filtered);
         }
 
         function closeSidebar() {
@@ -1054,6 +1093,31 @@
             // For now, do nothing or reset selection visuals
             d3.selectAll(".node").classed("dimmed", false);
             d3.selectAll(".link").classed("dimmed", false);
+        }
+
+        function addLogEntry(message, type = 'info') {
+            const log = document.getElementById('discoveryLog');
+            const entry = document.createElement('div');
+            entry.className = `p-2 rounded text-[9px] font-bold uppercase tracking-tight shadow-sm backdrop-blur-md border animate-slide-in pointer-events-auto transition-all hover:scale-105 cursor-default`;
+            
+            if (type === 'discovery') {
+                entry.className += ' bg-federal-900/90 text-white border-federal-700';
+                entry.innerHTML = `⚡ discovery: ${message}`;
+            } else if (type === 'warning') {
+                entry.className += ' bg-red-500/90 text-white border-red-400';
+                entry.innerHTML = `⚠️ alert: ${message}`;
+            } else {
+                entry.className += ' bg-white/80 text-federal-600 border-gray-100';
+                entry.innerHTML = `ℹ️ system: ${message}`;
+            }
+
+            log.prepend(entry);
+            
+            // Auto-remove after 10s
+            setTimeout(() => {
+                entry.classList.add('opacity-0', '-translate-x-full');
+                setTimeout(() => entry.remove(), 500);
+            }, 10000);
         }
 
         // --- Chat Logic ---
@@ -1141,24 +1205,32 @@
                         // Using HTML directly to ensure links work and formatting is clean
                         let responseText = `<h3 class="font-bold text-lg mb-4">Analyseergebnis für "${uploadedFile.name}"</h3>`;
                         
-                        if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
-                            responseText += '<p class="mb-4 text-sm text-gray-600">Basierend auf dem Knowledge Graph wurden folgende Regelwerke als relevant identifiziert:</p><div class="space-y-4">';
-                            analysisData.mapped_regulations.forEach(reg => {
-                                let nodeId = reg.doc_id;
+                         if (analysisData.mapped_regulations && analysisData.mapped_regulations.length > 0) {
+                             responseText += '<p class="mb-4 text-sm text-gray-600">Basierend auf dem Knowledge Graph wurden folgende Regelwerke als relevant identifiziert:</p><div class="space-y-4">';
+                             analysisData.mapped_regulations.forEach(reg => {
+                                 if (reg.is_newly_crawled) {
+                                     addLogEntry(`Gesetz '${reg.source_doc}' automatisch entdeckt!`, 'discovery');
+                                 }
+                                 
+                                 let nodeId = reg.doc_id;
+
                                 if(!nodeId && graphData && graphData.nodes) {
                                     const match = graphData.nodes.find(n => n.title === reg.source_doc || n.id === reg.source_doc);
                                     if(match) nodeId = match.id;
                                 }
                                 
-                                const ruleCount = reg.rules.length;
-                                const categoryColor = reg.category.includes('Explizit') ? 'bg-federal-100 text-federal-700' : 'bg-amber-50 text-amber-700';
-                                
-                                responseText += `
-                                    <div class="p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
-                                        <div class="flex justify-between items-start mb-1">
-                                            <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${categoryColor}">${reg.category}</span>
-                                            <span class="text-[10px] text-gray-400 font-medium">${ruleCount} Regeln</span>
-                                        </div>
+                                 const ruleCount = reg.rules.length;
+                                 const categoryColor = reg.category.includes('Explizit') ? 'bg-federal-100 text-federal-700' : 'bg-amber-50 text-amber-700';
+                                 const isNew = reg.is_newly_crawled;
+                                 
+                                 responseText += `
+                                     <div class="p-3 rounded-xl border border-gray-100 bg-white shadow-sm relative overflow-hidden">
+                                         ${isNew ? `<div class="absolute top-0 right-0 bg-federal-900 text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg uppercase tracking-tighter animate-pulse">⚡ Neu entdeckt</div>` : ''}
+                                         <div class="flex justify-between items-start mb-1">
+                                             <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${categoryColor}">${reg.category}</span>
+                                             <span class="text-[10px] text-gray-400 font-medium">${ruleCount} Regeln</span>
+                                         </div>
+
                                         <div class="flex items-center gap-2">
                                             ${nodeId ? 
                                                 `<a href="#" onclick="event.preventDefault(); zoomToNode('${nodeId}');" class="font-bold text-federal-800 hover:text-accent-gold transition-colors decoration-dotted underline underline-offset-4" title="Im Graphen anzeigen">${reg.source_doc}</a>` : 

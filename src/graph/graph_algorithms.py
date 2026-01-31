@@ -182,8 +182,9 @@ class GraphAlgorithms:
         node_list = list(self.graph.nodes)
         max_deg = 1
         for n in node_list:
-            d = self.graph.degree(n)
-            if isinstance(d, int) and d > max_deg:
+            # Explicit call for compatibility and LSP
+            d = int(self.graph.degree(n))
+            if d > max_deg:
                 max_deg = d
 
         for node_id in node_ids:
@@ -192,9 +193,7 @@ class GraphAlgorithms:
                 continue
 
             pr = pagerank.get(node_id, 0.0)
-            deg = self.graph.degree(node_id)
-            if not isinstance(deg, int):
-                deg = 0
+            deg = int(self.graph.degree(node_id))
 
             norm_deg = float(deg) / max_deg
 

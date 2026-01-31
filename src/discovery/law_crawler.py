@@ -20,7 +20,7 @@ class LawCrawler:
     Supports both XML (bulk) and HTML (targeted) parsing.
     """
 
-    def fetch_law_xml(self, abbr: str, retries: int = 3) -> str:
+    def fetch_law_xml(self, abbr: str, retries: int = 3) -> Optional[str]:
         """Fetch full XML zip for a law."""
         base_url = settings.get(
             "crawlers.laws.base_url",
@@ -76,7 +76,7 @@ class LawCrawler:
             base_path = url.rsplit("/", 1)[0]
 
             for a in soup.find_all("a", href=True):
-                href = a["href"]
+                href = str(a["href"])
                 # Filter logic: only content links, avoid 'index.html' self-ref
                 # Also ignore "aktuell.html", "gliederung.html", "aktuDienst.html", "impressum.html"
                 ignore_list = [

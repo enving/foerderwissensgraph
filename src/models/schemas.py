@@ -52,6 +52,7 @@ class MappedRegulation(BaseModel):
     source_doc: str
     doc_id: Optional[str] = None
     rules: List[MappedRule]
+    is_newly_crawled: bool = False
 
 
 class ExpandContextResponse(BaseModel):

@@ -16,7 +16,7 @@ class CitationExtractor:
         # We explicitly list common federal laws to avoid false positives
         {
             "type": "law",
-            "regex": r"(?:§|Artikel|Art\.)\s*(?P<section>\d+[a-z]*)\s*(?:Abs\.\s*\d+\s*)?(?:Satz\s*\d+\s*)?(?:[a-zA-Z\s\.]*\s+)?(?P<law>BHO|VwVfG|HGB|BGB|GG|AO|UStG|VgV|GWB|InsO|SGB\s*[IVX]+|BRKG|VOB/[AB]|LuftVG|AtG)",
+            "regex": r"(?:§|Artikel|Art\.)\s*(?P<section>\d+[a-z]*)\s*(?:Abs\.\s*\d+\s*)?(?:Satz\s*\d+\s*)?(?:[a-zA-Z\s\.]*\s+)?(?P<law>BHO|VwVfG|HGB|BGB|GG|AO|UStG|VgV|GWB|InsO|SGB\s*[IVX]+|BRKG|VOB/[ABC]|LuftVG|AtG|BImSchG|KrWG|VOL/[AB]|HOAI|GKG|RVG)",
         },
         # 2. Funding Regulations (specific codes)
         # Matches: BNBest-P, ANBest-GK, NKBF 98, BNBest-BMBF

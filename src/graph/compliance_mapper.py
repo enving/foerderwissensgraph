@@ -25,34 +25,12 @@ class ComplianceMapper:
     using the Knowledge Graph.
     """
 
-    # Expert Knowledge Mapping (Step B & C)
-    # Maps keywords to "Regulation Families" or "Base Keywords" for search
-    CONCEPT_MAP = {
-        "reisekosten": "law_BRKG",
-        "hotel": "law_BRKG",
-        "brkg": "law_BRKG",
-        "personalkosten": "TVöD",
-        "entgelt": "TVöD",
-        "tvöd": "TVöD",
-        "besserstellung": "Besserstellungsverbot",
-        "vergabe": "law_VgV",
-        "vob": "law_VOB",
-        "uvgo": "law_UVgO",
-        "haushalt": "law_BHO",
-        "bho": "law_BHO",
-        "verwaltungsverfahren": "law_VwVfG",
-        "vwvfg": "law_VwVfG",
-        "anteilsfinanzierung": "VV Nr. 2.4",
-        "eigenmittel": "VV Nr. 2.4",
-        "zinssatz": "law_BGB_§_288",
-        "gwb": "law_GWB",
-    }
-
     def __init__(
         self,
         graph_path: Path,
         vector_store: Optional[Any] = None,
         on_demand_enabled: bool = True,
+        config_path: Optional[Path] = None,
     ):
         self.graph_path = graph_path
         self.extractor = CitationExtractor()
@@ -60,10 +38,27 @@ class ComplianceMapper:
         self.vector_store = vector_store
         self.on_demand_enabled = on_demand_enabled
         self.failed_crawls = set()  # Cache for 404s
+        self.newly_crawled_ids = set()  # Track for current session
+
+        # Load external concepts
+        self.config_path = config_path or Path("config/compliance_concepts.json")
+        self.concept_map = self._load_concepts()
+
         self._load_graph()
         logger.info(
             f"ComplianceMapper initialized with graph at {graph_path} (On-Demand: {on_demand_enabled})"
         )
+
+    def _load_concepts(self) -> Dict[str, str]:
+        """Loads concept mappings from external JSON."""
+        if self.config_path.exists():
+            try:
+                with open(self.config_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    return data.get("concepts", {})
+            except Exception as e:
+                logger.error(f"Failed to load concepts from {self.config_path}: {e}")
+        return {}
 
     def _on_demand_import(self, target: str) -> Optional[str]:
         """
@@ -233,11 +228,10 @@ class ComplianceMapper:
             # If best match is a chunk, resolve to parent
             n_type = self.graph.nodes[best_match_id].get("node_type", "")
             if n_type == "chunk" or "_chunk_" in str(best_match_id):
-                for source, target, key, attr in list(
-                    self.graph.in_edges(best_match_id, data=True, keys=True)
-                ):
-                    if attr.get("relation") == "HAS_CHUNK":
-                        return source
+                # Using general edges view to satisfy LSP and handle both DiGraph/MultiDiGraph
+                for u, v, attr in self.graph.edges(best_match_id, data=True):
+                    if v == best_match_id and attr.get("relation") == "HAS_CHUNK":
+                        return u
                 if isinstance(best_match_id, str) and "_" in best_match_id:
                     return best_match_id.split("_")[0]
 
@@ -252,14 +246,15 @@ class ComplianceMapper:
         while True:
             # Look for a node that supersedes the current one
             # Edge: X (newer) --SUPERSEDES--> current (older)
-            # So we look for incoming SUPERSEDES edges
             found_newer = False
             if self.graph.has_node(current):
-                for src, dst, key, attr in self.graph.in_edges(
-                    current, keys=True, data=True
-                ):
-                    if attr.get("relation") == "SUPERSEDES" and src not in visited:
-                        current = src
+                for u, v, attr in self.graph.edges(current, data=True):
+                    if (
+                        v == current
+                        and attr.get("relation") == "SUPERSEDES"
+                        and u not in visited
+                    ):
+                        current = u
                         visited.add(current)
                         found_newer = True
                         break
@@ -274,16 +269,25 @@ class ComplianceMapper:
         queue = [doc_id]
         while queue:
             curr = queue.pop(0)
-            # Newer versions (incoming)
-            for src, dst, key, attr in self.graph.in_edges(curr, keys=True, data=True):
-                if attr.get("relation") == "SUPERSEDES" and src not in family:
-                    family.add(src)
-                    queue.append(src)
-            # Older versions (outgoing)
-            for src, dst, key, attr in self.graph.out_edges(curr, keys=True, data=True):
-                if attr.get("relation") == "SUPERSEDES" and dst not in family:
-                    family.add(dst)
-                    queue.append(dst)
+            if not self.graph.has_node(curr):
+                continue
+            for u, v, attr in self.graph.edges(curr, data=True):
+                # Newer versions (incoming)
+                if (
+                    v == curr
+                    and attr.get("relation") == "SUPERSEDES"
+                    and u not in family
+                ):
+                    family.add(u)
+                    queue.append(u)
+                # Older versions (outgoing)
+                if (
+                    u == curr
+                    and attr.get("relation") == "SUPERSEDES"
+                    and v not in family
+                ):
+                    family.add(v)
+                    queue.append(v)
         return family
 
     def _get_rules_for_document(self, doc_id: str) -> List[MappedRule]:
@@ -436,7 +440,7 @@ class ComplianceMapper:
         # Step B: Implicit Expansion (Fallback)
         for i, chunk in enumerate(request.text_chunks):
             chunk_lower = chunk.lower()
-            for keyword, target_doc_name in self.CONCEPT_MAP.items():
+            for keyword, target_doc_name in self.concept_map.items():
                 if keyword in chunk_lower or f": {keyword}" in chunk_lower:
                     doc_node_id = self._find_document_by_kuerzel(target_doc_name)
                     if not doc_node_id:
@@ -501,6 +505,7 @@ class ComplianceMapper:
                     source_doc=doc_title,
                     doc_id=doc_id,
                     rules=final_rules,
+                    is_newly_crawled=doc_id in self.newly_crawled_ids,
                 )
             )
 

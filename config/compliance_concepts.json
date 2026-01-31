@@ -1,0 +1,32 @@
+{
+  "concepts": {
+    "reisekosten": "law_BRKG",
+    "hotel": "law_BRKG",
+    "brkg": "law_BRKG",
+    "personalkosten": "TVöD",
+    "entgelt": "TVöD",
+    "tvöd": "TVöD",
+    "besserstellung": "Besserstellungsverbot",
+    "vergabe": "law_VgV",
+    "vob": "law_VOB",
+    "uvgo": "law_UVgO",
+    "haushalt": "law_BHO",
+    "bho": "law_BHO",
+    "verwaltungsverfahren": "law_VwVfG",
+    "vwvfg": "law_VwVfG",
+    "anteilsfinanzierung": "VV Nr. 2.4",
+    "eigenmittel": "VV Nr. 2.4",
+    "zinssatz": "law_BGB_§_288",
+    "gwb": "law_GWB",
+    "beihilfe": "law_AGVO",
+    "agvo": "law_AGVO",
+    "de-minimis": "law_De-Minimis",
+    "kmu": "law_KMU_Definition",
+    "notifizierung": "law_AEUV_Art_108",
+    "wettbewerb": "law_GWB"
+  },
+  "metadata": {
+    "last_updated": "2026-01-31",
+    "version": "1.0.0"
+  }
+}
