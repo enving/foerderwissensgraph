@@ -10,6 +10,7 @@ from apify import Actor
 from src.parser.hybrid_search import HybridSearchEngine
 from src.graph.compliance_mapper import ComplianceMapper
 from src.models.schemas import ExpandContextRequest
+from src.parser.rule_extractor import RuleExtractor
 from src.config_loader import settings
 
 
@@ -20,16 +21,16 @@ async def main():
         mode = actor_input.get("mode", "search")
 
         # Initialize engines
-        # Note: In the actor, paths might need adjustment depending on how we build the Docker image
-        # We assume the same structure as the main repo
         search_engine = HybridSearchEngine(
             db_path=settings.get("paths.chroma_db", "data/chroma_db"),
         )
         compliance_mapper = ComplianceMapper(
             graph_path=Path(
                 settings.get("paths.knowledge_graph", "data/knowledge_graph.json")
-            )
+            ),
+            vector_store=search_engine.vector_store,
         )
+        answer_engine = RuleExtractor()
 
         if mode == "search":
             query = actor_input.get("query")
@@ -43,10 +44,22 @@ async def main():
             results = search_engine.search_v2(
                 query=query,
                 limit=actor_input.get("limit", 5),
-                generate_answer=generate_answer,
             )
 
-            await Actor.push_data(results)
+            output = {"results": results}
+
+            if generate_answer and results:
+                context_chunks = [
+                    f"Titel: {r.get('doc_title')}\nText: {r.get('text')}"
+                    for r in results[:3]
+                ]
+                try:
+                    answer = answer_engine.generate_answer(query, context_chunks)
+                    output["answer"] = answer
+                except Exception as e:
+                    Actor.log.error(f"Answer generation failed: {e}")
+
+            await Actor.push_data(output)
 
         elif mode == "expand":
             context_label = actor_input.get("context_label", "Apify_Context")

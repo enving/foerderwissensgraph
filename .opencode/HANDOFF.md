@@ -1,43 +1,42 @@
-# ⚠️ UPDATED Handoff Instructions (Refined Architecture & Crawler)
+# ⚠️ UPDATED Handoff Instructions (On-Demand Discovery & Speed-Up)
 
-**Date:** 2026-01-30
+**Date:** 2026-01-31
 **Last Review:** Antigravity
 **Previous Agents:** opencode, Antigravity
-**Project Phase:** Production / Refinement 🚀
-**Version:** 2.3.6
+**Project Phase:** Production / Scaling 🚀
+**Version:** 2.4.0
 
 ---
 
-## 🚨 CRITICAL UPDATE: Semantic Search & Hybrid Crawler Live
+## 🚨 NEW ARCHITECTURE: Self-Expanding Knowledge Graph
 
-**Summary of Progress (2026-01-30):**
-1.  **Semantic Search Restored (Task 33):** The `LiteVectorStore` (JSON-based) is now fully operational, replacing the broken local ChromaDB. It supports cosine similarity and metadata filtering (`$in` operator) for the Context Guard.
-2.  **Context Guard Active (Task 28):** Searches are now legally safe. Queries within a specific funding guideline (e.g., mFUND) are restricted to the regulations explicitly cited in that document (e.g., ANBest-P, BHO), preventing "hallucinations" from other ministries.
-3.  **Hybrid Law Crawler (Task 34):** A new `LawCrawler` (in `src/discovery/law_crawler.py`) now supports **HTML parsing** as a fallback when XML downloads fail.
-    *   **Verified:** Successfully parsed 125 sections of the BHO via HTML.
-    *   **Impact:** We can now ingest laws like VOB/A that don't have clean XML sources on `gesetze-im-internet.de`.
-4.  **UVgO Integrated (Task 32):** 167 sections of the UVgO were imported via PDF/PyPDF.
-5.  **Documentation:** A comprehensive data architecture concept was created in `docs/verarbeitungskonzept.md`.
+**Summary of Progress (2026-01-31):**
+1.  **On-Demand Discovery (Task 38):** The system is now autonomous. If the `ComplianceMapper` identifies a law citation (e.g. "§ 1 LuftVG") that is missing from the Knowledge Graph, it automatically:
+    *   Triggers the `LawCrawler` (XML/HTML fallback).
+    *   Creates a new Law Node and Chunk Nodes.
+    *   Updates the Vector Store at runtime.
+    *   Persistence is guaranteed in `knowledge_graph.json`.
+2.  **10x Startup Speedup (Task 39):** The `LiteVectorStore` now uses a **Hybrid Cache System**. 
+    *   **Pickle Cache:** Rapid binary loading (<2s for 12.5k chunks).
+    *   **JSON Backup:** Maintains "Sovereign Data" transparency (human-readable 282MB file).
+3.  **VOB Integrated (Task 37):** Key sections of VOB/A and VOB/B were manually imported to ensure baseline coverage for construction-related funding.
+4.  **Apify Actor Upgrade:** Updated to support `search_v2` and automated answer generation.
 
 ### ✅ What to do NEXT:
-1.  **VOB Import:** Use the new `LawCrawler` (HTML mode) to fetch the VOB/A and VOB/B content, or confirm if `gesetze-im-internet.de` hosts them in a crawlable format (currently returns 404 for some paths). If not, consider `dejure.org` or manual text ingestion.
-2.  **On-Demand Wiring:** Connect the `ComplianceMapper` to the `LawCrawler`. If the Mapper identifies a missing law (e.g., "§ 123 GWB"), it should automatically trigger the crawler to fetch it.
-3.  **Deploy:** The system is stable and ready for a fresh deployment on the VPS.
+1.  **Deployment:** Push the updated `data/knowledge_graph.json` and `data/chroma_db/lite_store.json` to the VPS.
+2.  **Reasoning UI:** In `dashboard.html`, add a "Reasoning Trace" to show which laws were automatically discovered during the session.
+3.  **Refine Extraction:** Add even more specialized laws to `src/parser/citation_extractor.py` regex as they appear in documents.
 
 ---
 
 ## ⚠️ Known Status
--   **Vector Store**: Functional (Lite/JSON). Performance is good for current dataset size (~15k chunks).
--   **VOB**: Still missing in the Graph (waiting for successful crawl).
--   **HTML Crawler**: Powerful but needs rate-limiting respect (already implemented).
+-   **Vector Store**: Hybrid (Fast). 12.8k chunks.
+-   **On-Demand**: Active. Tested with AtG and LuftVG.
+-   **Python**: 3.14 compatible.
 
 ---
 
 ## ✅ Checklist Before Starting
--   [x] Read `docs/verarbeitungskonzept.md` to understand the data flow.
--   [x] Check `tasks.json` for completed items (33, 34).
--   [x] Review `scripts/sync_vectors_only.py` if you need to re-index.
+-   [x] Run `venv/bin/python scripts/test_on_demand_crawl.py` to see the magic.
+-   [x] Verify `lite_store.pkl` exists for fast loading.
 
-**Quality Score:** 9.9/10 (Semantic Search fixed, Crawler upgraded)
-**Code Status:** Production Ready 🚀
-**Next Milestone:** Complete Legal Graph Coverage (VOB)

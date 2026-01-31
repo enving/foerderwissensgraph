@@ -13,6 +13,8 @@ from src.models.schemas import (
     MappedRule,
 )
 from src.parser.citation_extractor import CitationExtractor
+from src.discovery.law_crawler import LawCrawler
+from src.graph.graph_builder import GraphBuilder
 
 logger = logging.getLogger(__name__)
 
@@ -46,12 +48,113 @@ class ComplianceMapper:
         "gwb": "law_GWB",
     }
 
-    def __init__(self, graph_path: Path):
+    def __init__(
+        self,
+        graph_path: Path,
+        vector_store: Optional[Any] = None,
+        on_demand_enabled: bool = True,
+    ):
         self.graph_path = graph_path
         self.extractor = CitationExtractor()
         self.graph = nx.MultiDiGraph()
+        self.vector_store = vector_store
+        self.on_demand_enabled = on_demand_enabled
+        self.failed_crawls = set()  # Cache for 404s
         self._load_graph()
-        logger.info(f"ComplianceMapper initialized with graph at {graph_path}")
+        logger.info(
+            f"ComplianceMapper initialized with graph at {graph_path} (On-Demand: {on_demand_enabled})"
+        )
+
+    def _on_demand_import(self, target: str) -> Optional[str]:
+        """
+        Attempts to crawl and import a law if missing from the graph.
+        """
+        if not self.on_demand_enabled:
+            return None
+
+        # Clean target (e.g. "§ 44 BHO" -> "BHO")
+        abbr = target.upper().strip()
+        # Heuristic: only try short strings that look like abbreviations
+        if not (2 <= len(abbr) <= 10 and abbr.isalpha()):
+            # Allow some common symbols like /
+            if not re.match(r"^[A-Z0-9/]{2,10}$", abbr):
+                return None
+
+        if abbr in self.failed_crawls:
+            return None
+
+        logger.info(f"⚡ ON-DEMAND: Triggering crawl for missing law '{abbr}'")
+
+        try:
+            crawler = LawCrawler()
+            norms = crawler.crawl_law_hybrid(abbr.lower())
+
+            if not norms:
+                logger.warning(f"On-demand crawl failed for {abbr}")
+                self.failed_crawls.add(abbr)
+                return None
+
+            logger.info(f"Crawl successful. Imported {len(norms)} sections for {abbr}")
+
+            # Use GraphBuilder to update persistent graph
+            builder = GraphBuilder()
+            if self.graph_path.exists():
+                builder.load_graph(self.graph_path)
+
+            law_id = f"law_{abbr}"
+            builder.add_law(
+                law_id,
+                {
+                    "title": f"Gesetz: {abbr}",
+                    "kuerzel": abbr,
+                    "category": "Gesetz",
+                    "source": "On-demand Crawl",
+                },
+            )
+
+            for i, norm in enumerate(norms):
+                p_clean = (
+                    norm["paragraph"]
+                    .replace(" ", "_")
+                    .replace("§", "S")
+                    .replace("(", "")
+                    .replace(")", "")
+                )
+                chunk_id = f"{law_id}_{p_clean}"
+                if not norm["paragraph"]:
+                    chunk_id = f"{law_id}_chunk_{i}"
+
+                builder.add_chunk(
+                    law_id,
+                    chunk_id,
+                    {
+                        "text": norm["content"],
+                        "paragraph": norm["paragraph"],
+                        "title": f"{abbr} {norm['paragraph']} {norm['title']}",
+                        "section_type": "law_section",
+                        "type": "chunk",
+                    },
+                )
+
+            builder.create_reference_edges()
+            builder.save_graph(self.graph_path)
+
+            # Update vector store if available
+            if self.vector_store:
+                logger.info("Updating vector store with new nodes...")
+                try:
+                    self.vector_store.add_chunks_from_graph(self.graph_path)
+                except Exception as ve:
+                    logger.error(f"Failed to update vector store: {ve}")
+
+            # Reload local graph
+            self._load_graph()
+            return law_id
+
+        except Exception as e:
+            logger.error(f"Error during on-demand import of {abbr}: {e}")
+            self.failed_crawls.add(abbr)
+            return None
 
     def _load_graph(self):
         if self.graph_path.exists():
@@ -95,7 +198,9 @@ class ComplianceMapper:
             for cand in candidates:
                 if cand == kuerzel_clean:
                     score += 100  # Exact match bonus
-                elif kuerzel_clean in cand:  # Partial match
+                elif (
+                    " " not in kuerzel_clean and kuerzel_clean in cand
+                ):  # Partial match only for abbreviations
                     # Penalize if candidate is much longer than query (prevents "BHO" matching "Some long doc mentioning BHO")
                     length_diff = len(cand) - len(kuerzel_clean)
                     if length_diff < 5:
@@ -104,6 +209,13 @@ class ComplianceMapper:
                         score += 20
                     else:
                         score += 5  # Weak match
+
+            # Extra boost for exact Kürzel match if the node has a 'kuerzel' attribute
+            if (
+                data.get("kuerzel")
+                and str(data.get("kuerzel")).lower() == kuerzel_clean
+            ):
+                score += 50
 
             if score > 0:
                 # Type Boost
@@ -279,7 +391,11 @@ class ComplianceMapper:
             for cit in citations:
                 target = cit["target"]
                 is_excluded = cit.get("is_excluded", False)
+
                 doc_node_id = self._find_document_by_kuerzel(target)
+
+                if not doc_node_id and self.on_demand_enabled:
+                    doc_node_id = self._on_demand_import(target)
 
                 if doc_node_id:
                     family = self._get_family_set(doc_node_id)

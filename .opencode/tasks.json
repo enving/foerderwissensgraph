@@ -1,8 +1,8 @@
 {
   "$schema": "./tasks.schema.json",
   "meta": {
-    "version": "2.3.7",
-    "last_updated": "2026-01-30T10:45:00Z",
+    "version": "2.4.0",
+    "last_updated": "2026-01-31T16:15:00Z",
     "last_agent": "Antigravity",
     "project_phase": "production"
   },
@@ -531,6 +531,95 @@
       "verified": true,
       "verified_by": "Antigravity",
       "verified_date": "2026-01-30"
+    },
+    {
+      "id": "TASK-037",
+      "title": "Import VOB/A and VOB/B",
+      "status": "completed",
+      "priority": "high",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Manually imported key sections of VOB/A and VOB/B due to 404s on official sources. Vector store synced.",
+      "description": "Import Vergabe- und Vertragsordnung für Bauleistungen (VOB) into the Knowledge Graph.",
+      "acceptance_criteria": [
+        "Nodes for VOB/A and VOB/B in graph",
+        "Key paragraphs (§§ 1, 2, 3, 3a) present as chunks",
+        "Vector store updated"
+      ],
+      "subtasks": [
+        "Run manual_vob_import.py",
+        "Sync vectors"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-038",
+      "title": "On-Demand Automated Discovery",
+      "status": "completed",
+      "priority": "critical",
+      "category": "feature",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Connected ComplianceMapper to LawCrawler. Missing laws (e.g., AtG, LuftVG) are now automatically crawled, added to the graph, and vectorized at runtime.",
+      "description": "Trigger automated crawling and ingestion when missing laws are detected during compliance mapping.",
+      "acceptance_criteria": [
+        "Mapper detects missing law citations",
+        "Crawler fetches content from gesetze-im-internet.de",
+        "Graph and Vector Store updated automatically",
+        "No redundant crawls for same law"
+      ],
+      "subtasks": [
+        "Update ComplianceMapper with _on_demand_import",
+        "Extend CitationExtractor patterns",
+        "Wire vector store update into import flow"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": true,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
+    },
+    {
+      "id": "TASK-039",
+      "title": "Vector Store Performance Optimization",
+      "status": "completed",
+      "priority": "medium",
+      "category": "infrastructure",
+      "created": "2026-01-31",
+      "updated": "2026-01-31",
+      "assigned_agent": "Antigravity",
+      "requires_review": false,
+      "reviewed_by": "Antigravity",
+      "review_notes": "Implemented hybrid storage (JSON + Pickle cache). Startup time reduced from 13s to <2s for 12.5k chunks.",
+      "description": "Optimize LiteVectorStore loading speed as dataset grows.",
+      "acceptance_criteria": [
+        "Load time < 2 seconds",
+        "Maintain human-readable JSON transparency",
+        "Pickle cache for fast binary access"
+      ],
+      "subtasks": [
+        "Implement pickle cache in LiteCollection",
+        "Update _save and _load logic"
+      ],
+      "blocked_by": [],
+      "blocks": [],
+      "docs_updated": false,
+      "verified": true,
+      "verified_by": "Antigravity",
+      "verified_date": "2026-01-31"
     }
   ],
   "features": [

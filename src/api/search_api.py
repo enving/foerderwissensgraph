@@ -78,7 +78,8 @@ if not answer_engine.provider:
     logger.error("RuleExtractor failed to initialize provider (Check API Keys).")
 
 compliance_mapper = ComplianceMapper(
-    graph_path=Path(settings.get("paths.knowledge_graph"))
+    graph_path=Path(settings.get("paths.knowledge_graph")),
+    vector_store=engine.vector_store,
 )
 
 

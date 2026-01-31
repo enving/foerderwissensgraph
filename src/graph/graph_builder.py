@@ -19,7 +19,10 @@ class GraphBuilder:
         self.graph.add_node(doc_id, node_type="document", **metadata)
 
     def add_chunk(self, doc_id: str, chunk_id: str, chunk_data: Dict[str, Any]):
-        self.graph.add_node(chunk_id, node_type="chunk", **chunk_data)
+        # Ensure we don't pass node_type twice
+        data = chunk_data.copy()
+        data.pop("node_type", None)
+        self.graph.add_node(chunk_id, node_type="chunk", **data)
         self.graph.add_edge(doc_id, chunk_id, relation="HAS_CHUNK")
 
     def save_graph(self, output_path: Path):

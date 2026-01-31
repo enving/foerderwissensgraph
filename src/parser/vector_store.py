@@ -135,16 +135,33 @@ class RestCollection:
         return {"ids": [], "documents": [], "metadatas": []}
 
 
+import pickle
+
+
 class LiteCollection:
     """A lightweight, JSON-persistent vector store for Python 3.14 compat."""
 
     def __init__(self, name: str, persistence_path: Path):
         self.name = name
         self.persistence_path = persistence_path
+        self.pickle_path = persistence_path.with_suffix(".pkl")
         self.data = {}  # id -> {embedding, document, metadata}
         self._load()
 
     def _load(self):
+        # Try Pickle first (much faster)
+        if self.pickle_path.exists():
+            try:
+                with open(self.pickle_path, "rb") as f:
+                    self.data = pickle.load(f)
+                logger.info(
+                    f"LiteVectorStore: Loaded {len(self.data)} chunks from cache ({self.pickle_path})"
+                )
+                return
+            except Exception as e:
+                logger.warning(f"LiteVectorStore: Failed to load pickle cache: {e}")
+
+        # Fallback to JSON
         if self.persistence_path.exists():
             try:
                 with open(self.persistence_path, "r", encoding="utf-8") as f:
@@ -158,17 +175,30 @@ class LiteCollection:
                 logger.info(
                     f"LiteVectorStore: Loaded {len(self.data)} chunks from {self.persistence_path}"
                 )
+                # Create pickle cache for next time
+                self._save_pickle()
             except Exception as e:
                 logger.error(f"LiteVectorStore: Failed to load data: {e}")
 
+    def _save_pickle(self):
+        try:
+            with open(self.pickle_path, "wb") as f:
+                pickle.dump(self.data, f)
+        except Exception as e:
+            logger.warning(f"LiteVectorStore: Failed to save pickle cache: {e}")
+
     def _save(self):
+        # 1. Save Pickle (Fast)
+        self._save_pickle()
+
+        # 2. Save JSON (Transparent/Human-readable)
         out = []
         for pid, item in self.data.items():
             c = item.copy()
             c["embedding"] = c["embedding"].tolist()
             out.append(c)
 
-        # Atomic write pattern
+        # Atomic write pattern for JSON
         temp_path = self.persistence_path.with_suffix(".tmp")
         try:
             with open(temp_path, "w", encoding="utf-8") as f:
